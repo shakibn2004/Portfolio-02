@@ -4,7 +4,7 @@ const INFO = [
   ["📍", "Location", "Khulna, Bangladesh"],
   ["📧", "Email", "rahim.dev@gmail.com"],
   ["🎓", "Degree", "B.Sc. in CSE"],
-  ["💼", "Experience", "5+ Years"],
+  ["💼", "Experience", "2+ Years"],
   ["🌐", "Website", "rahimdev.com"],
   ["📞", "Phone", "+880 1700-000000"],
 ];
@@ -42,7 +42,7 @@ export default function About() {
 
           <p className="text-gray-500 leading-[1.85] text-[15px] mb-4">
             I&apos;m a professional MERN Stack developer based in Khulna, Bangladesh with
-            <strong className="text-gray-300"> 5+ years</strong> of hands-on experience building
+            <strong className="text-gray-300"> 2+ years </strong> of hands-on experience building
             production-ready web applications. I specialise in scalable backend APIs with
             Node.js &amp; Express, dynamic frontends with React &amp; Next.js, and efficient
             NoSQL databases with MongoDB.
