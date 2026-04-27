@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import Profitional from '/Profissional-image.png'
+import Profitional from '../../../public/Profissional-image.png'
 
 export default function Hero() {
   const contentRef = useRef(null);
