@@ -13,7 +13,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata = {
-  title: "Md. Rahim | MERN Stack Developer",
+  title: "Nazmus Shakib | MERN Stack Developer",
   description: "Professional MERN Stack Web Developer — React, Node.js, MongoDB, Next.js",
 };
 
