@@ -1,12 +1,13 @@
+import { Download } from "lucide-react";
 import SectionTitle from "./SectionTitle";
 
 const INFO = [
   ["📍", "Location", "Khulna, Bangladesh"],
-  ["📧", "Email", "rahim.dev@gmail.com"],
-  ["🎓", "Degree", "B.Sc. in CSE"],
+  ["📧", "Email", "shakibn2004@gmail.com"],
+  ["🎓", "Degree", "B.Sc. in BECM"],
   ["💼", "Experience", "2+ Years"],
-  ["🌐", "Website", "rahimdev.com"],
-  ["📞", "Phone", "+880 1700-000000"],
+  ["🌐", "Website", "nazmus-shakib.space"],
+  ["📞", "Phone", "+880 9678640848"],
 ];
 
 export default function About() {
@@ -63,7 +64,7 @@ export default function About() {
             ))}
           </div>
 
-          <button className="btn-primary">📄 Download CV</button>
+          <button className="btn-primary flex gap-2"><Download /> Download CV</button>
         </div>
       </div>
     </section>

@@ -2,40 +2,40 @@ import SectionTitle from "./SectionTitle";
 
 const EXPERIENCES = [
   {
-    role:    "Senior MERN Stack Developer",
+    role: "Senior MERN Stack Developer",
     company: "TechNova Solutions",
-    period:  "2022 – Present",
-    type:    "Full-time",
-    desc:    "Led a team of 5 developers building scalable SaaS platforms. Architected microservice backends with Node.js and deployed CI/CD pipelines reducing release time by 60%.",
-    tags:    ["React", "Node.js", "MongoDB", "Docker", "AWS"],
-    dot:     "#00f5a0",
+    period: "2022 – Present",
+    type: "Full-time",
+    desc: "Led a team of 5 developers building scalable SaaS platforms. Architected microservice backends with Node.js and deployed CI/CD pipelines reducing release time by 60%.",
+    tags: ["React", "Node.js", "MongoDB", "Docker", "AWS"],
+    dot: "#00f5a0",
   },
   {
-    role:    "Full Stack Developer",
+    role: "Full Stack Developer",
     company: "DevCraft Agency",
-    period:  "2020 – 2022",
-    type:    "Full-time",
-    desc:    "Developed 15+ client web apps from scratch. Introduced Next.js SSR/SSG patterns that improved Core Web Vitals scores by 40% across all client projects.",
-    tags:    ["Next.js", "Express", "GraphQL", "PostgreSQL"],
-    dot:     "#7b61ff",
+    period: "2020 – 2022",
+    type: "Full-time",
+    desc: "Developed 15+ client web apps from scratch. Introduced Next.js SSR/SSG patterns that improved Core Web Vitals scores by 40% across all client projects.",
+    tags: ["Next.js", "Express", "GraphQL", "PostgreSQL"],
+    dot: "#7b61ff",
   },
   {
-    role:    "Junior Web Developer",
+    role: "Junior Web Developer",
     company: "Pixel Studios",
-    period:  "2018 – 2020",
-    type:    "Full-time",
-    desc:    "Built responsive React SPAs and REST APIs. Maintained and optimised MongoDB schemas, reducing average query times by 35%.",
-    tags:    ["React", "MongoDB", "REST API", "CSS3"],
-    dot:     "#38bdf8",
+    period: "2018 – 2020",
+    type: "Full-time",
+    desc: "Built responsive React SPAs and REST APIs. Maintained and optimised MongoDB schemas, reducing average query times by 35%.",
+    tags: ["React", "MongoDB", "REST API", "CSS3"],
+    dot: "#38bdf8",
   },
   {
-    role:    "Freelance Web Developer",
+    role: "Freelance Web Developer",
     company: "Upwork / Fiverr",
-    period:  "2017 – Present",
-    type:    "Freelance",
-    desc:    "Delivered 30+ freelance projects for international clients. Maintained a Top-Rated badge with an average 4.9/5 rating across platforms.",
-    tags:    ["React", "Node.js", "WordPress", "MySQL"],
-    dot:     "#ffd700",
+    period: "2017 – Present",
+    type: "Freelance",
+    desc: "Delivered 30+ freelance projects for international clients. Maintained a Top-Rated badge with an average 4.9/5 rating across platforms.",
+    tags: ["React", "Node.js", "WordPress", "MySQL"],
+    dot: "#ffd700",
   },
 ];
 
@@ -87,12 +87,10 @@ export default function Experience() {
               </div>
 
               {/* Timeline dot — desktop */}
-              <div className="hidden lg:flex flex-col items-center mt-7 flex-shrink-0 relative z-10">
-                <div className="w-4 h-4 rounded-full border-2 border-dark-400 flex-shrink-0"
+              <div className="hidden lg:flex flex-col items-center mt-7 shrink-0 px-2 relative z-10">
+                <div className="w-4 h-4 rounded-full border-2 border-dark-400 shrink-0"
                   style={{ background: ex.dot, boxShadow: `0 0 12px ${ex.dot}` }} />
               </div>
-
-              {/* Spacer */}
               <div className="hidden lg:block flex-1" />
             </div>
           ))}

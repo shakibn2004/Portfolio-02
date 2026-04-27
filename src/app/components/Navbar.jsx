@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] transition-all duration-300
+      <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center py-3 bg-dark-400/95 backdrop-blur-xl border-b border-accent/10 justify-between px-[5%] transition-all duration-300
         ${scrolled ? "py-3 bg-dark-400/95 backdrop-blur-xl border-b border-accent/10" : "py-5 bg-transparent"}`}>
 
         {/* Logo */}

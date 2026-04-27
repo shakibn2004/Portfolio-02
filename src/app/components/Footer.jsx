@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row gap-12 justify-between">
 
           {/* Brand Column */}
-          <div className="max-w-[280px]">
+          <div className="max-w-70">
             <div className="font-mono text-2xl font-bold text-white mb-4">
               <span className="text-accent">&lt;</span>Dev<span className="text-accent">/&gt;</span>
             </div>
@@ -87,7 +87,7 @@ export default function Footer() {
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-widest">Contact</h4>
             <div className="flex flex-col gap-3">
               {[
-                ["📧", "rahim.dev@gmail.com"],
+                ["📧", "shakibn2004@gmail.com"],
                 ["📍", "Khulna, Bangladesh"],
                 ["⏰", "Mon–Sat, 9AM–9PM"],
                 ["⚡", "Response in 24h"],

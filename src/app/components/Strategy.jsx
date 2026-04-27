@@ -1,9 +1,10 @@
+import { CircleCheckBig, Code, HandFist, MonitorCloud, ShieldCheck, Telescope } from "lucide-react";
 import SectionTitle from "./SectionTitle";
 
 const STEPS = [
   {
     num:   "01",
-    icon:  "🔍",
+    icon:  <Telescope />,
     title: "Discovery & Architecture",
     desc:  "Deep dive into requirements, define the tech stack, design DB schemas, and plan scalable architecture — before writing a single line of code.",
     color: "#00f5a0",
@@ -11,7 +12,7 @@ const STEPS = [
   },
   {
     num:   "02",
-    icon:  "🔄",
+    icon:  <Code />,
     title: "Agile Development",
     desc:  "2-week sprints with daily standups, continuous integration, and demo sessions. Transparent progress, no surprises, always on schedule.",
     color: "#7b61ff",
@@ -19,7 +20,7 @@ const STEPS = [
   },
   {
     num:   "03",
-    icon:  "✅",
+    icon:  <CircleCheckBig />,
     title: "Code Quality First",
     desc:  "Clean code, SOLID principles, 80%+ test coverage, and thorough code reviews ensure your codebase stays maintainable from day one.",
     color: "#00c9ff",
@@ -27,7 +28,7 @@ const STEPS = [
   },
   {
     num:   "04",
-    icon:  "🛡️",
+    icon:  <ShieldCheck />,
     title: "Performance & Security",
     desc:  "Optimised queries, Redis caching, HTTPS, rate limiting, and OWASP best practices baked into every deployment.",
     color: "#ff9a3c",
@@ -35,7 +36,7 @@ const STEPS = [
   },
   {
     num:   "05",
-    icon:  "🚀",
+    icon:  <MonitorCloud />,
     title: "Deployment & Monitoring",
     desc:  "Docker-based deployments on AWS/Vercel, automated rollbacks, uptime monitoring, and detailed performance dashboards.",
     color: "#ff6b6b",
@@ -43,7 +44,7 @@ const STEPS = [
   },
   {
     num:   "06",
-    icon:  "🤝",
+    icon:  <HandFist />,
     title: "Post-Launch Support",
     desc:  "30-day post-launch support, detailed documentation, knowledge transfer sessions, and long-term maintenance packages.",
     color: "#ffd700",
@@ -55,9 +56,6 @@ export default function Strategy() {
   return (
     <section id="strategy" className="py-24 px-[6%] bg-dark-300">
       <SectionTitle number="06" title="Strategy" />
-      <p className="text-gray-500 text-base mt-[-44px] mb-14 max-w-lg">
-        My proven process for delivering high-quality software — from kickoff to go-live.
-      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {STEPS.map((step, i) => (
