@@ -1,5 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+/* ─── Theme Tokens ─────────────────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-accent:    #00f5a0;
+  --color-purple:    #7b61ff;
+  --color-dark-50:   #1e1e1e;
+  --color-dark-100:  #161616;
+  --color-dark-200:  #111111;
+  --color-dark-300:  #0d0d0d;
+  --color-dark-400:  #0a0a0a;
+  --color-dark-500:  #080808;
+
+  /* Fonts */
+  --font-mono:    "Space Mono", monospace;
+  --font-display: "Outfit", sans-serif;
+
+  /* Animations */
+  --animate-float:       float 3s ease-in-out infinite;
+  --animate-float-slow:  float 4.5s ease-in-out infinite 0.5s;
+  --animate-float-mid:   float 3.8s ease-in-out infinite 1s;
+  --animate-spin-slow:   spin 14s linear infinite;
+  --animate-fade-up:     fadeUp 0.7s ease both;
+  --animate-pulse-glow:  pulseGlow 2.5s ease-in-out infinite;
+  --animate-bar-fill:    barFill 1.2s ease both;
+
+  /* Keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 8px #00f5a044; }
+    50%       { box-shadow: 0 0 24px #00f5a088; }
+  }
+
+  @keyframes barFill {
+    from { width: 0%; }
+  }
+}
+
+/* ─── Base Styles ───────────────────────────────────────────── */
 @layer base {
   * {
     margin: 0;
@@ -15,20 +63,13 @@
   body {
     background-color: #0a0a0a;
     color: #e8e8e8;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     overflow-x: hidden;
   }
 
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #111;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #00f5a0;
-    border-radius: 2px;
-  }
+  ::-webkit-scrollbar       { width: 4px; }
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: #00f5a0; border-radius: 2px; }
 
   ::selection {
     background: #00f5a033;
@@ -36,13 +77,17 @@
   }
 }
 
+/* ─── Utilities ─────────────────────────────────────────────── */
 @layer utilities {
+  /* Grid background */
   .bg-grid {
-    background-image: linear-gradient(rgba(0,245,160,.06) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,245,160,.06) 1px, transparent 1px);
+    background-image:
+      linear-gradient(rgba(0, 245, 160, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 160, 0.06) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
+  /* Gradient text */
   .text-gradient {
     background: linear-gradient(135deg, #00f5a0, #7b61ff);
     -webkit-background-clip: text;
@@ -50,14 +95,11 @@
     background-clip: text;
   }
 
-  .glow-accent {
-    box-shadow: 0 0 20px rgba(0, 245, 160, 0.25);
-  }
+  /* Glow helpers */
+  .glow-accent    { box-shadow: 0 0 20px rgba(0, 245, 160, 0.25); }
+  .glow-accent-sm { box-shadow: 0 0 10px rgba(0, 245, 160, 0.20); }
 
-  .glow-accent-sm {
-    box-shadow: 0 0 10px rgba(0, 245, 160, 0.2);
-  }
-
+  /* Card hover effect */
   .card-hover {
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
@@ -67,6 +109,7 @@
     box-shadow: 0 12px 40px rgba(0, 245, 160, 0.08);
   }
 
+  /* Primary button */
   .btn-primary {
     background: #00f5a0;
     color: #000;
@@ -74,10 +117,9 @@
     border-radius: 10px;
     padding: 12px 30px;
     font-size: 15px;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     cursor: none;
     transition: all 0.2s;
-    display: inline-block;
   }
   .btn-primary:hover {
     background: #00dda0;
@@ -85,6 +127,7 @@
     box-shadow: 0 8px 24px rgba(0, 245, 160, 0.3);
   }
 
+  /* Outline button */
   .btn-outline {
     background: transparent;
     color: #00f5a0;
@@ -93,25 +136,58 @@
     border-radius: 10px;
     padding: 10px 28px;
     font-size: 15px;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     cursor: none;
-    transition: all 0.2s;
     display: inline-block;
+    transition: all 0.2s;
   }
   .btn-outline:hover {
     background: rgba(0, 245, 160, 0.1);
     transform: translateY(-2px);
   }
 
+  /* Section title decorative line */
   .section-title-line::after {
-    content: '';
+    content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(0,245,160,.45), transparent);
+    background: linear-gradient(90deg, rgba(0, 245, 160, 0.45), transparent);
+  }
+
+  /* Floating badge delays */
+  .badge-1 { animation: float 3s   ease-in-out infinite; }
+  .badge-2 { animation: float 4s   ease-in-out infinite 0.6s; }
+  .badge-3 { animation: float 3.5s ease-in-out infinite 1.2s; }
+
+  /* Skill bar */
+  .skill-bar-fill {
+    transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Timeline connector */
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #00f5a0, #7b61ff);
+    transform: translateX(-50%);
+  }
+
+  /* Scroll fade-up */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Custom cursor */
+/* ─── Custom Cursor ─────────────────────────────────────────── */
 #custom-cursor {
   position: fixed;
   width: 12px;
@@ -123,41 +199,4 @@
   transform: translate(-50%, -50%);
   transition: transform 0.08s ease;
   mix-blend-mode: difference;
-}
-
-/* Floating badge animation delays */
-.badge-1 { animation: float 3s ease-in-out infinite; }
-.badge-2 { animation: float 4s ease-in-out infinite 0.6s; }
-.badge-3 { animation: float 3.5s ease-in-out infinite 1.2s; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-12px); }
-}
-
-/* Skill bar fill animation */
-.skill-bar-fill {
-  transition: width 1.3s cubic-bezier(.4,0,.2,1);
-}
-
-/* Timeline connector line */
-.timeline-line {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, #00f5a0, #7b61ff);
-  transform: translateX(-50%);
-}
-
-/* Fade-up on scroll */
-.fade-up {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
 }

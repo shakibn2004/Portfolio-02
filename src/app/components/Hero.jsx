@@ -83,7 +83,7 @@ export default function Hero() {
       <div className="hidden lg:flex relative w-[320px] h-80 xl:w-90 xl:h-90 shrink-0 z-10 items-center justify-center">
 
         {/* Spinning Ring */}
-        <div className="absolute -inset-4.5 rounded-full border-2 border-dashed border-accent/25 animate-spin-slow" />
+        <div className="absolute -inset-4.5 rounded-full border-2 border-dashed border-accent/100 animate-spin-slow" />
 
         {/* Avatar circle */}
         <div className="w-full h-full rounded-full bg-dark-100 border-2 border-accent/20 flex items-center justify-center text-[90px] glow-accent-sm overflow-hidden">

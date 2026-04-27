@@ -60,7 +60,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`fixed top-15 left-0 right-0 z-40 bg-dark-200 border-b border-accent/10 transition-all duration-300
+      <div className={`fixed top-15 left-0 right-0 z-40 md:hidden bg-black border-b border-accent/10 transition-all duration-300
         ${menuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}>
         <div className="flex flex-col px-6 py-4 gap-1">
           {NAV_LINKS.map((link) => (
