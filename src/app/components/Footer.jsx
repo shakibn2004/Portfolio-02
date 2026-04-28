@@ -1,15 +1,19 @@
 "use client"
-const NAV_LINKS = ["Home","About","Skills","Experience","Projects","Achievements","Strategy","Contact"];
+
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaMapLocationDot, FaSquareUpwork, FaYoutube } from "react-icons/fa6";
+import { MdEmail, MdOutlineHearing } from "react-icons/md";
+import { RiTwitterXFill } from "react-icons/ri";
+
+const NAV_LINKS = ["Home", "About", "Skills", "Experience", "Projects", "Achievements", "Strategy", "Contact"];
 
 const SOCIALS = [
-  { name: "GitHub",    icon: "🐙", href: "https://github.com",   color: "#e0e0e0" },
-  { name: "LinkedIn",  icon: "💼", href: "https://linkedin.com",  color: "#0a66c2" },
-  { name: "Twitter",   icon: "🐦", href: "https://twitter.com",   color: "#1da1f2" },
-  { name: "Dev.to",    icon: "📝", href: "https://dev.to",        color: "#00f5a0" },
-  { name: "Upwork",    icon: "💚", href: "https://upwork.com",    color: "#6fda44" },
-  { name: "YouTube",   icon: "🎥", href: "https://youtube.com",   color: "#ff0000" },
-  { name: "Hashnode",  icon: "🔵", href: "https://hashnode.com",  color: "#2962ff" },
-  { name: "CodePen",   icon: "✏️", href: "https://codepen.io",    color: "#ffffff" },
+  { name: "GitHub", icon: <FaGithub />, href: "https://github.com/shakibn2004", color: "#e0e0e0" },
+  { name: "LinkedIn", icon: <FaLinkedin />, href: "https://www.linkedin.com/in/shakibn2004/", color: "#0a66c2" },
+  { name: "Twitter", icon: <RiTwitterXFill />, href: "https://x.com/shakibn2004", color: "#1da1f2" },
+  { name: "Facebook", icon: <FaFacebookSquare />, href: "https://www.facebook.com/shakibn2004", color: "#1da1f2" },
+  { name: "Upwork", icon: <FaSquareUpwork />, href: "https://upwork.com", color: "#6fda44" },
+  { name: "YouTube", icon: <FaYoutube />, href: "https://www.youtube.com/@NazmusShakibVlogs", color: "#ff0000" },
 ];
 
 export default function Footer() {
@@ -31,7 +35,7 @@ export default function Footer() {
         </p>
         <button onClick={() => scrollTo("Contact")}
           className="btn-primary relative z-10 inline-block">
-          🚀 Get In Touch
+          Get In Touch
         </button>
       </div>
 
@@ -76,7 +80,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-widest">Services</h4>
             <div className="flex flex-col gap-2.5">
-              {["MERN Stack Development","Next.js Applications","REST & GraphQL APIs","MongoDB Architecture","React UI Development","Technical Consultation"].map((s) => (
+              {["MERN Stack Development", "Next.js Applications", "REST & GraphQL APIs", "MongoDB Architecture", "React UI Development", "Technical Consultation"].map((s) => (
                 <span key={s} className="text-gray-500 text-sm hover:text-accent transition-colors cursor-default">{s}</span>
               ))}
             </div>
@@ -87,10 +91,9 @@ export default function Footer() {
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-widest">Contact</h4>
             <div className="flex flex-col gap-3">
               {[
-                ["📧", "shakibn2004@gmail.com"],
-                ["📍", "Khulna, Bangladesh"],
-                ["⏰", "Mon–Sat, 9AM–9PM"],
-                ["⚡", "Response in 24h"],
+                [<MdEmail color="#ffffff" />, "Email", "shakibn2004@gmail.com"],
+                [<FaMapLocationDot color="#ffffff" />, "Location", "Khulna, Bangladesh"],
+                [<MdOutlineHearing color="#ffffff" />, "Response", "Within 12 hours"],
               ].map(([icon, val]) => (
                 <div key={val} className="flex items-center gap-2.5 text-gray-500 text-sm">
                   <span>{icon}</span>
@@ -109,10 +112,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/5 px-[6%] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <span className="text-gray-600 text-xs">
-          © 2025 Md. Rahim — MERN Stack Developer. All rights reserved.
-        </span>
-        <span className="text-gray-600 text-xs flex items-center gap-1.5">
-          Made with <span className="text-red-500">❤️</span> in Khulna 🇧🇩
+          © 2025 Md. Nazmus Shakib — MERN Stack Developer. All rights reserved.
         </span>
       </div>
     </footer>

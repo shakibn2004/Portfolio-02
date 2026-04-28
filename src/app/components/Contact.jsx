@@ -1,14 +1,17 @@
 "use client";
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
+import { MdEmail, MdOutlineHearing } from "react-icons/md";
+import { FaInternetExplorer, FaMapLocationDot } from "react-icons/fa6";
+import { LiaOpencart } from "react-icons/lia";
+import { FingerprintPattern } from "lucide-react";
+import { GrDocumentPerformance } from "react-icons/gr";
 
 const SERVICES = [
-  { icon: "🛍️", name: "E-Commerce Development" },
-  { icon: "📊", name: "SaaS Dashboard" },
-  { icon: "🔌", name: "REST / GraphQL API" },
-  { icon: "📱", name: "Responsive Web App" },
-  { icon: "🔐", name: "Auth & Security" },
-  { icon: "🚀", name: "Performance Audit" },
+  { icon: <LiaOpencart />, name: "E-Commerce Development" },
+  { icon: <FaInternetExplorer />, name: "Responsive Web App" },
+  { icon: <FingerprintPattern size={18} />, name: "Auth & Security" },
+  { icon: <GrDocumentPerformance />, name: "Performance Audit" },
 ];
 
 export default function Contact() {
@@ -48,10 +51,9 @@ export default function Contact() {
           {/* Contact Details */}
           <div className="space-y-4 mb-10">
             {[
-              ["📧", "Email",        "rahim.dev@gmail.com"],
-              ["📍", "Location",     "Khulna, Bangladesh"],
-              ["⏰", "Availability", "Mon–Sat, 9 AM – 9 PM BST"],
-              ["⚡", "Response",     "Within 24 hours"],
+              [<MdEmail />, "Email", "shakibn2004@gmail.com"],
+              [<FaMapLocationDot />, "Location", "Khulna, Bangladesh"],
+              [<MdOutlineHearing />, "Response", "Within 12 hours"],
             ].map(([icon, key, val]) => (
               <div key={key} className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-dark-100 border border-accent/15 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
@@ -128,6 +130,7 @@ export default function Contact() {
                 onChange={(e) => setForm({ ...form, budget: e.target.value })}
               >
                 <option value="" disabled>Select budget...</option>
+                <option>$50 – $500</option>
                 <option>$500 – $1,000</option>
                 <option>$1,000 – $5,000</option>
                 <option>$5,000 – $10,000</option>
@@ -156,7 +159,7 @@ export default function Contact() {
               {loading ? (
                 <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />Sending...</>
               ) : (
-                <>🚀 Send Message</>
+                <>Send Message</>
               )}
             </button>
           </form>

@@ -1,5 +1,6 @@
 import { Download } from "lucide-react";
 import SectionTitle from "./SectionTitle";
+import Image from "next/image";
 
 const INFO = [
   ["📍", "Location", "Khulna, Bangladesh"],
@@ -8,6 +9,7 @@ const INFO = [
   ["💼", "Experience", "2+ Years"],
   ["🌐", "Website", "nazmus-shakib.space"],
   ["📞", "Phone", "+880 9678640848"],
+  ["📞", "whatsapp", "+880 1407306010"],
 ];
 
 export default function About() {
@@ -19,9 +21,9 @@ export default function About() {
 
         {/* Left — Image Box */}
         <div className="shrink-0 relative">
-          <div className="w-64 h-64 md:w-72 md:h-72 rounded-3xl bg-dark-100 border-2 border-accent/20 flex items-center justify-center text-[90px] relative overflow-hidden">
+          <div className="w-64 h-64 px-3 md:w-72 md:h-72 rounded-3xl bg-dark-100 border-2 border-accent/20 flex items-center justify-center text-[90px] relative overflow-visible">
             <div className="absolute inset-0 bg-linear-to-br from-accent/5 to-purple/5" />
-            🧑‍💻
+            <Image src={'/Avatar.svg'} alt="Avatar Image" width={0} height={0} style={{width: '100%', height: '100%'}}></Image>
             {/* Badge */}
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-accent text-black text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap shadow-lg">
               MERN Expert

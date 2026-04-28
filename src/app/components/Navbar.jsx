@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const NAV_LINKS = ["Home", "About", "Skills", "Experience", "Projects", "Achievements", "Strategy", "Contact"];
+const NAV_LINKS = ["Home", "About", "Skills", /*"Experience"*/, "Projects", /*"Achievements"*/, "Strategy", "Contact"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +29,7 @@ export default function Navbar() {
         {/* Logo */}
         <button onClick={() => scrollTo("Home")}
           className="font-mono text-xl font-bold text-white tracking-tight">
-          <span className="text-accent">Dev</span>.<span className="text-accent">Shakib</span>
+          <span><span className="text-accent">&#60;</span>Dev</span><span className="text-accent text-2xl">.</span><span>Shakib<span className="text-accent">/&#62;</span></span>
         </button>
 
         {/* Desktop Nav Links */}

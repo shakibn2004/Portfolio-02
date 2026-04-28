@@ -2,6 +2,10 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import Profitional from '../../../public/Profissional-image.png'
+import { Download, Home } from "lucide-react";
+import { FaNodeJs, FaReact } from "react-icons/fa";
+import { SiNextdotjs } from "react-icons/si";
+import { BiLogoMongodb } from "react-icons/bi";
 
 export default function Hero() {
   const contentRef = useRef(null);
@@ -63,8 +67,8 @@ export default function Hero() {
           <button className="btn-primary" onClick={() => scrollTo("projects")}>
             View Projects →
           </button>
-          <button className="btn-outline" onClick={() => scrollTo("contact")}>
-            Let&apos;s Talk
+          <button className="btn-outline">
+            <a className="flex gap-2" href="Nazmus_Shakib_Resume.pdf" download><Download />RESUME</a>
           </button>
         </div>
 
@@ -83,7 +87,7 @@ export default function Hero() {
       <div className="hidden lg:flex relative w-[320px] h-80 xl:w-90 xl:h-90 shrink-0 z-10 items-center justify-center">
 
         {/* Spinning Ring */}
-        <div className="absolute -inset-4.5 rounded-full border-2 border-dashed border-accent/100 animate-spin-slow" />
+        <div className="absolute -inset-4.5 rounded-full border-2 border-dashed border-accent animate-spin-slow" />
 
         {/* Avatar circle */}
         <div className="w-full h-full rounded-full bg-dark-100 border-2 border-accent/20 flex items-center justify-center text-[90px] glow-accent-sm overflow-hidden">
@@ -91,17 +95,17 @@ export default function Hero() {
         </div>
 
         {/* Floating Badges */}
-        <span className="badge-1 absolute -top-4 -right-6 bg-black border border-accent/40 text-accent font-semibold text-xs px-3 py-1.5 rounded-lg">
-          ⚛️ React
+        <span className="badge-1 flex items-center gap-1.5 absolute -top-4 -right-6 bg-black border border-accent/40 text-accent font-semibold text-xs px-3 py-1.5 rounded-lg">
+          <FaReact />React
         </span>
-        <span className="badge-2 absolute -bottom-2 -right-8 bg-black border border-white/10 text-sky-300 font-semibold text-xs px-3 py-1.5 rounded-lg">
-          🟢 Node.js
+        <span className="badge-2 flex items-center gap-1.5 absolute -bottom-2 -right-8 bg-black border border-white/10 text-sky-300 font-semibold text-xs px-3 py-1.5 rounded-lg">
+          <FaNodeJs />Node.js
         </span>
-        <span className="badge-3 absolute bottom-14 -left-8 bg-black border border-green-500/30 text-green-400 font-semibold text-xs px-3 py-1.5 rounded-lg">
-          🍃 MongoDB
+        <span className="badge-3 flex items-center gap-1.5 absolute bottom-14 -left-8 bg-black border border-green-500/30 text-green-400 font-semibold text-xs px-3 py-1.5 rounded-lg">
+          <BiLogoMongodb /> MongoDB
         </span>
-        <span className="badge-1 absolute top-14 -left-10 bg-black border border-purple/40 text-purple font-semibold text-xs px-3 py-1.5 rounded-lg">
-          ▲ Next.js
+        <span className="badge-1 flex items-center gap-1.5 absolute top-14 -left-10 bg-black border border-purple/40 text-purple font-semibold text-xs px-3 py-1.5 rounded-lg">
+          <SiNextdotjs />Next.js
         </span>
       </div>
 
