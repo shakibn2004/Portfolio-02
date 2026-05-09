@@ -8,15 +8,15 @@ import { SiExpress, SiNextdotjs } from "react-icons/si";
 import { RiTailwindCssFill } from "react-icons/ri";
 
 const SKILLS = [
-  { name: "React.js",    level: 95, icon: <FaReact size={50} color="#61dafb"/>,  color: "#61dafb" },
-  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={50} color="#f7df1e" />,  color: "#f7df1e" },
-  { name: "Node.js",     level: 91, icon: <FaNodeJs size={50} color="#68a063"  />,  color: "#68a063" },
-  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={50} color="#00ed64" />,  color: "#00ed64" },
-  { name: "Next.js",     level: 88, icon: <SiNextdotjs size={50} color="#ffffff" />,   color: "#ffffff" },
-  { name: "Express.js",  level: 90, icon: <SiExpress size={50} color="#00f5a0" />,  color: "#00f5a0" },
-  { name: "REST APIs",   level: 93, icon: <FaPinterest size={50} color="#ffffff" />,  color: "#ff6b6b" },
-  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={50} color="#38bdf8" />,  color: "#38bdf8" },
-  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={50} color="#f05032" />,  color: "#f05032" },
+  { name: "React.js",    level: 95, icon: <FaReact size={50} />,  color: "#61dafb" },
+  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={50} />,  color: "#f7df1e" },
+  { name: "Node.js",     level: 91, icon: <FaNodeJs size={50} />,  color: "#68a063" },
+  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={50} />,  color: "#00ed64" },
+  { name: "Next.js",     level: 88, icon: <SiNextdotjs size={50} />,   color: "#ffffff" },
+  { name: "Express.js",  level: 90, icon: <SiExpress size={50} />,  color: "#00f5a0" },
+  { name: "REST APIs",   level: 93, icon: <FaPinterest size={50} />,  color: "#ff6b6b" },
+  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={50} />,  color: "#38bdf8" },
+  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={50} />,  color: "#f05032" },
 ];
 
 const TOOLS = ["VS Code","Postman","MongoDB Atlas","Vercel","AWS EC2","Figma","Jira","Linux","Nginx","Redis"];
