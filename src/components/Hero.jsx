@@ -1,14 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import Profitional from '../../../public/Profissional-image.png'
+import Profitional from '../../public/Profissional-image.png'
 import { Download, Home } from "lucide-react";
 import { FaNodeJs, FaReact } from "react-icons/fa";
 import { SiNextdotjs } from "react-icons/si";
 import { BiLogoMongodb } from "react-icons/bi";
+import { useScroll } from "motion/react"
 
 export default function Hero() {
   const contentRef = useRef(null);
+  const { scrollXProgress } = useScroll()
 
   useEffect(() => {
     const items = contentRef.current?.querySelectorAll(".hero-item");
@@ -56,7 +58,8 @@ export default function Hero() {
         </div>
 
         {/* Description */}
-        <p className="hero-item text-gray-500 text-base md:text-lg leading-[1.85] mb-9 max-w-125">
+        <p
+          className="hero-item text-gray-500 text-base md:text-lg leading-[1.85] mb-9 max-w-125">
           I craft high-performance, scalable full-stack web applications with
           MongoDB, Express, React &amp; Node.js. From clean REST APIs to
           pixel-perfect UIs — I build it end-to-end.
@@ -64,11 +67,13 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="hero-item flex flex-wrap gap-4 mb-12">
-          <button className="btn-primary" onClick={() => scrollTo("projects")}>
+          <button
+
+            className="btn-primary" onClick={() => scrollTo("projects")}>
             View Projects →
           </button>
           <button className="btn-outline">
-            <a className="flex gap-2" href="Nazmus_Shakib_Resume.pdf" download><Download />RESUME</a>
+            <a className="flex gap-2" href="Resume.pdf" download><Download />RESUME</a>
           </button>
         </div>
 
@@ -91,7 +96,7 @@ export default function Hero() {
 
         {/* Avatar circle */}
         <div className="w-full h-full rounded-full bg-dark-100 border-2 border-accent/20 flex items-center justify-center text-[90px] glow-accent-sm overflow-hidden">
-          <Image width={0} height={0} sizes="100vw" style={{width: '80%', height: '100%'}} src={Profitional} alt="Profitional Iamge"></Image>
+          <Image width={0} height={0} sizes="100vw" style={{ width: '80%', height: '100%' }} src={Profitional} alt="Profitional Iamge"></Image>
         </div>
 
         {/* Floating Badges */}

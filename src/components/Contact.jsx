@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
 import { MdEmail, MdOutlineHearing } from "react-icons/md";

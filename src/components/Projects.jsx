@@ -1,66 +1,37 @@
+import Link from "next/link";
 import SectionTitle from "./SectionTitle";
 
 const PROJECTS = [
   {
-    name:   "ShopFlow",
-    emoji:  "🛒",
-    desc:   "Full-featured e-commerce platform with real-time inventory, Stripe payments, admin dashboard, and product analytics. Handles 10k+ daily users.",
-    tech:   ["Next.js","Node.js","MongoDB","Stripe","Redis"],
-    color:  "#00f5a0",
-    live:   "#",
-    github: "#",
+    name: "BloodBridge",
+    image: "SkillSphere.png",
+    desc: "BloodBridge is a full-stack blood donation platform built to bridge the gap between blood donors and recipients across Bangladesh. The platform enables users to register as donors, search for donors by blood group and location, post urgent donation requests, and connect directly with volunteers ready to help.",
+    tech: ["Next.js", "Node.js", "MongoDB", "Stripe", "Motion"],
+    color: "#ff0000",
+    live: "https://assainment-10-client.vercel.app",
+    github: "https://github.com/shakibn2004/Assainment-10-client",
     status: "Live",
   },
   {
-    name:   "TaskForge",
-    emoji:  "📋",
-    desc:   "Real-time project management tool with WebSocket collaboration, Kanban boards, time tracking, and AI-powered task prioritisation.",
-    tech:   ["React","Express","Socket.io","MongoDB","OpenAI"],
-    color:  "#7b61ff",
-    live:   "#",
-    github: "#",
+    name: "PawHome",
+    image: "📋",
+    desc: "PawHome is a full-stack pet adoption web application designed to connect loving families with pets in need of a forever home.",
+    tech: ["React", "Next js", "Express", "MongoDB"],
+    color: "#e17100",
+    live: "https://assainment-09-client.vercel.app",
+    github: "https://github.com/shakibn2004/Assainment-09-Client",
     status: "Live",
   },
   {
-    name:   "MedTrack",
-    emoji:  "🏥",
-    desc:   "Healthcare appointment and patient record system with role-based auth, PDF export, SMS notifications, and HIPAA-compliant data handling.",
-    tech:   ["Next.js","Node.js","PostgreSQL","Twilio","JWT"],
-    color:  "#ff6b6b",
-    live:   "#",
-    github: "#",
+    name: "SkillSphere",
+    image: "🏥",
+    desc: "The purpose of the project is to build a course selling website where visitor can explore different skill development course and can enroll on the course",
+    tech: ["Next.js", "Node.js"],
+    color: "#3730e8",
+    live: "https://assainment-08.vercel.app",
+    github: "https://github.com/shakibn2004/Assainment-08",
     status: "Live",
-  },
-  {
-    name:   "CryptoLens",
-    emoji:  "📈",
-    desc:   "Live cryptocurrency dashboard with portfolio tracking, price alerts, and historical chart analytics powered by WebSocket streams.",
-    tech:   ["React","WebSockets","Chart.js","Node.js","MongoDB"],
-    color:  "#ffd700",
-    live:   "#",
-    github: "#",
-    status: "Live",
-  },
-  {
-    name:   "EduNest",
-    emoji:  "🎓",
-    desc:   "Online learning platform with HLS video streaming, interactive quizzes, auto-generated certificates, and instructor analytics.",
-    tech:   ["Next.js","Express","MongoDB","AWS S3","FFmpeg"],
-    color:  "#00c9ff",
-    live:   "#",
-    github: "#",
-    status: "Beta",
-  },
-  {
-    name:   "AuthVault",
-    emoji:  "🔐",
-    desc:   "Open-source authentication microservice supporting OAuth2, 2FA TOTP, magic links, and fine-grained RBAC permissions.",
-    tech:   ["Node.js","JWT","Redis","Docker","TypeScript"],
-    color:  "#ff9a3c",
-    live:   "#",
-    github: "#",
-    status: "Open Source",
-  },
+  }
 ];
 
 export default function Projects() {
@@ -107,11 +78,11 @@ export default function Projects() {
                 <a href={p.live}
                   className="flex-1 text-center text-sm font-bold py-2 rounded-lg text-black transition-all duration-200 hover:opacity-90"
                   style={{ background: p.color }}>
-                   Live Demo
+                  Live Demo
                 </a>
                 <a href={p.github}
                   className="flex-1 text-center text-sm font-semibold py-2 rounded-lg text-gray-400 border border-white/10 hover:border-white/25 hover:text-white transition-all duration-200">
-                   Source
+                  Source
                 </a>
               </div>
             </div>
@@ -121,10 +92,10 @@ export default function Projects() {
 
       {/* View All button */}
       <div className="flex justify-center mt-12">
-        <a href="https://github.com" target="_blank" rel="noreferrer"
+        <Link href="https://github.com/shakibn2004" target="_blank" rel="noreferrer"
           className="btn-outline inline-flex items-center gap-2">
-           View All on GitHub
-        </a>
+          View All on GitHub
+        </Link>
       </div>
     </section>
   );
