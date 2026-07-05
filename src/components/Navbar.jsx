@@ -29,7 +29,7 @@ export default function Navbar() {
         {/* Logo */}
         <button onClick={() => scrollTo("Home")}
           className="font-mono text-xl font-bold text-white tracking-tight">
-          <span><span className="text-accent">&#60;</span>Dev</span><span className="text-accent text-2xl">.</span><span>Shakib<span className="text-accent">/&#62;</span></span>
+          <span><span className="text-accent">&#60;</span>Dev</span><span className="text-accent">/&#62;</span>
         </button>
 
         {/* Desktop Nav Links */}

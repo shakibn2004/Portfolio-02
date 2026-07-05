@@ -26,7 +26,7 @@ const PROJECTS = [
     name: "SkillSphere",
     image: "🏥",
     desc: "The purpose of the project is to build a course selling website where visitor can explore different skill development course and can enroll on the course",
-    tech: ["Next.js", "Node.js"],
+    tech: ["Next.js", "Node.js", "MongoDB", "Express"],
     color: "#3730e8",
     live: "https://assainment-08.vercel.app",
     github: "https://github.com/shakibn2004/Assainment-08",
