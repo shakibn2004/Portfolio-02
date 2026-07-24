@@ -237,19 +237,7 @@
   }
 }
 
-/* ─── Custom Cursor ─────────────────────────────────────────── */
-#custom-cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: #00f5a0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.08s ease;
-  mix-blend-mode: difference;
-}
+/* ─── Custom Cursor System handled by React CustomCursor ────── */
 
 
 .glass-effect {

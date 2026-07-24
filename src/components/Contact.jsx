@@ -43,8 +43,8 @@ const DIRECT_CONTACTS = [
   },
   {
     title: "WhatsApp Direct",
-    val: "+880 1407306010",
-    href: "https://wa.me/8801407306010",
+    val: "+880 1302230277",
+    href: "https://wa.me/8801302230277",
     action: "Chat on WhatsApp",
     icon: MessageCircle,
     color: "#22c55e",
