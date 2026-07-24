@@ -1,66 +1,126 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import SectionTitle from "./SectionTitle";
 import { FaGitAlt, FaNodeJs, FaPinterest, FaReact } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io";
 import { BiLogoMongodb } from "react-icons/bi";
-import { SiExpress, SiNextdotjs } from "react-icons/si";
+import { SiExpress, SiNextdotjs, SiTypescript, SiPostgresql } from "react-icons/si";
 import { RiTailwindCssFill } from "react-icons/ri";
+import { motion } from "motion/react";
 
-const SKILLS = [
-  { name: "React.js",    level: 95, icon: <FaReact size={50} />,  color: "#61dafb" },
-  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={50} />,  color: "#f7df1e" },
-  { name: "Node.js",     level: 91, icon: <FaNodeJs size={50} />,  color: "#68a063" },
-  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={50} />,  color: "#00ed64" },
-  { name: "Next.js",     level: 88, icon: <SiNextdotjs size={50} />,   color: "#ffffff" },
-  { name: "Express.js",  level: 90, icon: <SiExpress size={50} />,  color: "#00f5a0" },
-  { name: "REST APIs",   level: 93, icon: <FaPinterest size={50} />,  color: "#ff6b6b" },
-  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={50} />,  color: "#38bdf8" },
-  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={50} />,  color: "#f05032" },
+const ROW1 = [
+  { name: "React.js",    level: 95, icon: <FaReact size={36} />,  color: "#61dafb" },
+  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={36} />,  color: "#f7df1e" },
+  { name: "TypeScript",  level: 94, icon: <SiTypescript size={36} />,  color: "#3178c6" },
+  { name: "Node.js",     level: 91, icon: <FaNodeJs size={36} />,  color: "#68a063" },
+  { name: "Express.js",  level: 90, icon: <SiExpress size={36} />,  color: "#00f5a0" },
+];
+
+const ROW2 = [
+  { name: "Next.js",     level: 88, icon: <SiNextdotjs size={36} />,   color: "#ffffff" },
+  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={36} />,  color: "#00ed64" },
+  { name: "PostgreSQL",  level: 89, icon: <SiPostgresql size={36} />,  color: "#4169e1" },
+  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={36} />,  color: "#38bdf8" },
+  { name: "REST APIs",   level: 93, icon: <FaPinterest size={36} />,  color: "#ff6b6b" },
+  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={36} />,  color: "#f05032" },
 ];
 
 const TOOLS = ["VS Code","Postman","MongoDB Atlas","Vercel","AWS EC2","Figma","Jira","Linux","Nginx","Redis"];
 
-export default function Skills() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.15 }
-    );
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
+function MarqueeRow({ items, direction = "left", speed = 25 }) {
+  // Duplicate the items list to build a seamless infinite loop wrapper.
+  const duplicatedItems = [...items, ...items, ...items, ...items];
+  const xTranslation = direction === "left" ? [0, "-25%"] : ["-25%", 0];
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24 px-[6%] bg-dark-300">
-      <SectionTitle number="02" title="Skills" />
-
-      {/* Skills Grid */}
-      <div className="grid grid-cols-3 lg:grid-cols-9 gap-4 my-14 justify-items-center">
-        {SKILLS.map((skill, i) => (
-          <div key={skill.name} className="glass-effect rounded-xl w-fit px-5 py-5 justify-self-center">
-            {skill.icon}
-          </div>
+    <div 
+      className="flex overflow-hidden w-full py-4 select-none"
+      style={{
+        maskImage: "linear-gradient(to right, transparent, white 15%, white 85%, transparent)",
+        WebkitMaskImage: "linear-gradient(to right, transparent, white 15%, white 85%, transparent)"
+      }}
+    >
+      <motion.div
+        animate={{ x: xTranslation }}
+        transition={{
+          ease: "linear",
+          duration: speed,
+          repeat: Infinity,
+        }}
+        className="flex gap-6 whitespace-nowrap min-w-max flex-nowrap"
+      >
+        {duplicatedItems.map((skill, index) => (
+          <motion.div
+            key={`${skill.name}-${index}`}
+            whileHover={{ 
+              scale: 1.08,
+              y: -5,
+              borderColor: skill.color,
+              boxShadow: `0 8px 30px ${skill.color}33`,
+              backgroundColor: "rgba(255, 255, 255, 0.08)"
+            }}
+            style={{ 
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+            }}
+            className="flex items-center gap-4 bg-dark-100/80 backdrop-blur-md rounded-2xl px-6 py-4 cursor-none transition-all duration-300"
+          >
+            <div style={{ color: skill.color }} className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
+              {skill.icon}
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="text-white font-bold text-sm tracking-tight">{skill.name}</span>
+              <span className="text-gray-500 font-mono text-[10px] mt-0.5">{skill.level}% Mastery</span>
+            </div>
+          </motion.div>
         ))}
+      </motion.div>
+    </div>
+  );
+}
+
+export default function Skills() {
+  return (
+    <section id="skills" className="py-24 px-[6%] bg-dark-300 relative overflow-hidden">
+      {/* Background Decorative Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
+        <SectionTitle number="02" title="Skills" />
+      </motion.div>
+
+      {/* Redesigned Marquees */}
+      <div className="flex flex-col gap-4 my-14 relative z-10">
+        <MarqueeRow items={ROW1} direction="left" speed={22} />
+        <MarqueeRow items={ROW2} direction="right" speed={25} />
       </div>
 
       {/* Tools & Tech strip */}
-      <div className="border-t border-white/5 pt-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="border-t border-white/5 pt-10"
+      >
         <p className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">
           Tools &amp; Platforms
         </p>
         <div className="flex flex-wrap gap-2.5">
           {TOOLS.map((tool) => (
-            <span key={tool}
-              className="bg-dark-50 border border-white/8 text-gray-400 text-xs font-medium px-4 py-2 rounded-full">
+            <motion.span 
+              key={tool}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.12)", color: "#00f5a0" }}
+              className="bg-dark-50 border border-white/8 text-gray-400 text-xs font-medium px-4 py-2 rounded-full cursor-none transition-colors duration-200"
+            >
               {tool}
-            </span>
+            </motion.span>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

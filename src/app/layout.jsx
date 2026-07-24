@@ -13,8 +13,13 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata = {
-  title: "Nazmus Shakib | MERN Stack Developer",
-  description: "Professional MERN Stack Web Developer — React, Node.js, MongoDB, Next.js",
+  title: "Nazmus Shakib | Full-Stack Developer",
+  description: "Professional Full-Stack Web Developer — React, Node.js, MongoDB, Next.js",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
