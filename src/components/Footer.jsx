@@ -13,6 +13,7 @@ import {
   MapPin, 
   Clock, 
   Phone, 
+  MessageCircle,
   Sparkles, 
   Code2, 
   Layers 
@@ -227,6 +228,18 @@ export default function Footer() {
                   <Phone className="w-4 h-4" />
                 </div>
                 <span>+880 9678640848</span>
+              </a>
+
+              <a
+                href="https://wa.me/8801407306010"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-gray-400 hover:text-emerald-400 transition-colors group cursor-none"
+              >
+                <div className="w-8 h-8 rounded-lg bg-dark-100 border border-white/10 flex items-center justify-center group-hover:border-emerald-400/40 text-emerald-400">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <span>WhatsApp: +880 1407306010</span>
               </a>
             </div>
           </div>

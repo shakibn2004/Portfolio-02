@@ -17,8 +17,40 @@ import {
   Code2, 
   Layers, 
   Globe, 
-  Cpu 
+  Cpu,
+  ArrowRight,
+  ExternalLink
 } from "lucide-react";
+
+const DIRECT_CONTACTS = [
+  {
+    title: "Email Address",
+    val: "shakibn2004@gmail.com",
+    href: "mailto:shakibn2004@gmail.com",
+    action: "Send Email",
+    icon: Mail,
+    color: "#3b82f6",
+    glow: "rgba(59, 130, 246, 0.25)",
+  },
+  {
+    title: "Phone Number",
+    val: "+880 9678640848",
+    href: "tel:+8809678640848",
+    action: "Call Direct",
+    icon: Phone,
+    color: "#10b981",
+    glow: "rgba(16, 185, 129, 0.25)",
+  },
+  {
+    title: "WhatsApp Direct",
+    val: "+880 1407306010",
+    href: "https://wa.me/8801407306010",
+    action: "Chat on WhatsApp",
+    icon: MessageCircle,
+    color: "#22c55e",
+    glow: "rgba(34, 197, 94, 0.25)",
+  },
+];
 
 const SERVICES = [
   { icon: Globe, name: "Full-Stack Web Apps", color: "#00f5a0" },
@@ -26,15 +58,7 @@ const SERVICES = [
   { icon: Cpu, name: "Node.js & Express APIs", color: "#a855f7" },
   { icon: ShieldCheck, name: "Auth & Security Systems", color: "#f59e0b" },
   { icon: Zap, name: "Performance Audit", color: "#06b6d4" },
-  { icon: Code2, name: "MongoDB & Database Architecture", color: "#10b981" },
-];
-
-const CONTACT_METHODS = [
-  { icon: Mail, label: "Email Address", val: "shakibn2004@gmail.com", href: "mailto:shakibn2004@gmail.com", color: "#3b82f6" },
-  { icon: MapPin, label: "Location", val: "Khulna, Bangladesh", href: null, color: "#00f5a0" },
-  { icon: Clock, label: "Response Time", val: "Within 12 Hours", href: null, color: "#a855f7" },
-  { icon: Phone, label: "Direct Phone", val: "+880 9678640848", href: "tel:+8809678640848", color: "#10b981" },
-  { icon: MessageCircle, label: "WhatsApp Direct", val: "+880 1407306010", href: "https://wa.me/8801407306010", color: "#22c55e" },
+  { icon: Code2, name: "MongoDB Architecture", color: "#10b981" },
 ];
 
 export default function Contact() {
@@ -70,90 +94,106 @@ export default function Contact() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
       >
-        <SectionTitle number="07" title="Hire Me" />
+        <SectionTitle number="07" title="Hire Me & Contact" />
       </motion.div>
 
+      {/* 3 Quick Direct Contact Action Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 relative z-10">
+        {DIRECT_CONTACTS.map((item, idx) => {
+          const Icon = item.icon;
+          return (
+            <motion.a
+              key={idx}
+              href={item.href}
+              target={item.href.startsWith("http") ? "_blank" : undefined}
+              rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              whileHover={{ y: -6, boxShadow: `0 15px 35px ${item.glow}`, borderColor: item.color }}
+              className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300 cursor-none relative overflow-hidden"
+            >
+              <div 
+                className="absolute top-0 left-0 right-0 h-1"
+                style={{ background: item.color }}
+              />
+
+              <div className="flex items-center justify-between">
+                <div 
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: `${item.color}15`, borderColor: `${item.color}35`, color: item.color }}
+                >
+                  <Icon className="w-6 h-6" />
+                </div>
+
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border text-gray-300"
+                  style={{ background: `${item.color}10`, borderColor: `${item.color}30`, color: item.color }}>
+                  Direct Contact
+                </span>
+              </div>
+
+              <div>
+                <span className="text-xs font-mono uppercase text-gray-500 tracking-wider block mb-1">
+                  {item.title}
+                </span>
+                <span className="text-lg font-extrabold text-white group-hover:text-accent transition-colors block truncate">
+                  {item.val}
+                </span>
+              </div>
+
+              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-bold"
+                style={{ color: item.color }}>
+                <span>{item.action}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </div>
+            </motion.a>
+          );
+        })}
+      </div>
+
+      {/* Contact Info & Form Section */}
       <div className="flex flex-col xl:flex-row gap-12 xl:gap-16 mt-12 relative z-10">
 
-        {/* Left Column — Contact Info & Capabilities */}
+        {/* Left Column — Availability & Services */}
         <motion.div 
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ type: "spring", stiffness: 80, damping: 16 }}
-          className="xl:w-[420px] shrink-0 space-y-8"
+          className="xl:w-[420px] shrink-0 space-y-6"
         >
           {/* Availability Header Box */}
           <div className="p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 space-y-4 shadow-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono font-bold">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span>Available for Work</span>
+              <span>Available for Work &amp; Roles</span>
             </div>
 
             <h3 className="text-2xl font-extrabold text-white leading-tight">
-              Let&apos;s Build Something <span className="text-gradient">Extraordinary</span>
+              Let&apos;s Build Something <span className="text-gradient font-black">Extraordinary</span>
             </h3>
 
             <p className="text-gray-400 text-sm leading-relaxed">
-              I am open for freelance projects, full-time remote developer positions, and technical consultations. Ready to take your idea from concept to production.
+              I am open for freelance projects, full-time remote developer positions, and technical consultations. Reach out directly or send a project inquiry.
             </p>
-          </div>
 
-          {/* Contact Methods Cards */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-mono uppercase text-gray-500 tracking-widest px-1">
-              Direct Channels
-            </h4>
-            <div className="space-y-2.5">
-              {CONTACT_METHODS.map((c, i) => {
-                const Icon = c.icon;
-                const cardContent = (
-                  <motion.div
-                    whileHover={{ x: 6, borderColor: `${c.color}55` }}
-                    className="flex items-center gap-3.5 bg-dark-100/80 backdrop-blur-md border border-white/8 rounded-2xl px-4 py-3.5 transition-all duration-300 cursor-none"
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border"
-                      style={{
-                        background: `${c.color}15`,
-                        borderColor: `${c.color}30`,
-                        color: c.color,
-                      }}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[10px] font-mono uppercase text-gray-500 tracking-wider">
-                        {c.label}
-                      </span>
-                      <span className="text-sm font-semibold text-gray-200 truncate">
-                        {c.val}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-
-                return c.href ? (
-                  <a
-                    key={i}
-                    href={c.href}
-                    target={c.href.startsWith("http") ? "_blank" : undefined}
-                    rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="block cursor-none"
-                  >
-                    {cardContent}
-                  </a>
-                ) : (
-                  <div key={i}>{cardContent}</div>
-                );
-              })}
+            <div className="pt-3 border-t border-white/10 space-y-2.5 text-xs text-gray-300">
+              <div className="flex items-center gap-2.5">
+                <MapPin className="w-4 h-4 text-accent shrink-0" />
+                <span>Location: <strong>Khulna, Bangladesh</strong></span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 text-purple shrink-0" />
+                <span>Response Time: <strong>Within 12 Hours</strong></span>
+              </div>
             </div>
           </div>
 
           {/* Services Stack */}
-          <div className="space-y-3 pt-2">
+          <div className="space-y-3">
             <h4 className="text-xs font-mono uppercase text-gray-500 tracking-widest px-1">
-              Services &amp; Solutions
+              Services &amp; Capabilities
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {SERVICES.map((s, idx) => {
@@ -190,7 +230,7 @@ export default function Contact() {
               <span>Project Inquiry</span>
             </div>
             <h3 className="text-2xl font-extrabold text-white">
-              Send a Message
+              Send a Direct Message
             </h3>
             <p className="text-xs text-gray-400">
               Fill out the form below and I will respond within 12 hours with a proposal.
