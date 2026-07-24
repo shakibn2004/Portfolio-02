@@ -185,17 +185,14 @@ export default function Navbar() {
             </motion.button>
           </div>
 
-          {/* Mobile Theme Toggle & Menu Trigger Button */}
-          <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle compact={true} />
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 rounded-xl bg-dark-200 border border-white/10 text-white hover:text-accent transition-colors cursor-none"
-              aria-label="Toggle Navigation Menu"
-            >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+          {/* Mobile Menu Trigger Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden p-2 rounded-xl bg-dark-200 border border-white/10 text-white hover:text-accent transition-colors cursor-none"
+            aria-label="Toggle Navigation Menu"
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </header>
 
@@ -212,11 +209,9 @@ export default function Navbar() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-2">
                 <span className="text-xs font-mono font-bold uppercase text-gray-400">
-                  Navigation
+                  Select Theme
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-accent/10 border border-accent/30 text-accent font-semibold">
-                  Md. Nazmus Shakib
-                </span>
+                <ThemeToggle compact={false} />
               </div>
 
               {NAV_ITEMS.map((item) => {
