@@ -6,7 +6,9 @@ import { motion, useSpring } from "motion/react";
 export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
+  const [isTouch] = useState(() => 
+    typeof window !== "undefined" ? ("ontouchstart" in window || navigator.maxTouchPoints > 0) : false
+  );
 
   // Instant spring for inner precision core
   const cursorX = useSpring(0, { stiffness: 600, damping: 30 });
@@ -17,11 +19,8 @@ export default function CustomCursor() {
   const ringY = useSpring(0, { stiffness: 220, damping: 22 });
 
   useEffect(() => {
-    // Touch device detection
-    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-      setIsTouch(true);
-      return;
-    }
+    // Touch device check
+    if (isTouch) return;
 
     const moveCursor = (e) => {
       cursorX.set(e.clientX);
@@ -52,7 +51,7 @@ export default function CustomCursor() {
       window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [cursorX, cursorY, ringX, ringY, isVisible]);
+  }, [cursorX, cursorY, ringX, ringY, isVisible, isTouch]);
 
   if (isTouch || !isVisible) return null;
 

@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Outfit, Space_Mono } from "next/font/google";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -22,11 +23,26 @@ export const metadata = {
   },
 };
 
+const themeScript = `
+  (function() {
+    try {
+      var saved = localStorage.getItem('portfolio-theme');
+      var theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${spaceMono.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="bg-dark-400 text-gray-100 font-display antialiased">
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

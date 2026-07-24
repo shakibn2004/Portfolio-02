@@ -99,7 +99,7 @@ export default function Footer() {
           {/* Column 1: Brand Info */}
           <div className="space-y-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-dark-100 border border-white/15 flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 rounded-xl bg-dark-100 border border-white/15 flex items-center justify-center shadow-md brand-logo-container">
                 <Image
                   src="/logo-concept-2.svg"
                   alt="Shakib Logo"

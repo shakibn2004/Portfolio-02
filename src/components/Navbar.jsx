@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import ThemeToggle from "./ThemeToggle";
 import { 
   Sparkles, 
   ArrowUpRight, 
@@ -110,7 +111,7 @@ export default function Navbar() {
             onClick={handleLogoClick}
             className="flex items-center gap-3 text-left group cursor-none"
           >
-            <div className="relative w-10 h-10 rounded-xl bg-dark-200 border border-white/15 flex items-center justify-center group-hover:border-accent/60 transition-all duration-300 shadow-md overflow-hidden">
+            <div className="relative w-10 h-10 rounded-xl bg-dark-200 border border-white/15 flex items-center justify-center group-hover:border-accent/60 transition-all duration-300 shadow-md overflow-hidden brand-logo-container">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent/10 via-transparent to-purple/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               <Image
                 src="/logo-concept-2.svg"
@@ -161,27 +162,40 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right Action: Hire Me CTA */}
+          {/* Right Action: Theme Switcher & Hire Me CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <motion.button
               onClick={() => handleNav("Contact")}
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 245, 160, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
-              className="relative px-5 py-2 rounded-full font-bold text-xs text-black bg-gradient-to-r from-accent via-cyan-400 to-purple transition-all duration-300 cursor-none shadow-lg flex items-center gap-1.5"
+              whileHover={{ scale: 1.04, boxShadow: "0 0 20px var(--theme-accent)" }}
+              whileTap={{ scale: 0.96 }}
+              className="relative group px-5 py-2 rounded-full font-bold text-xs bg-dark-100/90 backdrop-blur-md border border-white/15 hover:border-accent/60 transition-all duration-300 shadow-lg flex items-center gap-2 overflow-hidden cursor-none"
             >
-              <span>Hire Me</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              {/* Subtle ambient gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/15 via-purple/15 to-accent/10 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Pulsing indicator dot */}
+              <span className="relative flex h-2 w-2 z-10">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+              </span>
+
+              <span className="relative z-10 text-white tracking-wide">Hire Me</span>
+              <ArrowUpRight className="w-3.5 h-3.5 relative z-10 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </motion.button>
           </div>
 
-          {/* Mobile Menu Trigger Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 rounded-xl bg-dark-200 border border-white/10 text-white hover:text-accent transition-colors cursor-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile Theme Toggle & Menu Trigger Button */}
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle compact={true} />
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 rounded-xl bg-dark-200 border border-white/10 text-white hover:text-accent transition-colors cursor-none"
+              aria-label="Toggle Navigation Menu"
+            >
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -241,3 +255,4 @@ export default function Navbar() {
     </>
   );
 }
+

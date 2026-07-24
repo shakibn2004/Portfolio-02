@@ -1,17 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* ─── Dynamic Theme CSS Variables ───────────────────────────── */
+:root, [data-theme="dark"] {
+  --theme-accent: #00f5a0;
+  --theme-purple: #7b61ff;
+  --theme-dark-50: #1e1e1e;
+  --theme-dark-100: #161616;
+  --theme-dark-200: #111111;
+  --theme-dark-300: #0d0d0d;
+  --theme-dark-400: #0a0a0a;
+  --theme-dark-500: #080808;
+  --theme-body-bg: #0a0a0a;
+  --theme-body-text: #e8e8e8;
+  --theme-border-color: rgba(255, 255, 255, 0.1);
+  --theme-grid: rgba(0, 245, 160, 0.06);
+}
+
+[data-theme="night"] {
+  --theme-accent: #ff8052;
+  --theme-purple: #ff2a6d;
+  --theme-dark-50: #2a173b;
+  --theme-dark-100: #1c0d2b;
+  --theme-dark-200: #140820;
+  --theme-dark-300: #0e0517;
+  --theme-dark-400: #090310;
+  --theme-dark-500: #05020a;
+  --theme-body-bg: #090310;
+  --theme-body-text: #fff4ee;
+  --theme-border-color: rgba(255, 128, 82, 0.22);
+  --theme-grid: rgba(255, 128, 82, 0.08);
+}
+
+[data-theme="light"] {
+  --theme-accent: #059669;
+  --theme-purple: #7c3aed;
+  --theme-dark-50: #e2e8f0;
+  --theme-dark-100: #ffffff;
+  --theme-dark-200: #f1f5f9;
+  --theme-dark-300: #e2e8f0;
+  --theme-dark-400: #f8fafc;
+  --theme-dark-500: #cbd5e1;
+  --theme-body-bg: #f8fafc;
+  --theme-body-text: #0f172a;
+  --theme-border-color: rgba(15, 23, 42, 0.1);
+  --theme-grid: rgba(5, 150, 105, 0.07);
+}
+
 /* ─── Theme Tokens ─────────────────────────────────────────── */
 @theme {
-  /* Colors */
-  --color-accent: #00f5a0;
-  --color-purple: #7b61ff;
-  --color-dark-50: #1e1e1e;
-  --color-dark-100: #161616;
-  --color-dark-200: #111111;
-  --color-dark-300: #0d0d0d;
-  --color-dark-400: #0a0a0a;
-  --color-dark-500: #080808;
+  /* Dynamic Theme Colors mapped to CSS variables */
+  --color-accent: var(--theme-accent);
+  --color-purple: var(--theme-purple);
+  --color-dark-50: var(--theme-dark-50);
+  --color-dark-100: var(--theme-dark-100);
+  --color-dark-200: var(--theme-dark-200);
+  --color-dark-300: var(--theme-dark-300);
+  --color-dark-400: var(--theme-dark-400);
+  --color-dark-500: var(--theme-dark-500);
 
   /* Fonts */
   --font-mono: "Space Mono", monospace;
@@ -28,12 +74,9 @@
 
   /* Keyframes */
   @keyframes float {
-
-    0%,
-    100% {
+    0%, 100% {
       transform: translateY(0px);
     }
-
     50% {
       transform: translateY(-12px);
     }
@@ -44,7 +87,6 @@
       opacity: 0;
       transform: translateY(28px);
     }
-
     to {
       opacity: 1;
       transform: translateY(0);
@@ -52,14 +94,11 @@
   }
 
   @keyframes pulseGlow {
-
-    0%,
-    100% {
-      box-shadow: 0 0 8px #00f5a044;
+    0%, 100% {
+      box-shadow: 0 0 8px var(--theme-accent);
     }
-
     50% {
-      box-shadow: 0 0 24px #00f5a088;
+      box-shadow: 0 0 24px var(--theme-accent);
     }
   }
 
@@ -77,6 +116,7 @@
     padding: 0;
     box-sizing: border-box;
     cursor: none;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
   }
 
   html {
@@ -84,45 +124,45 @@
   }
 
   body {
-    background-color: #0a0a0a;
-    color: #e8e8e8;
+    background-color: var(--theme-body-bg);
+    color: var(--theme-body-text);
     font-family: "Outfit", sans-serif;
     overflow-x: hidden;
   }
 
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #111;
+    background: var(--theme-dark-300);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #00f5a0;
-    border-radius: 2px;
+    background: var(--theme-accent);
+    border-radius: 3px;
   }
 
   ::selection {
-    background: #00f5a033;
-    color: #00f5a0;
+    background: var(--theme-accent);
+    color: #000;
   }
 }
 
-/* ─── Utilities ─────────────────────────────────────────────── */
+/* ─── Utilities & Theme Adaptations ─────────────────────────── */
 @layer utilities {
 
-  /* Grid background */
+  /* Dynamic Grid background */
   .bg-grid {
     background-image:
-      linear-gradient(rgba(0, 245, 160, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 245, 160, 0.06) 1px, transparent 1px);
+      linear-gradient(var(--theme-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--theme-grid) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
   /* Gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, #00f5a0, #7b61ff);
+    background: linear-gradient(135deg, var(--theme-accent), var(--theme-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -130,11 +170,11 @@
 
   /* Glow helpers */
   .glow-accent {
-    box-shadow: 0 0 20px rgba(0, 245, 160, 0.25);
+    box-shadow: 0 0 20px var(--theme-accent);
   }
 
   .glow-accent-sm {
-    box-shadow: 0 0 10px rgba(0, 245, 160, 0.20);
+    box-shadow: 0 0 10px var(--theme-accent);
   }
 
   /* Card hover effect */
@@ -144,13 +184,13 @@
 
   .card-hover:hover {
     transform: translateY(-4px);
-    border-color: rgba(0, 245, 160, 0.35);
-    box-shadow: 0 12px 40px rgba(0, 245, 160, 0.08);
+    border-color: var(--theme-accent);
+    box-shadow: 0 12px 40px var(--theme-accent);
   }
 
   /* Primary button */
   .btn-primary {
-    background: #00f5a0;
+    background: var(--theme-accent);
     color: #000;
     font-weight: 700;
     border-radius: 10px;
@@ -162,16 +202,16 @@
   }
 
   .btn-primary:hover {
-    background: #00dda0;
+    filter: brightness(1.1);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 245, 160, 0.3);
+    box-shadow: 0 8px 24px var(--theme-accent);
   }
 
   /* Outline button */
   .btn-outline {
     background: transparent;
-    color: #00f5a0;
-    border: 2px solid #00f5a0;
+    color: var(--theme-accent);
+    border: 2px solid var(--theme-accent);
     font-weight: 700;
     border-radius: 10px;
     padding: 10px 28px;
@@ -183,7 +223,7 @@
   }
 
   .btn-outline:hover {
-    background: rgba(0, 245, 160, 0.1);
+    background: var(--theme-grid);
     transform: translateY(-2px);
   }
 
@@ -192,7 +232,7 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(0, 245, 160, 0.45), transparent);
+    background: linear-gradient(90deg, var(--theme-accent), transparent);
   }
 
   /* Floating badge delays */
@@ -220,7 +260,7 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg, #00f5a0, #7b61ff);
+    background: linear-gradient(180deg, var(--theme-accent), var(--theme-purple));
     transform: translateX(-50%);
   }
 
@@ -237,8 +277,51 @@
   }
 }
 
-/* ─── Custom Cursor System handled by React CustomCursor ────── */
+/* ─── Light Mode Compatibility Overrides ─────────────────────── */
+[data-theme="light"] .text-white {
+  color: #0f172a;
+}
+[data-theme="light"] .text-gray-100 {
+  color: #0f172a;
+}
+[data-theme="light"] .text-gray-200 {
+  color: #1e293b;
+}
+[data-theme="light"] .text-gray-300 {
+  color: #334155;
+}
+[data-theme="light"] .text-gray-400 {
+  color: #475569;
+}
+[data-theme="light"] .text-gray-500 {
+  color: #64748b;
+}
 
+[data-theme="light"] .border-white\/5,
+[data-theme="light"] .border-white\/8,
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/15,
+[data-theme="light"] .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .btn-primary {
+  color: #ffffff;
+}
+
+/* Ensure Logo Icon box has crisp dark background & high contrast in Light Mode */
+[data-theme="light"] .brand-logo-container {
+  background-color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.25) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15) !important;
+}
 
 .glass-effect {
   background: rgba(255, 255, 255, 0.09);
@@ -249,10 +332,4 @@
     inset 0 0 8px 2px rgb(255, 255, 255);
   border-radius: 10px;
   transition: all 300ms ease-in-out;
-}
-
-.shadow-y {
-  box-shadow: 
-  inset -35px 0 19px -8px rgb(255, 0, 0),
-  inset 35px 0 19px -8px rgb(255, 0, 0);
 }
