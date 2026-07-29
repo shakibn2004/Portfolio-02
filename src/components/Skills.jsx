@@ -8,20 +8,20 @@ import { RiTailwindCssFill } from "react-icons/ri";
 import { motion } from "motion/react";
 
 const ROW1 = [
-  { name: "React.js",    level: 95, icon: <FaReact size={36} />,  color: "#61dafb" },
-  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={36} />,  color: "#f7df1e" },
-  { name: "TypeScript",  level: 94, icon: <SiTypescript size={36} />,  color: "#3178c6" },
-  { name: "Node.js",     level: 91, icon: <FaNodeJs size={36} />,  color: "#68a063" },
-  { name: "Express.js",  level: 90, icon: <SiExpress size={36} />,  color: "#00f5a0" },
+  { name: "React.js",    level: 95, icon: <FaReact size={36} />,  color: "#f4f4f5" },
+  { name: "JavaScript",  level: 96, icon: <IoLogoJavascript size={36} />,  color: "#e4e4e7" },
+  { name: "TypeScript",  level: 94, icon: <SiTypescript size={36} />,  color: "#f4f4f5" },
+  { name: "Node.js",     level: 91, icon: <FaNodeJs size={36} />,  color: "#d4d4d8" },
+  { name: "Express.js",  level: 90, icon: <SiExpress size={36} />,  color: "#e4e4e7" },
 ];
 
 const ROW2 = [
   { name: "Next.js",     level: 88, icon: <SiNextdotjs size={36} />,   color: "#ffffff" },
-  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={36} />,  color: "#00ed64" },
-  { name: "PostgreSQL",  level: 89, icon: <SiPostgresql size={36} />,  color: "#4169e1" },
-  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={36} />,  color: "#38bdf8" },
-  { name: "REST APIs",   level: 93, icon: <FaPinterest size={36} />,  color: "#ff6b6b" },
-  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={36} />,  color: "#f05032" },
+  { name: "MongoDB",     level: 92, icon: <BiLogoMongodb size={36} />,  color: "#e4e4e7" },
+  { name: "PostgreSQL",  level: 89, icon: <SiPostgresql size={36} />,  color: "#d4d4d8" },
+  { name: "Tailwind CSS",level: 90, icon: <RiTailwindCssFill size={36} />,  color: "#f4f4f5" },
+  { name: "REST APIs",   level: 93, icon: <FaPinterest size={36} />,  color: "#e4e4e7" },
+  { name: "Git & GitHub",level: 95, icon: <FaGitAlt size={36} />,  color: "#d4d4d8" },
 ];
 
 const TOOLS = ["VS Code","Postman","MongoDB Atlas","Vercel","AWS EC2","Figma","Jira","Linux","Nginx","Redis"];
@@ -77,35 +77,24 @@ function MarqueeRow({ items, direction = "left", speed = 25 }) {
   );
 }
 
+import ScrollReveal from "./ScrollReveal";
+
 export default function Skills() {
   return (
     <section id="skills" className="py-24 px-[6%] bg-dark-300 relative overflow-hidden">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-      >
-        <SectionTitle number="02" title="Skills" />
-      </motion.div>
+      <SectionTitle number="02" title="Skills" />
 
       {/* Redesigned Marquees */}
-      <div className="flex flex-col gap-4 my-14 relative z-10">
+      <ScrollReveal animation="zoom-in" duration={0.8} className="flex flex-col gap-4 my-14 relative z-10">
         <MarqueeRow items={ROW1} direction="left" speed={22} />
         <MarqueeRow items={ROW2} direction="right" speed={25} />
-      </div>
+      </ScrollReveal>
 
       {/* Tools & Tech strip */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="border-t border-white/5 pt-10"
-      >
+      <ScrollReveal animation="scale-up" delay={0.1} className="border-t border-white/5 pt-10">
         <p className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">
           Tools &amp; Platforms
         </p>
@@ -113,14 +102,14 @@ export default function Skills() {
           {TOOLS.map((tool) => (
             <motion.span 
               key={tool}
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.12)", color: "#00f5a0" }}
+              whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.12)", color: "#00f5a0" }}
               className="bg-dark-50 border border-white/8 text-gray-400 text-xs font-medium px-4 py-2 rounded-full cursor-none transition-colors duration-200"
             >
               {tool}
             </motion.span>
           ))}
         </div>
-      </motion.div>
+      </ScrollReveal>
     </section>
   );
 }

@@ -9,11 +9,13 @@ import Navbar from "../components/Navbar";
 import Projects from "../components/Projects";
 import Skills from "../components/Skills";
 import Strategy from "../components/Strategy";
+import ScrollProgress from "../components/ScrollProgress";
 
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <CustomCursor />
       <Navbar />
       <main>

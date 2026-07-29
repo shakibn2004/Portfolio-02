@@ -1,11 +1,14 @@
 "use client";
+import { useRef } from "react";
 import Image from "next/image";
 import Profitional from '../../public/Profissional-image.png';
 import { Download } from "lucide-react";
 import { FaNodeJs, FaReact } from "react-icons/fa";
 import { SiNextdotjs, SiTypescript, SiPostgresql } from "react-icons/si";
 import { BiLogoMongodb } from "react-icons/bi";
-import { motion, useMotionValue, useMotionTemplate, useSpring } from "motion/react";
+import { motion, useMotionValue, useMotionTemplate, useSpring, useScroll, useTransform } from "motion/react";
+
+import Scroll3DFly from "./Scroll3DFly";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,10 +22,11 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 30, scale: 0.94 },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
       type: "spring",
       stiffness: 90,
@@ -32,6 +36,22 @@ const itemVariants = {
 };
 
 export default function Hero() {
+  const sectionRef = useRef(null);
+
+  // Scroll Progress linked transformations
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const heroScaleRaw = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const heroOpacityRaw = useTransform(scrollYProgress, [0, 0.85], [1, 0.2]);
+  const heroYRaw = useTransform(scrollYProgress, [0, 1], [0, 80]);
+
+  const heroScale = useSpring(heroScaleRaw, { stiffness: 100, damping: 20 });
+  const heroOpacity = useSpring(heroOpacityRaw, { stiffness: 100, damping: 20 });
+  const heroY = useSpring(heroYRaw, { stiffness: 100, damping: 20 });
+
   // Motion values for spotlight tracking
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -63,10 +83,15 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="home"
       onMouseMove={handleMouseMove}
       className="relative min-h-screen flex flex-col lg:flex-row items-center justify-between px-[6%] pt-32 pb-16 gap-12 overflow-hidden bg-dark-400"
     >
+      <motion.div 
+        style={{ scale: heroScale, opacity: heroOpacity, y: heroY }}
+        className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-12"
+      >
       {/* Interactive Spotlight Background */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-0"
@@ -102,9 +127,9 @@ export default function Hero() {
           <div className="text-gray-500 font-mono text-xs tracking-wider uppercase">
             [ Md. Nazmus Shakib ]
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-[76px] font-black leading-[0.95] tracking-tight text-white">
+          <h1 className="text-5xl sm:text-6xl lg:text-[76px] font-black leading-[0.95] tracking-tight text-white font-display">
             Nazmus
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-accent via-cyan-400 to-purple animate-gradient">
+            <span className="block bg-clip-text text-transparent hero-gradient-text">
               Shakib.
             </span>
           </h1>
@@ -115,7 +140,7 @@ export default function Hero() {
           variants={itemVariants}
           className="inline-flex items-center gap-3 bg-dark-100 border border-white/10 rounded-xl px-4 py-2"
         >
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span className="font-mono text-xs text-gray-300 font-semibold uppercase tracking-widest">
             Full-Stack MERN Engineer
           </span>
@@ -124,21 +149,21 @@ export default function Hero() {
         {/* Description with Highlighted Typography */}
         <motion.p
           variants={itemVariants}
-          className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-lg font-medium"
+          className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg font-normal"
         >
           I craft{" "}
-          <span className="text-white font-bold">
+          <span className="text-white font-semibold">
             high-performance backend APIs
           </span>{" "}
           and{" "}
-          <span className="text-white font-bold">
+          <span className="text-white font-semibold">
             pixel-perfect user interfaces
           </span>
           . Specialized in{" "}
-          <span className="text-accent font-semibold font-mono">TypeScript</span>,{" "}
-          <span className="text-purple font-semibold font-mono">Next.js</span>,{" "}
-          <span className="text-sky-300 font-semibold font-mono">Node.js</span>, and{" "}
-          <span className="text-green-400 font-semibold font-mono">MongoDB/Postgres</span>
+          <span className="text-zinc-200 font-medium font-mono">TypeScript</span>,{" "}
+          <span className="text-zinc-200 font-medium font-mono">Next.js</span>,{" "}
+          <span className="text-zinc-200 font-medium font-mono">Node.js</span>, and{" "}
+          <span className="text-zinc-200 font-medium font-mono">MongoDB/Postgres</span>
           .
         </motion.p>
 
@@ -149,12 +174,11 @@ export default function Hero() {
         >
           <motion.button
             whileHover={{ 
-              scale: 1.05, 
-              boxShadow: "0 0 25px rgba(0, 245, 160, 0.5)",
-              backgroundPosition: "right center"
+              scale: 1.04, 
+              boxShadow: "0 0 25px rgba(255, 255, 255, 0.2)",
             }}
-            whileTap={{ scale: 0.95 }}
-            className="cursor-none px-7 py-3.5 rounded-xl font-extrabold text-sm text-black bg-gradient-to-r from-accent via-cyan-400 to-purple bg-[size:200%_auto] transition-all duration-500 shadow-lg flex items-center justify-center gap-2"
+            whileTap={{ scale: 0.96 }}
+            className="btn-primary flex items-center justify-center gap-2"
             onClick={() => scrollTo("projects")}
           >
             Explore Projects →
@@ -163,14 +187,12 @@ export default function Hero() {
             href="/NAZMUS_SHAKIB_ FRONTEND_DEVELOPER_RESUME.pdf"
             download
             whileHover={{ 
-              scale: 1.05, 
-              borderColor: "#00f5a0", 
-              color: "#00f5a0", 
-              backgroundColor: "rgba(0, 245, 160, 0.05)",
-              boxShadow: "0 0 20px rgba(0, 245, 160, 0.2)"
+              scale: 1.04, 
+              borderColor: "rgba(255, 255, 255, 0.4)", 
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
             }}
-            whileTap={{ scale: 0.95 }}
-            className="cursor-none border border-white/10 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl text-white font-extrabold text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 whitespace-nowrap"
+            whileTap={{ scale: 0.96 }}
+            className="cursor-none border border-white/10 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 whitespace-nowrap"
           >
             <Download className="w-4 h-4 shrink-0" />
             <span>RESUME</span>
@@ -184,18 +206,18 @@ export default function Hero() {
         >
           {[["2+", "Years Exp."], ["30+", "Projects"], ["10+", "Happy Clients"]].map(([val, label]) => (
             <div key={label} className="flex flex-col">
-              <span className="font-mono text-3xl font-black text-accent leading-none">{val}</span>
-              <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider mt-1.5">{label}</span>
+              <span className="font-display text-3xl font-black text-white leading-none">{val}</span>
+              <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider mt-1.5">{label}</span>
             </div>
           ))}
         </motion.div>
       </motion.div>
 
-      {/* Right Column — Layered Terminal & Avatar Deck */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.3 }}
+      {/* Right Column — Layered Terminal & Avatar Deck with 3D Scroll Fly */}
+      <Scroll3DFly
+        startScale={0.8}
+        startRotateX={18}
+        startTranslateY={80}
         className="flex-1 w-full lg:max-w-[500px] flex items-center justify-center relative z-10 min-h-[400px]"
       >
         {/* Layer 1: Glassmorphic IDE Terminal (Background) */}
@@ -298,6 +320,7 @@ export default function Hero() {
             <SiNextdotjs />Next.js
           </motion.span>
         </motion.div>
+      </Scroll3DFly>
       </motion.div>
     </section>
   );

@@ -13,7 +13,8 @@ export function ThemeProvider({ children }) {
     if (typeof window !== "undefined") {
       const savedTheme = localStorage.getItem("portfolio-theme");
       const currentDomTheme = document.documentElement.getAttribute("data-theme");
-      return savedTheme || currentDomTheme || "dark";
+      const initial = savedTheme || currentDomTheme || "dark";
+      return initial === "night" ? "dark" : initial;
     }
     return "dark";
   });
@@ -29,14 +30,14 @@ export function ThemeProvider({ children }) {
   }, []);
 
   const setTheme = (newTheme) => {
-    if (!["dark", "night", "light"].includes(newTheme)) return;
+    if (!["dark", "light"].includes(newTheme)) return;
     setThemeState(newTheme);
     localStorage.setItem("portfolio-theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "night" : theme === "night" ? "light" : "dark";
+    const nextTheme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
   };
 

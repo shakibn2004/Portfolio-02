@@ -22,6 +22,8 @@ import {
   ExternalLink
 } from "lucide-react";
 
+import ScrollReveal from "./ScrollReveal";
+
 const DIRECT_CONTACTS = [
   {
     title: "Email Address",
@@ -29,8 +31,8 @@ const DIRECT_CONTACTS = [
     href: "mailto:shakibn2004@gmail.com",
     action: "Send Email",
     icon: Mail,
-    color: "#3b82f6",
-    glow: "rgba(59, 130, 246, 0.25)",
+    color: "#ffffff",
+    glow: "rgba(255, 255, 255, 0.08)",
   },
   {
     title: "Phone Number",
@@ -38,8 +40,8 @@ const DIRECT_CONTACTS = [
     href: "tel:+8809678640848",
     action: "Call Direct",
     icon: Phone,
-    color: "#10b981",
-    glow: "rgba(16, 185, 129, 0.25)",
+    color: "#e4e4e7",
+    glow: "rgba(255, 255, 255, 0.08)",
   },
   {
     title: "WhatsApp Direct",
@@ -47,8 +49,8 @@ const DIRECT_CONTACTS = [
     href: "https://wa.me/8801302230277",
     action: "Chat on WhatsApp",
     icon: MessageCircle,
-    color: "#22c55e",
-    glow: "rgba(34, 197, 94, 0.25)",
+    color: "#d4d4d8",
+    glow: "rgba(255, 255, 255, 0.08)",
   },
 ];
 
@@ -88,66 +90,56 @@ export default function Contact() {
       <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute inset-0 bg-grid bg-grid-60 opacity-30 pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-      >
-        <SectionTitle number="07" title="Hire Me & Contact" />
-      </motion.div>
+      <SectionTitle number="07" title="Hire Me & Contact" />
 
       {/* 3 Quick Direct Contact Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 relative z-10">
         {DIRECT_CONTACTS.map((item, idx) => {
           const Icon = item.icon;
           return (
-            <motion.a
-              key={idx}
-              href={item.href}
-              target={item.href.startsWith("http") ? "_blank" : undefined}
-              rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              whileHover={{ y: -6, boxShadow: `0 15px 35px ${item.glow}`, borderColor: item.color }}
-              className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300 cursor-none relative overflow-hidden"
-            >
-              <div 
-                className="absolute top-0 left-0 right-0 h-1"
-                style={{ background: item.color }}
-              />
-
-              <div className="flex items-center justify-between">
+            <ScrollReveal key={idx} animation="zoom-in" delay={idx * 0.1} duration={0.6}>
+              <motion.a
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                whileHover={{ y: -6, boxShadow: `0 15px 35px ${item.glow}`, borderColor: item.color }}
+                className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300 cursor-none relative overflow-hidden h-full"
+              >
                 <div 
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: `${item.color}15`, borderColor: `${item.color}35`, color: item.color }}
-                >
-                  <Icon className="w-6 h-6" />
+                  className="absolute top-0 left-0 right-0 h-1"
+                  style={{ background: item.color }}
+                />
+
+                <div className="flex items-center justify-between">
+                  <div 
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: `${item.color}15`, borderColor: `${item.color}35`, color: item.color }}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </div>
+
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border text-gray-300"
+                    style={{ background: `${item.color}10`, borderColor: `${item.color}30`, color: item.color }}>
+                    Direct Contact
+                  </span>
                 </div>
 
-                <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border text-gray-300"
-                  style={{ background: `${item.color}10`, borderColor: `${item.color}30`, color: item.color }}>
-                  Direct Contact
-                </span>
-              </div>
+                <div>
+                  <span className="text-xs font-mono uppercase text-gray-500 tracking-wider block mb-1">
+                    {item.title}
+                  </span>
+                  <span className="text-lg font-extrabold text-white group-hover:text-accent transition-colors block truncate">
+                    {item.val}
+                  </span>
+                </div>
 
-              <div>
-                <span className="text-xs font-mono uppercase text-gray-500 tracking-wider block mb-1">
-                  {item.title}
-                </span>
-                <span className="text-lg font-extrabold text-white group-hover:text-accent transition-colors block truncate">
-                  {item.val}
-                </span>
-              </div>
-
-              <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-bold"
-                style={{ color: item.color }}>
-                <span>{item.action}</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </div>
-            </motion.a>
+                <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-bold"
+                  style={{ color: item.color }}>
+                  <span>{item.action}</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </motion.a>
+            </ScrollReveal>
           );
         })}
       </div>
@@ -156,13 +148,7 @@ export default function Contact() {
       <div className="flex flex-col xl:flex-row gap-12 xl:gap-16 mt-12 relative z-10">
 
         {/* Left Column — Availability & Services */}
-        <motion.div 
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ type: "spring", stiffness: 80, damping: 16 }}
-          className="xl:w-[420px] shrink-0 space-y-6"
-        >
+        <ScrollReveal animation="scale-up" duration={0.8} className="xl:w-[420px] shrink-0 space-y-6">
           {/* Availability Header Box */}
           <div className="p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 space-y-4 shadow-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono font-bold">
@@ -213,14 +199,13 @@ export default function Contact() {
               })}
             </div>
           </div>
-        </motion.div>
+        </ScrollReveal>
 
-        {/* Right Column — Project Inquiry Form */}
-        <motion.div 
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ type: "spring", stiffness: 80, damping: 16 }}
+        {/* Right Column — Project Inquiry Form with Scroll Zoom-In */}
+        <ScrollReveal 
+          animation="zoom-in" 
+          delay={0.15} 
+          duration={0.8}
           className="flex-1 bg-dark-100/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative"
         >
           {/* Form Top Title */}
@@ -361,7 +346,7 @@ export default function Contact() {
               )}
             </motion.button>
           </form>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );

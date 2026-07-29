@@ -19,14 +19,16 @@ import {
   Layers 
 } from "lucide-react";
 
+import ScrollReveal from "./ScrollReveal";
+
 const PERSONAL_INFO = [
-  { icon: MapPin, label: "Location", value: "Khulna, Bangladesh", color: "#00f5a0" },
-  { icon: Mail, label: "Email", value: "shakibn2004@gmail.com", href: "mailto:shakibn2004@gmail.com", color: "#3b82f6" },
-  { icon: GraduationCap, label: "Degree", value: "B.Sc. in BECM", color: "#a855f7" },
-  { icon: Briefcase, label: "Experience", value: "2+ Years Active", color: "#f59e0b" },
-  { icon: Globe, label: "Website", value: "nazmus-shakib.space", href: "https://nazmus-shakib.space", color: "#06b6d4" },
-  { icon: Phone, label: "Phone", value: "+880 9678640848", href: "tel:+8809678640848", color: "#10b981" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+880 1407306010", href: "https://wa.me/8801407306010", color: "#22c55e" },
+  { icon: MapPin, label: "Location", value: "Khulna, Bangladesh", color: "#e4e4e7" },
+  { icon: Mail, label: "Email", value: "shakibn2004@gmail.com", href: "mailto:shakibn2004@gmail.com", color: "#e4e4e7" },
+  { icon: GraduationCap, label: "Degree", value: "B.Sc. in BECM", color: "#e4e4e7" },
+  { icon: Briefcase, label: "Experience", value: "2+ Years Active", color: "#e4e4e7" },
+  { icon: Globe, label: "Website", value: "nazmus-shakib.space", href: "https://nazmus-shakib.space", color: "#e4e4e7" },
+  { icon: Phone, label: "Phone", value: "+880 9678640848", href: "tel:+8809678640848", color: "#e4e4e7" },
+  { icon: MessageCircle, label: "WhatsApp", value: "+880 1407306010", href: "https://wa.me/8801407306010", color: "#10b981" },
 ];
 
 const HIGHLIGHTS = [
@@ -47,14 +49,14 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 25, scale: 0.92 },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
     },
   },
 };
@@ -66,38 +68,32 @@ export default function About() {
       <div className="absolute top-1/3 left-0 w-96 h-96 bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-96 h-96 bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-      >
-        <SectionTitle number="01" title="About Me" />
-      </motion.div>
+      <SectionTitle number="01" title="About Me" />
 
       <div className="flex flex-col lg:flex-row gap-12 xl:gap-16 items-center lg:items-start mt-12">
-        {/* Left — Avatar & Status Card */}
-        <motion.div
-          initial={{ opacity: 0, x: -40, scale: 0.95 }}
-          whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ type: "spring", stiffness: 70, damping: 16 }}
-          className="shrink-0 relative group"
-        >
+        {/* Left — Avatar & Status Card with Scroll Zoom-In */}
+        <ScrollReveal animation="zoom-in" duration={0.8} className="shrink-0 relative group">
           {/* Card Frame */}
-          <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-3xl bg-dark-100 border border-white/10 p-4 flex flex-col items-center justify-between shadow-2xl group-hover:border-accent/40 transition-colors duration-500 overflow-hidden">
+          <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-3xl bg-dark-100 border border-white/10 p-4 flex flex-col items-center justify-between shadow-2xl group-hover:border-accent/40 transition-all duration-500 overflow-hidden">
             {/* Ambient Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-purple/10 pointer-events-none" />
 
-            {/* Avatar Circle Container */}
+            {/* Avatar Circle Container with Scroll Zoom-Out Effect */}
             <div className="relative w-48 h-48 sm:w-56 sm:h-56 mt-4 rounded-2xl bg-dark-200 border border-white/10 p-2 overflow-hidden flex items-center justify-center">
-              <Image
-                src="/Avatar.svg"
-                alt="Md. Nazmus Shakib Avatar"
-                fill
-                priority
-                className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-              />
+              <motion.div
+                initial={{ scale: 1.18 }}
+                whileInView={{ scale: 1.0 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full h-full"
+              >
+                <Image
+                  src="/Avatar.svg"
+                  alt="Md. Nazmus Shakib Avatar"
+                  fill
+                  priority
+                  className="object-contain p-2 group-hover:scale-108 transition-transform duration-500"
+                />
+              </motion.div>
             </div>
 
             {/* Status Info Footer */}
@@ -128,7 +124,7 @@ export default function About() {
             <Terminal className="w-4 h-4 text-accent" />
             <span className="text-xs font-mono font-bold text-white">MERN &amp; Next.js</span>
           </div>
-        </motion.div>
+        </ScrollReveal>
 
         {/* Right — Bio & Details */}
         <motion.div

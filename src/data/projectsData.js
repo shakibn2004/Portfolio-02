@@ -9,8 +9,8 @@ export const PROJECTS = [
     tech: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Agentic AI", "Gemini API", "Framer Motion", "Lucide Icons"],
     live: "https://assignment-04-client.vercel.app",
     github: "https://github.com/shakibn2004/Assignment-04-client",
-    color: "#10b981",
-    accentGlow: "rgba(16, 185, 129, 0.25)",
+    color: "#f4f4f5",
+    accentGlow: "rgba(255, 255, 255, 0.08)",
     status: "Live",
     challenges: [
       "Orchestrating multi-step AI agent workflows to dynamically construct structured travel itineraries with low latency.",
@@ -33,8 +33,8 @@ export const PROJECTS = [
     tech: ["Next.js", "React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Firebase Auth", "Lucide Icons"],
     live: "https://assainment-11-client.vercel.app",
     github: "https://github.com/shakibn2004/Assainment-11-client",
-    color: "#3b82f6",
-    accentGlow: "rgba(59, 130, 246, 0.25)",
+    color: "#e4e4e7",
+    accentGlow: "rgba(255, 255, 255, 0.08)",
     status: "Live",
     challenges: [
       "Designing a sleek, high-end luxury dark interface while keeping initial page load fast and responsive.",
@@ -57,8 +57,8 @@ export const PROJECTS = [
     tech: ["Next.js", "React", "Node.js", "Express", "MongoDB", "Stripe", "Tailwind CSS", "Lucide Icons"],
     live: "https://assainment-10-client.vercel.app",
     github: "https://github.com/shakibn2004/Assainment-10-client",
-    color: "#e11d48",
-    accentGlow: "rgba(225, 29, 72, 0.25)",
+    color: "#d4d4d8",
+    accentGlow: "rgba(255, 255, 255, 0.08)",
     status: "Live",
     challenges: [
       "Creating an efficient MongoDB search indexing schema to quickly filter donors by blood group, division, and district.",

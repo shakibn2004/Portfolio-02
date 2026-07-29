@@ -20,27 +20,15 @@ import {
   Sparkles 
 } from "lucide-react";
 
+import Scroll3DFly from "./Scroll3DFly";
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.15,
       delayChildren: 0.1,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 35, scale: 0.96 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 90,
-      damping: 16,
     },
   },
 };
@@ -55,37 +43,29 @@ export default function Projects() {
       <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="space-y-4"
-      >
-        <SectionTitle number="04" title="Featured Work" />
-      </motion.div>
+      <SectionTitle number="04" title="Featured Work" />
 
-      {/* Grid of 3 Projects */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10 relative z-10"
-      >
-        {PROJECTS.map((p) => (
-          <motion.div
+      {/* Grid of 3 Projects with 3D Perspective Fly Effects */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10 relative z-10">
+        {PROJECTS.map((p, idx) => (
+          <Scroll3DFly
             key={p.id}
-            variants={cardVariants}
-            whileHover={{
-              y: -10,
-              boxShadow: `0 20px 45px ${p.accentGlow}`,
-            }}
-            className="group flex flex-col bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden cursor-none transition-all duration-500 relative"
-            style={{
-              boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
-            }}
+            startScale={0.78}
+            startRotateX={24}
+            startTranslateY={110}
+            className="h-full"
           >
+            <motion.div
+              whileHover={{
+                y: -12,
+                scale: 1.02,
+                boxShadow: `0 20px 45px rgba(255, 255, 255, 0.12)`,
+              }}
+              className="group flex flex-col bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden cursor-none transition-all duration-500 relative h-full"
+              style={{
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
+              }}
+            >
             {/* Top Color Glow Bar */}
             <div
               className="h-1 w-full"
@@ -123,14 +103,21 @@ export default function Projects() {
 
             {/* Banner Screenshot Frame */}
             <div className="relative w-full aspect-[16/10] bg-dark-200 overflow-hidden group/img">
-              <Image
-                src={p.image}
-                alt={p.name}
-                fill
-                unoptimized
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover object-top group-hover/img:scale-108 transition-transform duration-700 ease-out"
-              />
+              <motion.div
+                initial={{ scale: 1.15 }}
+                whileInView={{ scale: 1.0 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full h-full"
+              >
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover object-top group-hover/img:scale-108 transition-transform duration-700 ease-out"
+                />
+              </motion.div>
               {/* Gradient Vignette */}
               <div className="absolute inset-0 bg-gradient-to-t from-dark-100 via-transparent to-black/20 opacity-80 group-hover/img:opacity-40 transition-opacity duration-500" />
 
@@ -235,8 +222,9 @@ export default function Projects() {
               </div>
             </div>
           </motion.div>
+        </Scroll3DFly>
         ))}
-      </motion.div>
+      </div>
 
       {/* Quick Preview Modal */}
       <AnimatePresence>

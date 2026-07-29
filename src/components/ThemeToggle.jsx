@@ -5,9 +5,8 @@ import { motion } from "motion/react";
 import { Moon, Flame, Sun } from "lucide-react";
 
 const THEME_OPTIONS = [
-  { id: "dark", label: "Dark", icon: Moon, desc: "Slate Emerald" },
-  { id: "night", label: "Sunset", icon: Flame, desc: "Rose Gold Sunset" },
-  { id: "light", label: "Light", icon: Sun, desc: "Daytime Light" },
+  { id: "dark", label: "Dark", icon: Moon, desc: "Minimal Dark" },
+  { id: "light", label: "Light", icon: Sun, desc: "Minimal Light" },
 ];
 
 export default function ThemeToggle({ compact = false }) {

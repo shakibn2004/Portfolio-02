@@ -1,50 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ─── Dynamic Theme CSS Variables ───────────────────────────── */
+/* ─── Dynamic Minimal Theme CSS Variables ───────────────────── */
 :root, [data-theme="dark"] {
-  --theme-accent: #00f5a0;
-  --theme-purple: #7b61ff;
-  --theme-dark-50: #1e1e1e;
-  --theme-dark-100: #161616;
-  --theme-dark-200: #111111;
-  --theme-dark-300: #0d0d0d;
-  --theme-dark-400: #0a0a0a;
-  --theme-dark-500: #080808;
-  --theme-body-bg: #0a0a0a;
-  --theme-body-text: #e8e8e8;
-  --theme-border-color: rgba(255, 255, 255, 0.1);
-  --theme-grid: rgba(0, 245, 160, 0.06);
-}
-
-[data-theme="night"] {
-  --theme-accent: #ff8052;
-  --theme-purple: #ff2a6d;
-  --theme-dark-50: #2a173b;
-  --theme-dark-100: #1c0d2b;
-  --theme-dark-200: #140820;
-  --theme-dark-300: #0e0517;
-  --theme-dark-400: #090310;
-  --theme-dark-500: #05020a;
-  --theme-body-bg: #090310;
-  --theme-body-text: #fff4ee;
-  --theme-border-color: rgba(255, 128, 82, 0.22);
-  --theme-grid: rgba(255, 128, 82, 0.08);
+  --theme-accent: #f4f4f5;
+  --theme-accent-highlight: #10b981;
+  --theme-purple: #a1a1aa;
+  --theme-dark-50: #27272a;
+  --theme-dark-100: #18181b;
+  --theme-dark-200: #121215;
+  --theme-dark-300: #0c0c0e;
+  --theme-dark-400: #09090b;
+  --theme-dark-500: #050506;
+  --theme-body-bg: #09090b;
+  --theme-body-text: #f4f4f5;
+  --theme-border-color: rgba(255, 255, 255, 0.08);
+  --theme-grid: rgba(255, 255, 255, 0.03);
 }
 
 [data-theme="light"] {
-  --theme-accent: #059669;
-  --theme-purple: #7c3aed;
-  --theme-dark-50: #e2e8f0;
+  --theme-accent: #09090b;
+  --theme-accent-highlight: #059669;
+  --theme-purple: #52525b;
+  --theme-dark-50: #e4e4e7;
   --theme-dark-100: #ffffff;
-  --theme-dark-200: #f1f5f9;
-  --theme-dark-300: #e2e8f0;
-  --theme-dark-400: #f8fafc;
-  --theme-dark-500: #cbd5e1;
-  --theme-body-bg: #f8fafc;
-  --theme-body-text: #0f172a;
-  --theme-border-color: rgba(15, 23, 42, 0.1);
-  --theme-grid: rgba(5, 150, 105, 0.07);
+  --theme-dark-200: #f4f4f5;
+  --theme-dark-300: #e4e4e7;
+  --theme-dark-400: #fafafa;
+  --theme-dark-500: #d4d4d8;
+  --theme-body-bg: #fafafa;
+  --theme-body-text: #09090b;
+  --theme-border-color: rgba(9, 9, 11, 0.08);
+  --theme-grid: rgba(9, 9, 11, 0.03);
 }
 
 /* ─── Theme Tokens ─────────────────────────────────────────── */
@@ -60,8 +47,9 @@
   --color-dark-500: var(--theme-dark-500);
 
   /* Fonts */
-  --font-mono: "Space Mono", monospace;
-  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-sans: "Inter", sans-serif;
 
   /* Animations */
   --animate-float: float 3s ease-in-out infinite;
@@ -95,10 +83,10 @@
 
   @keyframes pulseGlow {
     0%, 100% {
-      box-shadow: 0 0 8px var(--theme-accent);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     }
     50% {
-      box-shadow: 0 0 24px var(--theme-accent);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
   }
 
@@ -121,30 +109,37 @@
 
   html {
     scroll-behavior: smooth;
+    font-family: "Inter", sans-serif;
   }
 
   body {
     background-color: var(--theme-body-bg);
     color: var(--theme-body-text);
-    font-family: "Outfit", sans-serif;
+    font-family: "Inter", sans-serif;
     overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    letter-spacing: -0.025em;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--theme-dark-300);
+    background: var(--theme-dark-400);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--theme-accent);
+    background: #3f3f46;
     border-radius: 3px;
   }
 
   ::selection {
-    background: var(--theme-accent);
+    background: #ffffff;
     color: #000;
   }
 }
@@ -160,9 +155,9 @@
     background-size: 60px 60px;
   }
 
-  /* Gradient text */
+  /* Minimal Gradient text */
   .text-gradient {
-    background: linear-gradient(135deg, var(--theme-accent), var(--theme-purple));
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -170,11 +165,11 @@
 
   /* Glow helpers */
   .glow-accent {
-    box-shadow: 0 0 20px var(--theme-accent);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
   }
 
   .glow-accent-sm {
-    box-shadow: 0 0 10px var(--theme-accent);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
   }
 
   /* Card hover effect */
@@ -184,27 +179,28 @@
 
   .card-hover:hover {
     transform: translateY(-4px);
-    border-color: var(--theme-accent);
-    box-shadow: 0 12px 40px var(--theme-accent);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
   }
 
   /* Primary button */
   .btn-primary {
-    background: var(--theme-accent);
-    color: #000;
+    background: #ffffff;
+    color: #09090b;
     font-weight: 700;
-    border-radius: 10px;
-    padding: 12px 30px;
-    font-size: 15px;
-    font-family: "Outfit", sans-serif;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    letter-spacing: -0.01em;
     cursor: none;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-primary:hover {
-    filter: brightness(1.1);
+    background: #e4e4e7;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--theme-accent);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
   }
 
   /* Outline button */
@@ -277,24 +273,51 @@
   }
 }
 
+/* ─── Hero Gradient Text ─────────────────────────────────────── */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .hero-gradient-text {
+  background: linear-gradient(135deg, #09090b 0%, #52525b 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
 /* ─── Light Mode Compatibility Overrides ─────────────────────── */
 [data-theme="light"] .text-white {
-  color: #0f172a;
+  color: #09090b !important;
 }
-[data-theme="light"] .text-gray-100 {
-  color: #0f172a;
+[data-theme="light"] .text-gray-100,
+[data-theme="light"] .text-zinc-100 {
+  color: #09090b !important;
 }
-[data-theme="light"] .text-gray-200 {
-  color: #1e293b;
+[data-theme="light"] .text-gray-200,
+[data-theme="light"] .text-zinc-200 {
+  color: #18181b !important;
 }
-[data-theme="light"] .text-gray-300 {
-  color: #334155;
+[data-theme="light"] .text-gray-300,
+[data-theme="light"] .text-zinc-300 {
+  color: #27272a !important;
 }
-[data-theme="light"] .text-gray-400 {
-  color: #475569;
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-zinc-400 {
+  color: #3f3f46 !important;
 }
-[data-theme="light"] .text-gray-500 {
-  color: #64748b;
+[data-theme="light"] .text-gray-500,
+[data-theme="light"] .text-zinc-500 {
+  color: #71717a !important;
+}
+
+[data-theme="light"] .text-gradient {
+  background: linear-gradient(135deg, #09090b 0%, #52525b 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 [data-theme="light"] .border-white\/5,
@@ -302,18 +325,23 @@
 [data-theme="light"] .border-white\/10,
 [data-theme="light"] .border-white\/15,
 [data-theme="light"] .border-white\/20 {
-  border-color: rgba(15, 23, 42, 0.12) !important;
+  border-color: rgba(9, 9, 11, 0.12) !important;
 }
 
 [data-theme="light"] .bg-white\/5 {
-  background-color: rgba(15, 23, 42, 0.04) !important;
+  background-color: rgba(9, 9, 11, 0.04) !important;
 }
 [data-theme="light"] .bg-white\/10 {
-  background-color: rgba(15, 23, 42, 0.08) !important;
+  background-color: rgba(9, 9, 11, 0.08) !important;
 }
 
 [data-theme="light"] .btn-primary {
-  color: #ffffff;
+  background-color: #09090b !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .btn-primary:hover {
+  background-color: #27272a !important;
 }
 
 /* Ensure Logo Icon box has crisp dark background & high contrast in Light Mode */
