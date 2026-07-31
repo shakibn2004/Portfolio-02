@@ -61,7 +61,7 @@ function MarqueeRow({ items, direction = "left", speed = 25 }) {
             style={{ 
               border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
-            className="flex items-center gap-4 bg-dark-100/80 backdrop-blur-md rounded-2xl px-6 py-4 cursor-none transition-all duration-300"
+            className="flex items-center gap-4 bg-dark-100/80 backdrop-blur-md rounded-2xl px-6 py-4  transition-all duration-300"
           >
             <div style={{ color: skill.color }} className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
               {skill.icon}
@@ -103,7 +103,7 @@ export default function Skills() {
             <motion.span 
               key={tool}
               whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.12)", color: "#00f5a0" }}
-              className="bg-dark-50 border border-white/8 text-gray-400 text-xs font-medium px-4 py-2 rounded-full cursor-none transition-colors duration-200"
+              className="bg-dark-50 border border-white/8 text-gray-400 text-xs font-medium px-4 py-2 rounded-full  transition-colors duration-200"
             >
               {tool}
             </motion.span>

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SectionTitle from "./SectionTitle";
 import { PROJECTS } from "@/data/projectsData";
 import { FaGithub } from "react-icons/fa6";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { 
   ExternalLink, 
   ArrowRight, 
@@ -20,210 +20,247 @@ import {
   Sparkles 
 } from "lucide-react";
 
-import Scroll3DFly from "./Scroll3DFly";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
-};
+
+function ProjectCard({ p, idx, total, scrollYProgress, setSelectedProject }) {
+  const centerPoint = idx / Math.max(total - 1, 1);
+
+  const p1 = Math.max(0, centerPoint - 0.4);
+  const p2 = centerPoint;
+  const p3 = Math.min(1, centerPoint + 0.4);
+
+  const keyframes = p1 === p2 ? [0, p2, p3] : p2 === p3 ? [p1, p2, 1] : [p1, p2, p3];
+
+  // Restored full prominent scale (0.85 when inactive, 1.05 when active spotlight)
+  const scale = useTransform(scrollYProgress, keyframes, [
+    idx === 0 ? 1.05 : 0.85,
+    1.05,
+    idx === total - 1 ? 1.05 : 0.85,
+  ]);
+
+  const opacity = useTransform(scrollYProgress, keyframes, [
+    idx === 0 ? 1 : 0.75,
+    1,
+    idx === total - 1 ? 1 : 0.75,
+  ]);
+
+  return (
+    <motion.div
+      style={{
+        scale,
+        opacity,
+      }}
+      whileHover={{
+        borderColor: `${p.color}66`,
+        boxShadow: `0 20px 45px ${p.accentGlow || "rgba(255, 255, 255, 0.15)"}`,
+      }}
+      className="group flex flex-col bg-dark-100/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden  transition-shadow duration-300 relative w-[360px] sm:w-[480px] shrink-0"
+    >
+      {/* Top Color Glow Bar */}
+      <div
+        className="h-1 w-full"
+        style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }}
+      />
+
+      {/* Card Top Strip */}
+      <div
+        className="flex items-center justify-between px-6 py-4 border-b border-white/5"
+        style={{ background: `${p.color}0A` }}
+      >
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5" style={{ color: p.color }} />
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-gray-300">
+            Featured Case Study
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[11px] font-mono font-bold px-3 py-0.5 rounded-full border"
+            style={{
+              color: p.color,
+              borderColor: `${p.color}44`,
+              background: `${p.color}15`,
+            }}
+          >
+            {p.status}
+          </span>
+          <div
+            className="w-2 h-2 rounded-full animate-pulse"
+            style={{ background: p.color }}
+          />
+        </div>
+      </div>
+
+      {/* Banner Screenshot Frame */}
+      <div className="relative w-full aspect-[16/10] bg-dark-200 overflow-hidden group/img">
+        <Image
+          src={p.image}
+          alt={p.name}
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover object-top group-hover/img:scale-108 transition-transform duration-700 ease-out"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-100 via-transparent to-black/20 opacity-80 group-hover/img:opacity-40 transition-opacity duration-500" />
+
+        {/* Quick Action Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-xs">
+          <button
+            onClick={() => setSelectedProject(p)}
+            className="px-5 py-2.5 rounded-full bg-white text-black font-bold text-xs flex items-center gap-2 shadow-2xl transform translate-y-2 group-hover/img:translate-y-0 transition-all duration-300"
+          >
+            <Eye className="w-4 h-4" /> Quick Preview
+          </button>
+        </div>
+
+        {/* External Links */}
+        <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
+          <a
+            href={p.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-gray-200 hover:bg-white hover:text-black transition-colors"
+            title="View Client GitHub Repository"
+          >
+            <FaGithub className="w-3.5 h-3.5" />
+          </a>
+          <a
+            href={p.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-gray-200 hover:bg-accent hover:text-black transition-colors"
+            title="Open Live Site"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      {/* Project Card Body */}
+      <div className="flex-1 flex flex-col p-6 space-y-4">
+        <div className="space-y-1.5">
+          <h3 className="text-2xl font-extrabold text-white group-hover:text-accent transition-colors tracking-tight">
+            {p.name}
+          </h3>
+          <p className="text-xs font-mono text-gray-400 line-clamp-1">
+            {p.tagline}
+          </p>
+        </div>
+
+        <p className="text-gray-400 text-xs sm:text-sm leading-relaxed line-clamp-3 flex-1 font-normal">
+          {p.desc}
+        </p>
+
+        {/* Tech Badges */}
+        <div className="flex flex-wrap gap-1.5 pt-2">
+          {p.tech.slice(0, 4).map((t) => (
+            <span
+              key={t}
+              className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg border text-gray-300"
+              style={{ borderColor: `${p.color}33`, background: `${p.color}0D` }}
+            >
+              {t}
+            </span>
+          ))}
+          {p.tech.length > 4 && (
+            <span className="text-[11px] font-mono px-2 py-1 rounded-lg text-gray-500 bg-white/5 border border-white/5">
+              +{p.tech.length - 4}
+            </span>
+          )}
+        </div>
+
+        {/* Action Buttons Row */}
+        <div className="flex items-center gap-2.5 pt-4 border-t border-white/10">
+          <button
+            onClick={() => setSelectedProject(p)}
+            className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-bold py-3 px-3 rounded-xl text-white bg-white/10 border border-white/10 hover:border-accent/50 hover:bg-white/15  transition-all duration-200 whitespace-nowrap"
+          >
+            <span>Details</span>
+            <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+          </button>
+
+          <a
+            href={p.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold py-3 px-3 rounded-xl text-gray-300 bg-white/5 border border-white/10 hover:border-white hover:text-white hover:bg-white/10  transition-all duration-200 whitespace-nowrap shrink-0"
+            title="Client GitHub Repository"
+          >
+            <FaGithub className="w-3.5 h-3.5 shrink-0" />
+            <span className="whitespace-nowrap">GitHub</span>
+          </a>
+
+          <Link
+            href={`/projects/${p.id}`}
+            className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-bold py-3 px-3 rounded-xl text-black  transition-all duration-200 hover:opacity-90 shadow-lg whitespace-nowrap"
+            style={{ background: p.color, boxShadow: `0 4px 16px ${p.accentGlow}` }}
+          >
+            <span>Full Page</span>
+            <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
+  const targetRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  // Horizontal track animation starts from initial middle offset so Card 1 starts centered
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", "-62%"]
+  );
 
   return (
-    <section id="projects" className="py-24 px-[6%] bg-dark-300 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
+    <section id="projects" ref={targetRef} className="relative h-[350vh] bg-dark-300">
+      {/* Sticky viewport container that locks the project section */}
+      <div className="sticky top-0 h-screen flex flex-col justify-between overflow-hidden py-6 sm:py-8">
+        {/* Ambient background glows */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Header */}
-      <SectionTitle number="04" title="Featured Work" />
+        {/* Header */}
+        <div className="px-[6%] relative z-10 shrink-0">
+          <SectionTitle number="04" title="Featured Work" />
+        </div>
 
-      {/* Grid of 3 Projects with 3D Perspective Fly Effects */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10 relative z-10">
-        {PROJECTS.map((p, idx) => (
-          <Scroll3DFly
-            key={p.id}
-            startScale={0.78}
-            startRotateX={24}
-            startTranslateY={110}
-            className="h-full"
-          >
-            <motion.div
-              whileHover={{
-                y: -12,
-                scale: 1.02,
-                boxShadow: `0 20px 45px rgba(255, 255, 255, 0.12)`,
-              }}
-              className="group flex flex-col bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden cursor-none transition-all duration-500 relative h-full"
-              style={{
-                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
-              }}
-            >
-            {/* Top Color Glow Bar */}
-            <div
-              className="h-1 w-full"
-              style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }}
-            />
-
-            {/* Card Top Strip */}
-            <div
-              className="flex items-center justify-between px-6 py-4 border-b border-white/5"
-              style={{ background: `${p.color}0A` }}
-            >
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5" style={{ color: p.color }} />
-                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-gray-300">
-                  Featured Case Study
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className="text-[11px] font-mono font-bold px-3 py-0.5 rounded-full border"
-                  style={{
-                    color: p.color,
-                    borderColor: `${p.color}44`,
-                    background: `${p.color}15`,
-                  }}
-                >
-                  {p.status}
-                </span>
-                <div
-                  className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ background: p.color }}
-                />
-              </div>
-            </div>
-
-            {/* Banner Screenshot Frame */}
-            <div className="relative w-full aspect-[16/10] bg-dark-200 overflow-hidden group/img">
-              <motion.div
-                initial={{ scale: 1.15 }}
-                whileInView={{ scale: 1.0 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full h-full"
-              >
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover object-top group-hover/img:scale-108 transition-transform duration-700 ease-out"
-                />
-              </motion.div>
-              {/* Gradient Vignette */}
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-100 via-transparent to-black/20 opacity-80 group-hover/img:opacity-40 transition-opacity duration-500" />
-
-              {/* Floating Quick Action Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-xs">
-                <button
-                  onClick={() => setSelectedProject(p)}
-                  className="px-5 py-2.5 rounded-full bg-white text-black font-bold text-xs flex items-center gap-2 shadow-2xl transform translate-y-2 group-hover/img:translate-y-0 transition-all duration-300"
-                >
-                  <Eye className="w-4 h-4" /> Quick Preview
-                </button>
-              </div>
-
-              {/* Direct External Links Row (Top Right) */}
-              <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
-                <a
-                  href={p.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-gray-200 hover:bg-white hover:text-black transition-colors"
-                  title="View Client GitHub Repository"
-                >
-                  <FaGithub className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href={p.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-gray-200 hover:bg-accent hover:text-black transition-colors"
-                  title="Open Live Site"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Project Card Body */}
-            <div className="flex-1 flex flex-col p-6 space-y-4">
-              <div className="space-y-1.5">
-                <h3 className="text-2xl font-extrabold text-white group-hover:text-accent transition-colors tracking-tight">
-                  {p.name}
-                </h3>
-                <p className="text-xs font-mono text-gray-400 line-clamp-1">
-                  {p.tagline}
-                </p>
-              </div>
-
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed line-clamp-3 flex-1 font-normal">
-                {p.desc}
-              </p>
-
-              {/* Tech Badges */}
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {p.tech.slice(0, 4).map((t) => (
-                  <span
-                    key={t}
-                    className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg border text-gray-300"
-                    style={{ borderColor: `${p.color}33`, background: `${p.color}0D` }}
-                  >
-                    {t}
-                  </span>
-                ))}
-                {p.tech.length > 4 && (
-                  <span className="text-[11px] font-mono px-2 py-1 rounded-lg text-gray-500 bg-white/5 border border-white/5">
-                    +{p.tech.length - 4}
-                  </span>
-                )}
-              </div>
-
-              {/* Action Buttons Row */}
-              <div className="flex items-center gap-2.5 pt-4 border-t border-white/10">
-                {/* View Details Button */}
-                <button
-                  onClick={() => setSelectedProject(p)}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-bold py-3 px-3 rounded-xl text-white bg-white/10 border border-white/10 hover:border-accent/50 hover:bg-white/15 cursor-none transition-all duration-200 whitespace-nowrap"
-                >
-                  <span>Details</span>
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-                </button>
-
-                {/* Direct Link to Client GitHub Repo */}
-                <a
-                  href={p.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold py-3 px-3 rounded-xl text-gray-300 bg-white/5 border border-white/10 hover:border-white hover:text-white hover:bg-white/10 cursor-none transition-all duration-200 whitespace-nowrap shrink-0"
-                  title="Client GitHub Repository"
-                >
-                  <FaGithub className="w-3.5 h-3.5 shrink-0" />
-                  <span className="whitespace-nowrap">GitHub</span>
-                </a>
-
-                {/* Direct Link to Project Page */}
-                <Link
-                  href={`/projects/${p.id}`}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-bold py-3 px-3 rounded-xl text-black cursor-none transition-all duration-200 hover:opacity-90 shadow-lg whitespace-nowrap"
-                  style={{ background: p.color, boxShadow: `0 4px 16px ${p.accentGlow}` }}
-                >
-                  <span>Full Page</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                </Link>
-              </div>
-            </div>
+        {/* Horizontal Carousel Track - pl-[calc(50vw-240px)] centers Card 1 initially */}
+        <div className="relative z-10 w-full overflow-visible py-2 my-auto">
+          <motion.div style={{ x }} className="flex items-center gap-8 sm:gap-12 w-max pl-[calc(50vw-180px)] sm:pl-[calc(50vw-240px)]">
+            {PROJECTS.map((p, idx) => (
+              <ProjectCard
+                key={p.id}
+                p={p}
+                idx={idx}
+                total={PROJECTS.length}
+                scrollYProgress={scrollYProgress}
+                setSelectedProject={setSelectedProject}
+              />
+            ))}
           </motion.div>
-        </Scroll3DFly>
-        ))}
+        </div>
+
+        {/* GitHub Profile Button (Inside Sticky Container) */}
+        <div className="flex justify-center relative z-10 shrink-0">
+          <a
+            href="https://github.com/shakibn2004"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline flex! items-center justify-center gap-2 text-sm hover:border-accent hover:text-accent transition-all duration-200 whitespace-nowrap backdrop-blur-md bg-dark-100/50"
+          >
+            <FaGithub className="w-4 h-4" />
+            <span className="whitespace-nowrap">View All Projects</span>
+            <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-80" />
+          </a>
+        </div>
       </div>
 
       {/* Quick Preview Modal */}
@@ -393,20 +430,6 @@ export default function Projects() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* GitHub Profile Button */}
-      <div className="flex justify-center mt-12">
-        <a
-          href="https://github.com/shakibn2004"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-outline flex! items-center justify-center gap-2 text-sm hover:border-accent hover:text-accent transition-all duration-200 whitespace-nowrap"
-        >
-          <FaGithub className="w-4 h-4" />
-          <span className="whitespace-nowrap">View All Projects</span>
-          <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-80" />
-        </a>
-      </div>
     </section>
   );
 }

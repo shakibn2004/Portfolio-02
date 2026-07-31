@@ -64,7 +64,7 @@ export default function ProjectDetailContent({ project }) {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               href="/#projects"
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-dark-100 border border-white/10 text-gray-300 hover:text-accent hover:border-accent/40 transition-all duration-200 text-sm font-semibold group cursor-none"
+              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-dark-100 border border-white/10 text-gray-300 hover:text-accent hover:border-accent/40 transition-all duration-200 text-sm font-semibold group "
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
               Back to Projects
@@ -128,7 +128,7 @@ export default function ProjectDetailContent({ project }) {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-black transition-all duration-200 hover:opacity-90 shadow-lg cursor-none"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-black transition-all duration-200 hover:opacity-90 shadow-lg "
                 style={{
                   background: project.color,
                   boxShadow: `0 8px 24px ${project.accentGlow}`,
@@ -145,7 +145,7 @@ export default function ProjectDetailContent({ project }) {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.12)", borderColor: "white" }}
                 whileTap={{ scale: 0.95 }}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-gray-200 border border-white/15 transition-all duration-200 cursor-none"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-gray-200 border border-white/15 transition-all duration-200 "
               >
                 <FaGithub className="w-4 h-4" />
                 GitHub Repository (Client)
@@ -190,7 +190,7 @@ export default function ProjectDetailContent({ project }) {
                   <motion.div
                     key={idx}
                     whileHover={{ x: 6, borderColor: "rgba(251, 191, 36, 0.3)" }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 transition-all duration-200 cursor-none"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 transition-all duration-200 "
                   >
                     <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-400/10 text-amber-400 font-mono text-xs font-bold shrink-0 mt-0.5">
                       0{idx + 1}
@@ -219,7 +219,7 @@ export default function ProjectDetailContent({ project }) {
                   <motion.div
                     key={idx}
                     whileHover={{ x: 6, borderColor: "rgba(123, 97, 255, 0.3)" }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 transition-all duration-200 cursor-none"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 transition-all duration-200 "
                   >
                     <CheckCircle2 className="w-5 h-5 text-purple shrink-0 mt-0.5" />
                     <p className="text-gray-300 text-sm md:text-base leading-relaxed">
@@ -245,7 +245,7 @@ export default function ProjectDetailContent({ project }) {
                   <motion.span
                     key={t}
                     whileHover={{ scale: 1.08 }}
-                    className="px-3.5 py-1.5 rounded-xl border text-sm font-semibold transition-all duration-200 cursor-none"
+                    className="px-3.5 py-1.5 rounded-xl border text-sm font-semibold transition-all duration-200 "
                     style={{
                       color: project.color,
                       borderColor: `${project.color}44`,
@@ -266,7 +266,7 @@ export default function ProjectDetailContent({ project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ x: 5, borderColor: `${project.color}44` }}
-                  className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white text-sm transition-all cursor-none"
+                  className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white text-sm transition-all "
                 >
                   <span className="font-semibold">Live Web App</span>
                   <ExternalLink className="w-4 h-4 text-gray-400" />
@@ -277,7 +277,7 @@ export default function ProjectDetailContent({ project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ x: 5, borderColor: `${project.color}44` }}
-                  className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white text-sm transition-all cursor-none"
+                  className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white text-sm transition-all "
                 >
                   <span className="font-semibold">GitHub Client Source</span>
                   <FaGithub className="w-4 h-4 text-gray-400" />

@@ -1,17 +1,15 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import SectionTitle from "./SectionTitle";
-import ScrollReveal from "./ScrollReveal";
 import { 
   Telescope, 
   Code2, 
   CheckCircle2, 
   ShieldCheck, 
   Rocket, 
-  Headphones, 
-  Sparkles, 
-  ArrowRight 
+  Headphones 
 } from "lucide-react";
 
 const STEPS = [
@@ -78,101 +76,115 @@ const STEPS = [
 ];
 
 export default function Strategy() {
+  const targetRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  // Calculate percentage dynamically for reliable cross-browser Motion compatibility
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
+
   return (
-    <section id="strategy" className="py-24 px-[6%] bg-dark-300 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-1/3 right-10 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute inset-0 bg-grid bg-grid-60 opacity-30 pointer-events-none" />
+    <section 
+      id="strategy" 
+      ref={targetRef} 
+      className="relative h-[300vh] bg-dark-300"
+    >
+      {/* Sticky container that locks in place during scroll */}
+      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden px-[6%]">
+        {/* Ambient background glows */}
+        <div className="absolute top-1/3 right-10 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute inset-0 bg-grid bg-grid-60 opacity-30 pointer-events-none" />
 
-      {/* Header */}
-      <SectionTitle number="06" title="Strategy & Process" />
+        {/* Section Header */}
+        <div className="mb-6 relative z-10 shrink-0">
+          <SectionTitle number="06" title="Strategy & Process" />
+        </div>
 
-      {/* Grid of 6 Strategy Steps */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12 relative z-10">
-        {STEPS.map((step, i) => {
-          const Icon = step.icon;
-          return (
-            <ScrollReveal
-              key={step.num}
-              animation="zoom-in"
-              delay={i * 0.08}
-              duration={0.7}
-            >
-              <motion.div 
-                whileHover={{ 
-                  y: -8, 
-                  scale: 1.02,
-                  borderColor: `${step.color}66`,
-                  boxShadow: `0 14px 40px ${step.accentGlow}`,
-                }}
-                className="relative bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl p-7 flex flex-col justify-between group cursor-none transition-all duration-500 overflow-hidden h-full"
-                style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
-              >
-              {/* Top Accent Line */}
-              <div 
-                className="absolute top-0 left-0 right-0 h-1"
-                style={{ background: `linear-gradient(90deg, ${step.color}, transparent)` }}
-              />
+        {/* Horizontal Scrolling Card Track */}
+        <div className="relative z-10 w-full overflow-hidden">
+          <motion.div style={{ x }} className="flex gap-6 w-max">
+            {STEPS.map((step) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.num}
+                  whileHover={{
+                    y: -6,
+                    scale: 1.01,
+                    borderColor: `${step.color}66`,
+                    boxShadow: `0 14px 40px ${step.accentGlow}`,
+                  }}
+                  className="relative bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl p-7 flex flex-col justify-between group  transition-all duration-300 overflow-hidden w-[340px] sm:w-[420px] h-[400px] shrink-0"
+                  style={{ boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
+                >
+                  {/* Top Accent Line */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-1"
+                    style={{ background: `linear-gradient(90deg, ${step.color}, transparent)` }}
+                  />
 
-              {/* Watermark Step Number */}
-              <div 
-                className="absolute top-4 right-6 font-mono text-[70px] font-black leading-none select-none transition-all duration-500 group-hover:scale-110 opacity-10 group-hover:opacity-20"
-                style={{ color: step.color }}
-              >
-                {step.num}
-              </div>
-
-              {/* Step Card Content */}
-              <div>
-                {/* Icon Header */}
-                <div className="flex items-center gap-3 mb-5">
-                  <div 
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center border shrink-0 transition-transform duration-300 group-hover:scale-110"
-                    style={{ 
-                      background: `${step.color}15`, 
-                      borderColor: `${step.color}35`,
-                      color: step.color
-                    }}
+                  {/* Watermark Step Number */}
+                  <div
+                    className="absolute top-4 right-6 font-mono text-[70px] font-black leading-none select-none transition-all duration-500 group-hover:scale-110 opacity-10 group-hover:opacity-20"
+                    style={{ color: step.color }}
                   >
-                    <Icon className="w-6 h-6" />
+                    {step.num}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400">
-                      Step {step.num} • {step.tagline}
-                    </span>
-                    <h3 className="text-xl font-bold text-white group-hover:text-accent transition-colors">
-                      {step.title}
-                    </h3>
-                  </div>
-                </div>
 
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
-                  {step.desc}
-                </p>
-              </div>
-
-              {/* Step Items Bullet List */}
-              <div className="pt-4 border-t border-white/5 space-y-2">
-                <div className="text-[10px] font-mono uppercase text-gray-500 tracking-wider mb-2">
-                  Key Deliverables
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {step.items.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-gray-300">
-                      <span 
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ background: step.color }} 
-                      />
-                      <span className="truncate">{item}</span>
+                  {/* Step Card Content */}
+                  <div>
+                    {/* Icon Header */}
+                    <div className="flex items-center gap-3 mb-5">
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center border shrink-0 transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          background: `${step.color}15`,
+                          borderColor: `${step.color}35`,
+                          color: step.color,
+                        }}
+                      >
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400">
+                          Step {step.num} • {step.tagline}
+                        </span>
+                        <h3 className="text-xl font-bold text-white group-hover:text-accent transition-colors">
+                          {step.title}
+                        </h3>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </ScrollReveal>
-          );
-        })}
+
+                    <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  {/* Step Items Bullet List */}
+                  <div className="pt-4 border-t border-white/5 space-y-2">
+                    <div className="text-[10px] font-mono uppercase text-gray-500 tracking-wider mb-2">
+                      Key Deliverables
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {step.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2 text-xs text-gray-300">
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ background: step.color }}
+                          />
+                          <span className="truncate">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </div>
     </section>
   );

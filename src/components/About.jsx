@@ -195,7 +195,7 @@ export default function About() {
             {PERSONAL_INFO.map((item, idx) => {
               const Icon = item.icon;
               const content = (
-                <div className="flex items-center gap-3 bg-dark-100/80 border border-white/8 hover:border-accent/30 rounded-xl px-4 py-3 cursor-none transition-colors">
+                <div className="flex items-center gap-3 bg-dark-100/80 border border-white/8 hover:border-accent/30 rounded-xl px-4 py-3  transition-colors">
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: `${item.color}15`, color: item.color }}
@@ -220,7 +220,7 @@ export default function About() {
                       href={item.href}
                       target={item.href.startsWith("http") ? "_blank" : undefined}
                       rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="block cursor-none"
+                      className="block "
                     >
                       {content}
                     </a>
@@ -239,7 +239,7 @@ export default function About() {
               download
               whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 245, 160, 0.3)" }}
               whileTap={{ scale: 0.95 }}
-              className="btn-primary inline-flex items-center gap-2 cursor-none text-sm font-bold"
+              className="btn-primary inline-flex items-center gap-2  text-sm font-bold"
             >
               <Download className="w-4 h-4" /> Download Resume
             </motion.a>

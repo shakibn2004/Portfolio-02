@@ -34,7 +34,7 @@ export default function ThemeToggle({ compact = false }) {
           <button
             key={option.id}
             onClick={() => setTheme(option.id)}
-            className={`relative flex items-center justify-center gap-1.5 rounded-full transition-colors duration-300 cursor-none ${
+            className={`relative flex items-center justify-center gap-1.5 rounded-full transition-colors duration-300  ${
               compact ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-xs font-semibold"
             } ${
               isActive

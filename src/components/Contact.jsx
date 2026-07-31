@@ -81,7 +81,7 @@ export default function Contact() {
 
   const inputCls = `w-full bg-dark-300/80 border border-white/10 rounded-2xl px-4 py-3.5 text-gray-200 text-sm
     placeholder-gray-500 outline-none focus:border-accent/60 focus:bg-dark-200 focus:ring-1 focus:ring-accent/30 transition-all duration-300
-    font-display cursor-none`;
+    font-display `;
 
   return (
     <section id="contact" className="py-24 px-[6%] bg-dark-400 relative overflow-hidden">
@@ -103,7 +103,7 @@ export default function Contact() {
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 whileHover={{ y: -6, boxShadow: `0 15px 35px ${item.glow}`, borderColor: item.color }}
-                className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300 cursor-none relative overflow-hidden h-full"
+                className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300  relative overflow-hidden h-full"
               >
                 <div 
                   className="absolute top-0 left-0 right-0 h-1"
@@ -188,7 +188,7 @@ export default function Contact() {
                   <motion.div
                     key={idx}
                     whileHover={{ scale: 1.03, borderColor: `${s.color}44` }}
-                    className="flex items-center gap-2.5 bg-dark-100/60 border border-white/5 rounded-xl px-3 py-2.5 transition-all duration-200 cursor-none"
+                    className="flex items-center gap-2.5 bg-dark-100/60 border border-white/5 rounded-xl px-3 py-2.5 transition-all duration-200 "
                   >
                     <Icon className="w-4 h-4 shrink-0" style={{ color: s.color }} />
                     <span className="text-xs font-medium text-gray-300 line-clamp-1">
@@ -277,7 +277,7 @@ export default function Contact() {
                     key={type}
                     type="button"
                     onClick={() => setForm({ ...form, projectType: type })}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 cursor-none ${
+                    className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all duration-200  ${
                       form.projectType === type
                         ? "bg-accent/15 border-accent text-accent shadow-md"
                         : "bg-dark-300/60 border-white/10 text-gray-400 hover:text-white hover:border-white/20"
@@ -330,7 +330,7 @@ export default function Contact() {
               disabled={loading}
               whileHover={loading ? {} : { scale: 1.02, boxShadow: "0 0 25px rgba(0, 245, 160, 0.4)" }}
               whileTap={loading ? {} : { scale: 0.98 }}
-              className={`btn-primary w-full flex items-center justify-center gap-2 text-sm py-4 font-bold cursor-none
+              className={`btn-primary w-full flex items-center justify-center gap-2 text-sm py-4 font-bold 
                 ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
             >
               {loading ? (

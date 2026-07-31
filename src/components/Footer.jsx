@@ -75,7 +75,7 @@ export default function Footer() {
               onClick={() => handleNav("Contact")}
               whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(0, 245, 160, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              className="btn-primary text-sm py-3.5 px-8 font-bold flex items-center gap-2 cursor-none shadow-xl"
+              className="btn-primary text-sm py-3.5 px-8 font-bold flex items-center gap-2  shadow-xl"
             >
               <span>Get In Touch</span>
               <ArrowRight className="w-4 h-4" />
@@ -85,7 +85,7 @@ export default function Footer() {
               onClick={() => handleNav("Projects")}
               whileHover={{ scale: 1.05, borderColor: "white", backgroundColor: "rgba(255, 255, 255, 0.1)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3.5 rounded-xl border border-white/15 text-white text-sm font-semibold cursor-none transition-all"
+              className="px-6 py-3.5 rounded-xl border border-white/15 text-white text-sm font-semibold  transition-all"
             >
               Explore Projects
             </motion.button>
@@ -139,7 +139,7 @@ export default function Footer() {
                   title={s.name}
                   whileHover={{ scale: 1.1, y: -2, borderColor: s.color }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-9 h-9 bg-dark-100/90 border border-white/10 rounded-xl flex items-center justify-center text-gray-300 hover:text-white transition-all cursor-none shadow-md"
+                  className="w-9 h-9 bg-dark-100/90 border border-white/10 rounded-xl flex items-center justify-center text-gray-300 hover:text-white transition-all  shadow-md"
                 >
                   {s.icon}
                 </motion.a>
@@ -158,7 +158,7 @@ export default function Footer() {
                 <button
                   key={link}
                   onClick={() => handleNav(link)}
-                  className="text-gray-400 text-sm hover:text-accent transition-colors text-left flex items-center gap-2 group cursor-none"
+                  className="text-gray-400 text-sm hover:text-accent transition-colors text-left flex items-center gap-2 group "
                 >
                   <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity font-mono text-xs">→</span>
                   <span>{link}</span>
@@ -198,7 +198,7 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <a
                 href="mailto:shakibn2004@gmail.com"
-                className="flex items-center gap-3 text-gray-400 hover:text-accent transition-colors group cursor-none"
+                className="flex items-center gap-3 text-gray-400 hover:text-accent transition-colors group "
               >
                 <div className="w-8 h-8 rounded-lg bg-dark-100 border border-white/10 flex items-center justify-center group-hover:border-accent/40 text-accent">
                   <Mail className="w-4 h-4" />
@@ -222,7 +222,7 @@ export default function Footer() {
 
               <a
                 href="tel:+8809678640848"
-                className="flex items-center gap-3 text-gray-400 hover:text-accent transition-colors group cursor-none"
+                className="flex items-center gap-3 text-gray-400 hover:text-accent transition-colors group "
               >
                 <div className="w-8 h-8 rounded-lg bg-dark-100 border border-white/10 flex items-center justify-center group-hover:border-accent/40 text-accent">
                   <Phone className="w-4 h-4" />
@@ -234,7 +234,7 @@ export default function Footer() {
                 href="https://wa.me/8801407306010"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-400 hover:text-emerald-400 transition-colors group cursor-none"
+                className="flex items-center gap-3 text-gray-400 hover:text-emerald-400 transition-colors group "
               >
                 <div className="w-8 h-8 rounded-lg bg-dark-100 border border-white/10 flex items-center justify-center group-hover:border-emerald-400/40 text-emerald-400">
                   <MessageCircle className="w-4 h-4" />
@@ -257,7 +257,7 @@ export default function Footer() {
           onClick={scrollToTop}
           whileHover={{ scale: 1.1, backgroundColor: "rgba(0, 245, 160, 0.2)", borderColor: "#00f5a0" }}
           whileTap={{ scale: 0.9 }}
-          className="p-2.5 rounded-full bg-dark-100 border border-white/15 text-white hover:text-accent transition-all shadow-md cursor-none flex items-center gap-2 text-xs font-mono font-semibold"
+          className="p-2.5 rounded-full bg-dark-100 border border-white/15 text-white hover:text-accent transition-all shadow-md  flex items-center gap-2 text-xs font-mono font-semibold"
           title="Scroll to top"
         >
           <span>Back to Top</span>

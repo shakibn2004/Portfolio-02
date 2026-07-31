@@ -192,7 +192,7 @@ export default function Hero() {
               backgroundColor: "rgba(255, 255, 255, 0.08)",
             }}
             whileTap={{ scale: 0.96 }}
-            className="cursor-none border border-white/10 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 whitespace-nowrap"
+            className=" border border-white/10 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 whitespace-nowrap"
           >
             <Download className="w-4 h-4 shrink-0" />
             <span>RESUME</span>
