@@ -24,18 +24,19 @@ import {
 
 function ProjectCard({ p, idx, total, scrollYProgress, setSelectedProject }) {
   const centerPoint = idx / Math.max(total - 1, 1);
+  const spread = 0.85 / Math.max(total - 1, 1);
 
-  const p1 = Math.max(0, centerPoint - 0.4);
+  const p1 = Math.max(0, centerPoint - spread);
   const p2 = centerPoint;
-  const p3 = Math.min(1, centerPoint + 0.4);
+  const p3 = Math.min(1, centerPoint + spread);
 
   const keyframes = p1 === p2 ? [0, p2, p3] : p2 === p3 ? [p1, p2, 1] : [p1, p2, p3];
 
-  // Restored full prominent scale (0.85 when inactive, 1.05 when active spotlight)
+  // Restored full prominent scale (0.88 when inactive, 1.05 when active spotlight)
   const scale = useTransform(scrollYProgress, keyframes, [
-    idx === 0 ? 1.05 : 0.85,
+    idx === 0 ? 1.05 : 0.88,
     1.05,
-    idx === total - 1 ? 1.05 : 0.85,
+    idx === total - 1 ? 1.05 : 0.88,
   ]);
 
   const opacity = useTransform(scrollYProgress, keyframes, [
@@ -213,14 +214,16 @@ export default function Projects() {
   });
 
   // Horizontal track animation starts from initial middle offset so Card 1 starts centered
+  // Dynamically calculate shift based on total project count
+  const maxShiftPercent = PROJECTS.length > 1 ? -((PROJECTS.length - 1) / PROJECTS.length) * 100 * 0.975 : 0;
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0%", "-62%"]
+    ["0%", `${maxShiftPercent.toFixed(1)}%`]
   );
 
   return (
-    <section id="projects" ref={targetRef} className="relative h-[350vh] bg-dark-300">
+    <section id="projects" ref={targetRef} className="relative h-[480vh] bg-dark-300">
       {/* Sticky viewport container that locks the project section */}
       <div className="sticky top-0 h-screen flex flex-col justify-between overflow-hidden py-6 sm:py-8">
         {/* Ambient background glows */}
