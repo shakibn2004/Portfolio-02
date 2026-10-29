@@ -11,6 +11,8 @@ import { MotionConfig } from "motion/react";
  */
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    // Tell the <head> safety-net script that the app is running
+    document.documentElement.setAttribute("data-ready", "");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 

@@ -92,14 +92,27 @@ const themeScript = `
       var theme = saved || 'dark';
       document.documentElement.setAttribute('data-theme', theme);
     } catch (e) {}
+    // Safety net: if the app hasn't started within 3s, show all content without animation
+    setTimeout(function () {
+      var d = document.documentElement;
+      if (!d.hasAttribute('data-ready')) d.className += ' no-motion';
+    }, 3000);
   })();
 `;
+
+const noScriptCss =
+  '[style*="opacity:0"]:not([aria-hidden]){opacity:1!important}' +
+  '[style*="transform:"]:not([aria-hidden]){transform:none!important}' +
+  '[style*="clip-path:"]:not([aria-hidden]){clip-path:none!important}';
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: noScriptCss }} />
+        </noscript>
       </head>
       <body className="font-sans antialiased">
         <a href="#main" className="skip-link">Skip to content</a>

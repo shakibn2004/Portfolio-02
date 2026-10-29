@@ -386,3 +386,18 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ─── Safety net ──────────────────────────────────────────────────
+   Entrance animations start hidden and are revealed by JavaScript.
+   If JS is blocked, crashes, or the browser is too old to run it,
+   a tiny script in <head> adds .no-motion after 3s (a <noscript>
+   copy covers JS-off), and everything is shown in its final state. */
+html.no-motion [style*="opacity:0"]:not([aria-hidden]) {
+  opacity: 1 !important;
+}
+html.no-motion [style*="transform:"]:not([aria-hidden]) {
+  transform: none !important;
+}
+html.no-motion [style*="clip-path:"]:not([aria-hidden]) {
+  clip-path: none !important;
+}
