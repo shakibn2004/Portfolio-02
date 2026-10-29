@@ -8,7 +8,7 @@ const FACTS = [
   { label: "Experience", value: "2+ years, freelance & client work" },
   { label: "Email", value: "shakibn2004@gmail.com", href: "mailto:shakibn2004@gmail.com" },
   { label: "Phone", value: "+880 9678640848", href: "tel:+8809678640848" },
-  { label: "WhatsApp", value: "+880 1407306010", href: "https://wa.me/8801407306010" },
+  { label: "WhatsApp", value: "+880 1302230277", href: "https://wa.me/8801302230277" },
 ];
 
 const PRINCIPLES = [

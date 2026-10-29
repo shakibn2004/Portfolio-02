@@ -34,6 +34,7 @@ export const SITE = {
   sameAs: [
     "https://github.com/shakibn2004",
     "https://www.linkedin.com/in/shakibn2004/",
+    "https://www.upwork.com/freelancers/~01cb62e6ec492a8827",
     "https://x.com/shakibn2004",
     "https://www.facebook.com/shakibn2004",
     "https://www.youtube.com/@NazmusShakibVlogs",
