@@ -1,352 +1,232 @@
 "use client";
 
 import { useState } from "react";
-import SectionTitle from "./SectionTitle";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Mail, 
-  MapPin, 
-  Clock, 
-  Send, 
-  CheckCircle2, 
-  Sparkles, 
-  Phone, 
-  MessageCircle, 
-  ShieldCheck, 
-  Zap, 
-  Code2, 
-  Layers, 
-  Globe, 
-  Cpu,
-  ArrowRight,
-  ExternalLink
-} from "lucide-react";
+import { ArrowUpRight, Check, Send } from "lucide-react";
+import Reveal from "./Reveal";
 
-import ScrollReveal from "./ScrollReveal";
+const EMAIL = "shakibn2004@gmail.com";
+const WHATSAPP = "8801302230277";
 
-const DIRECT_CONTACTS = [
-  {
-    title: "Email Address",
-    val: "shakibn2004@gmail.com",
-    href: "mailto:shakibn2004@gmail.com",
-    action: "Send Email",
-    icon: Mail,
-    color: "#ffffff",
-    glow: "rgba(255, 255, 255, 0.08)",
-  },
-  {
-    title: "Phone Number",
-    val: "+880 9678640848",
-    href: "tel:+8809678640848",
-    action: "Call Direct",
-    icon: Phone,
-    color: "#e4e4e7",
-    glow: "rgba(255, 255, 255, 0.08)",
-  },
-  {
-    title: "WhatsApp Direct",
-    val: "+880 1302230277",
-    href: "https://wa.me/8801302230277",
-    action: "Chat on WhatsApp",
-    icon: MessageCircle,
-    color: "#d4d4d8",
-    glow: "rgba(255, 255, 255, 0.08)",
-  },
+const CHANNELS = [
+  { label: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
+  { label: "WhatsApp", value: "+880 1302230277", href: `https://wa.me/${WHATSAPP}` },
+  { label: "Phone", value: "+880 9678640848", href: "tel:+8809678640848" },
 ];
 
-const SERVICES = [
-  { icon: Globe, name: "Full-Stack Web Apps", color: "#00f5a0" },
-  { icon: Layers, name: "Next.js & React UI", color: "#3b82f6" },
-  { icon: Cpu, name: "Node.js & Express APIs", color: "#a855f7" },
-  { icon: ShieldCheck, name: "Auth & Security Systems", color: "#f59e0b" },
-  { icon: Zap, name: "Performance Audit", color: "#06b6d4" },
-  { icon: Code2, name: "MongoDB Architecture", color: "#10b981" },
-];
+const TYPES = ["Full-stack app", "Front-end / UI", "Back-end / API", "Consultation"];
+const BUDGETS = ["$200 – $500", "$500 – $1,000", "$1,000 – $3,000", "$3,000 – $5,000", "$5,000+", "Not sure yet"];
+
+const EMPTY = { name: "", email: "", type: TYPES[0], budget: "", message: "" };
+
+function compose(form) {
+  return [
+    `Hi Shakib,`,
+    ``,
+    form.message.trim(),
+    ``,
+    `— ${form.name.trim()}${form.email ? ` (${form.email.trim()})` : ""}`,
+    `Project type: ${form.type}`,
+    form.budget ? `Budget: ${form.budget}` : null,
+  ]
+    .filter((l) => l !== null)
+    .join("\n");
+}
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", projectType: "Full-Stack App", budget: "", message: "" });
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState(EMPTY);
+  const [sentVia, setSentVia] = useState(null);
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSent(true);
-      setForm({ name: "", email: "", projectType: "Full-Stack App", budget: "", message: "" });
-      setTimeout(() => setSent(false), 5000);
-    }, 1200);
+    const subject = `Project inquiry: ${form.type} — ${form.name.trim()}`;
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(compose(form))}`;
+    setSentVia("email");
   };
 
-  const inputCls = `w-full bg-dark-300/80 border border-white/10 rounded-2xl px-4 py-3.5 text-gray-200 text-sm
-    placeholder-gray-500 outline-none focus:border-accent/60 focus:bg-dark-200 focus:ring-1 focus:ring-accent/30 transition-all duration-300
-    font-display `;
+  const sendWhatsApp = (e) => {
+    const formEl = e.currentTarget.form;
+    if (!formEl.reportValidity()) return;
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(compose(form))}`, "_blank", "noopener");
+    setSentVia("whatsapp");
+  };
 
   return (
-    <section id="contact" className="py-24 px-[6%] bg-dark-400 relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-1/4 left-10 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute inset-0 bg-grid bg-grid-60 opacity-30 pointer-events-none" />
-
-      <SectionTitle number="07" title="Hire Me & Contact" />
-
-      {/* 3 Quick Direct Contact Action Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 relative z-10">
-        {DIRECT_CONTACTS.map((item, idx) => {
-          const Icon = item.icon;
-          return (
-            <ScrollReveal key={idx} animation="zoom-in" delay={idx * 0.1} duration={0.6}>
-              <motion.a
-                href={item.href}
-                target={item.href.startsWith("http") ? "_blank" : undefined}
-                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                whileHover={{ y: -6, boxShadow: `0 15px 35px ${item.glow}`, borderColor: item.color }}
-                className="group p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 flex flex-col justify-between space-y-4 shadow-xl transition-all duration-300  relative overflow-hidden h-full"
+    <section id="contact" aria-labelledby="contact-title" className="section border-t border-line">
+      <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-10">
+        {/* Left: invitation + direct channels */}
+        <div className="lg:col-span-5">
+          <h2
+            id="contact-title"
+            className="font-display font-semibold leading-[0.9] tracking-[-0.03em] text-fg"
+            style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)", fontVariationSettings: '"wdth" 88, "opsz" 96' }}
+          >
+            <span className="block overflow-hidden pb-1">
+              <motion.span
+                className="block"
+                initial={{ y: "100%" }}
+                whileInView={{ y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div 
-                  className="absolute top-0 left-0 right-0 h-1"
-                  style={{ background: item.color }}
-                />
+                Let&rsquo;s build
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden pb-1">
+              <motion.span
+                className="block"
+                initial={{ y: "100%" }}
+                whileInView={{ y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
+              >
+                something.
+              </motion.span>
+            </span>
+          </h2>
 
-                <div className="flex items-center justify-between">
-                  <div 
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
-                    style={{ background: `${item.color}15`, borderColor: `${item.color}35`, color: item.color }}
-                  >
-                    <Icon className="w-6 h-6" />
-                  </div>
-
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border text-gray-300"
-                    style={{ background: `${item.color}10`, borderColor: `${item.color}30`, color: item.color }}>
-                    Direct Contact
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs font-mono uppercase text-gray-500 tracking-wider block mb-1">
-                    {item.title}
-                  </span>
-                  <span className="text-lg font-extrabold text-white group-hover:text-accent transition-colors block truncate">
-                    {item.val}
-                  </span>
-                </div>
-
-                <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-bold"
-                  style={{ color: item.color }}>
-                  <span>{item.action}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
-              </motion.a>
-            </ScrollReveal>
-          );
-        })}
-      </div>
-
-      {/* Contact Info & Form Section */}
-      <div className="flex flex-col xl:flex-row gap-12 xl:gap-16 mt-12 relative z-10">
-
-        {/* Left Column — Availability & Services */}
-        <ScrollReveal animation="scale-up" duration={0.8} className="xl:w-[420px] shrink-0 space-y-6">
-          {/* Availability Header Box */}
-          <div className="p-6 rounded-3xl bg-dark-100/90 backdrop-blur-xl border border-white/10 space-y-4 shadow-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono font-bold">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span>Available for Work &amp; Roles</span>
-            </div>
-
-            <h3 className="text-2xl font-extrabold text-white leading-tight">
-              Let&apos;s Build Something <span className="text-gradient font-black">Extraordinary</span>
-            </h3>
-
-            <p className="text-gray-400 text-sm leading-relaxed">
-              I am open for freelance projects, full-time remote developer positions, and technical consultations. Reach out directly or send a project inquiry.
+          <Reveal delay={0.15}>
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
+              Open to freelance projects, remote roles and technical consultations. I usually reply within
+              12 hours.
             </p>
+          </Reveal>
 
-            <div className="pt-3 border-t border-white/10 space-y-2.5 text-xs text-gray-300">
-              <div className="flex items-center gap-2.5">
-                <MapPin className="w-4 h-4 text-accent shrink-0" />
-                <span>Location: <strong>Khulna, Bangladesh</strong></span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-purple shrink-0" />
-                <span>Response Time: <strong>Within 12 Hours</strong></span>
-              </div>
-            </div>
-          </div>
-
-          {/* Services Stack */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-mono uppercase text-gray-500 tracking-widest px-1">
-              Services &amp; Capabilities
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {SERVICES.map((s, idx) => {
-                const Icon = s.icon;
-                return (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ scale: 1.03, borderColor: `${s.color}44` }}
-                    className="flex items-center gap-2.5 bg-dark-100/60 border border-white/5 rounded-xl px-3 py-2.5 transition-all duration-200 "
+          <Reveal delay={0.2}>
+            <ul className="mt-10 divide-y divide-line border-y border-line">
+              {CHANNELS.map((c) => (
+                <li key={c.label}>
+                  <a
+                    href={c.href}
+                    {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="group flex items-center justify-between gap-4 py-5"
                   >
-                    <Icon className="w-4 h-4 shrink-0" style={{ color: s.color }} />
-                    <span className="text-xs font-medium text-gray-300 line-clamp-1">
-                      {s.name}
+                    <span>
+                      <span className="block text-sm text-subtle">{c.label}</span>
+                      <span className="mt-0.5 block text-lg text-fg transition-colors group-hover:text-signal sm:text-xl">
+                        {c.value}
+                      </span>
                     </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </ScrollReveal>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line-strong transition-all duration-500 ease-out-expo group-hover:rotate-45 group-hover:border-signal group-hover:bg-signal group-hover:text-signal-ink">
+                      <ArrowUpRight className="h-4 w-4" />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
 
-        {/* Right Column — Project Inquiry Form with Scroll Zoom-In */}
-        <ScrollReveal 
-          animation="zoom-in" 
-          delay={0.15} 
-          duration={0.8}
-          className="flex-1 bg-dark-100/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative"
-        >
-          {/* Form Top Title */}
-          <div className="space-y-1 pb-4 border-b border-white/10">
-            <div className="flex items-center gap-2 text-accent font-mono text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" />
-              <span>Project Inquiry</span>
-            </div>
-            <h3 className="text-2xl font-extrabold text-white">
-              Send a Direct Message
-            </h3>
-            <p className="text-xs text-gray-400">
-              Fill out the form below and I will respond within 12 hours with a proposal.
+        {/* Right: project inquiry */}
+        <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
+          <form
+            onSubmit={sendEmail}
+            className="rounded-[28px] border border-line bg-surface p-6 sm:p-10"
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <h3 className="text-2xl font-semibold tracking-tight text-fg">Tell me about your project</h3>
+            <p className="mt-2 text-muted">
+              This opens your email app (or WhatsApp) with everything filled in — just press send.
             </p>
-          </div>
 
-          <AnimatePresence>
-            {sent && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-accent/15 border border-accent/40 text-accent rounded-2xl px-5 py-4 text-sm font-semibold flex items-center gap-3 shadow-lg"
-              >
-                <CheckCircle2 className="w-5 h-5 shrink-0" />
-                <span>Message received! Thank you, I will get back to you shortly.</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name & Email Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-mono font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                  Your Name *
-                </label>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-2 block text-sm text-muted">Your name</span>
+                <input required className="field" autoComplete="name" value={form.name} onChange={set("name")} />
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-sm text-muted">Email</span>
                 <input
-                  className={inputCls}
-                  placeholder="e.g. Shakib Ahmed"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-mono font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                  Email Address *
-                </label>
-                <input
                   type="email"
-                  className={inputCls}
-                  placeholder="e.g. shakib@company.com"
+                  className="field"
+                  autoComplete="email"
                   value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
+                  onChange={set("email")}
                 />
-              </div>
+              </label>
             </div>
 
-            {/* Project Type Selector Tags */}
-            <div>
-              <label className="block text-xs font-mono font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                Project Type
-              </label>
+            <fieldset className="mt-6">
+              <legend className="mb-2 text-sm text-muted">What do you need?</legend>
               <div className="flex flex-wrap gap-2">
-                {["Full-Stack App", "Frontend UI", "Backend API", "Consultation"].map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    onClick={() => setForm({ ...form, projectType: type })}
-                    className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all duration-200  ${
-                      form.projectType === type
-                        ? "bg-accent/15 border-accent text-accent shadow-md"
-                        : "bg-dark-300/60 border-white/10 text-gray-400 hover:text-white hover:border-white/20"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
+                {TYPES.map((t) => {
+                  const on = form.type === t;
+                  return (
+                    <label
+                      key={t}
+                      className={`relative cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-signal ${
+                        on ? "border-fg bg-fg text-on-fg" : "border-line-strong text-fg hover:border-fg"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="type"
+                        value={t}
+                        checked={on}
+                        onChange={set("type")}
+                        className="sr-only"
+                      />
+                      {t}
+                    </label>
+                  );
+                })}
               </div>
-            </div>
+            </fieldset>
 
-            {/* Budget Select */}
-            <div>
-              <label className="block text-xs font-mono font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                Estimated Budget (USD)
-              </label>
-              <select
-                className={inputCls}
-                value={form.budget}
-                onChange={(e) => setForm({ ...form, budget: e.target.value })}
-              >
-                <option value="" disabled>Select estimated budget...</option>
-                <option>$200 – $500</option>
-                <option>$500 – $1,000</option>
-                <option>$1,000 – $3,000</option>
-                <option>$3,000 – $5,000</option>
-                <option>$5,000+</option>
-                <option>Let&apos;s discuss</option>
+            <label className="mt-6 block">
+              <span className="mb-2 block text-sm text-muted">Budget (USD, optional)</span>
+              <select className="field appearance-none" value={form.budget} onChange={set("budget")}>
+                <option value="">Select a range</option>
+                {BUDGETS.map((b) => (
+                  <option key={b}>{b}</option>
+                ))}
               </select>
-            </div>
+            </label>
 
-            {/* Message Textarea */}
-            <div>
-              <label className="block text-xs font-mono font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                Project Overview &amp; Requirements *
-              </label>
+            <label className="mt-6 block">
+              <span className="mb-2 block text-sm text-muted">Project details</span>
               <textarea
-                className={`${inputCls} resize-none`}
-                rows={5}
-                placeholder="Describe your project goals, key features, timeline expectations..."
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
                 required
+                rows={5}
+                className="field resize-none"
+                placeholder="Goals, key features, timeline…"
+                value={form.message}
+                onChange={set("message")}
               />
+            </label>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button type="submit" className="btn btn-solid flex-1">
+                <Send className="h-4 w-4" />
+                Send by email
+              </button>
+              <button type="button" onClick={sendWhatsApp} className="btn btn-ghost flex-1">
+                Send on WhatsApp
+              </button>
             </div>
 
-            {/* Submit Button */}
-            <motion.button 
-              type="submit" 
-              disabled={loading}
-              whileHover={loading ? {} : { scale: 1.02, boxShadow: "0 0 25px rgba(0, 245, 160, 0.4)" }}
-              whileTap={loading ? {} : { scale: 0.98 }}
-              className={`btn-primary w-full flex items-center justify-center gap-2 text-sm py-4 font-bold 
-                ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
-            >
-              {loading ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  <span>Sending Message...</span>
-                </>
-              ) : (
-                <>
-                  <span>Send Message</span>
-                  <Send className="w-4 h-4" />
-                </>
+            <AnimatePresence>
+              {sentVia && (
+                <motion.p
+                  role="status"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="overflow-hidden"
+                >
+                  <span className="mt-5 flex items-start gap-2 text-sm text-muted">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                    {sentVia === "email"
+                      ? `Your email app should now be open with the message ready. If nothing opened, email me directly at ${EMAIL}.`
+                      : "WhatsApp opened in a new tab with your message ready to send."}
+                  </span>
+                </motion.p>
               )}
-            </motion.button>
+            </AnimatePresence>
           </form>
-        </ScrollReveal>
+        </Reveal>
       </div>
     </section>
   );

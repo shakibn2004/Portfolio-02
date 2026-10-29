@@ -1,33 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { FaGithub } from "react-icons/fa6";
 import { PROJECTS } from "@/data/projectsData";
 import { SITE } from "@/lib/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
-import { FaGithub } from "react-icons/fa6";
-import { 
-  ArrowLeft, 
-  ExternalLink, 
-  Layers, 
-  AlertTriangle, 
-  Rocket, 
-  CheckCircle2, 
-  Code2, 
-  Globe 
-} from "lucide-react";
+import Reveal from "@/components/Reveal";
 
 export async function generateStaticParams() {
-  return PROJECTS.map((project) => ({
-    id: project.id,
-  }));
+  return PROJECTS.map((project) => ({ id: project.id }));
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const project = PROJECTS.find((p) => p.id === id);
-  if (!project) return { title: "Project Not Found" };
+  if (!project) return { title: "Project not found" };
   const title = `${project.title}`;
   const url = `/projects/${project.id}`;
   return {
@@ -53,11 +42,10 @@ export async function generateMetadata({ params }) {
 
 export default async function ProjectDetailPage({ params }) {
   const { id } = await params;
-  const project = PROJECTS.find((p) => p.id === id);
-
-  if (!project) {
-    notFound();
-  }
+  const index = PROJECTS.findIndex((p) => p.id === id);
+  if (index === -1) notFound();
+  const project = PROJECTS[index];
+  const next = PROJECTS[(index + 1) % PROJECTS.length];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -81,221 +69,148 @@ export default async function ProjectDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <CustomCursor />
       <Navbar />
 
-      <main className="min-h-screen bg-dark-400 text-gray-100 pt-28 pb-20 px-[5%] relative overflow-hidden">
-        {/* Background Grid & Glows */}
-        <div className="absolute inset-0 bg-grid bg-grid-60 pointer-events-none opacity-40" />
-        <div
-          className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full blur-[140px] pointer-events-none opacity-20"
-          style={{ background: project.color }}
-        />
-
-        <div className="max-w-6xl mx-auto relative z-10 space-y-12">
-          {/* Top Bar / Navigation */}
-          <div className="flex items-center justify-between">
-            <Link
-              href="/#projects"
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-dark-100 border border-white/10 text-gray-300 hover:text-accent hover:border-accent/40 transition-all duration-200 text-sm font-semibold group"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              Back to Projects
+      <main id="main" className="grain pt-28 sm:pt-36">
+        <article>
+          {/* Header */}
+          <header className="shell">
+            <Link href="/#projects" className="group inline-flex items-center gap-2 text-sm text-muted hover:text-fg">
+              <ArrowLeft className="h-4 w-4 transition-transform duration-500 ease-out-expo group-hover:-translate-x-1" />
+              All work
             </Link>
 
-            <span
-              className="px-3.5 py-1 rounded-full text-xs font-mono font-semibold border"
-              style={{
-                color: project.color,
-                borderColor: `${project.color}44`,
-                background: `${project.color}15`,
-              }}
-            >
-              {project.status} Project
-            </span>
-          </div>
-
-          {/* Hero Header */}
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              {project.title}
-            </h1>
-            <p className="text-xl md:text-2xl font-medium text-gray-400 max-w-3xl leading-relaxed">
-              {project.tagline}
-            </p>
-          </div>
-
-          {/* Image & Action Header Card */}
-          <div className="bg-dark-100/90 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] bg-dark-300 overflow-hidden">
-              <Image
-                src={project.image}
-                alt={project.name}
-                fill
-                priority
-                unoptimized
-                className="object-cover object-top hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-100 via-transparent to-transparent opacity-80" />
+            <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <h1
+                  className="font-display text-[clamp(3.5rem,14vw,9rem)] font-semibold leading-[0.88] tracking-[-0.03em] text-fg"
+                  style={{ fontVariationSettings: '"wdth" 86, "opsz" 96' }}
+                >
+                  {project.name}
+                </h1>
+                <p className="mt-6 max-w-2xl text-xl leading-relaxed text-muted sm:text-2xl">{project.tagline}</p>
+              </div>
+              <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
+                <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
+                  Visit live site
+                  <ArrowUpRight className="btn-icon h-4 w-4" />
+                </a>
+                <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                  <FaGithub className="h-4 w-4" />
+                  Code
+                </a>
+              </div>
             </div>
 
-            {/* Quick Action Links */}
-            <div className="p-6 md:p-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 bg-dark-200/50">
-              <div className="flex items-center gap-3">
-                <span
-                  className="w-3 h-3 rounded-full animate-pulse"
-                  style={{ background: project.color }}
+            <dl className="mt-12 grid grid-cols-2 gap-y-6 border-t border-line pt-6 text-sm sm:grid-cols-4">
+              <div>
+                <dt className="text-subtle">Status</dt>
+                <dd className="mt-1 inline-flex items-center gap-2 text-fg">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  {project.status}
+                </dd>
+              </div>
+              <div className="col-span-1 sm:col-span-3">
+                <dt className="text-subtle">Stack</dt>
+                <dd className="mt-1 text-fg">{project.tech.join(", ")}</dd>
+              </div>
+            </dl>
+          </header>
+
+          {/* Hero image */}
+          <div className="shell mt-12 sm:mt-16">
+            <Reveal y={40}>
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[28px] border border-line bg-surface sm:aspect-[16/9]">
+                <Image
+                  src={project.image}
+                  alt={`${project.name} — landing page`}
+                  fill
+                  priority
+                  sizes="(min-width: 1280px) 1180px, 100vw"
+                  className="object-cover object-top"
                 />
-                <span className="text-sm font-mono text-gray-400">
-                  Client Repository &amp; Live Deployment
-                </span>
               </div>
-
-              <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-black transition-all duration-200 hover:opacity-90 shadow-lg"
-                  style={{
-                    background: project.color,
-                    boxShadow: `0 8px 24px ${project.accentGlow}`,
-                  }}
-                >
-                  <Globe className="w-4 h-4" />
-                  Live Project Demo
-                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-                </a>
-
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-gray-200 border border-white/15 hover:border-white/40 hover:text-white bg-white/5 hover:bg-white/10 transition-all duration-200"
-                >
-                  <FaGithub className="w-4 h-4" />
-                  GitHub Repository (Client)
-                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-                </a>
-              </div>
-            </div>
+            </Reveal>
           </div>
 
-          {/* Main Info Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column (Description & Details) */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Brief Description */}
-              <section className="bg-dark-100/70 border border-white/10 rounded-2xl p-6 md:p-8 space-y-4">
-                <div className="flex items-center gap-3 text-accent font-mono text-sm font-bold uppercase tracking-wider">
-                  <Code2 className="w-5 h-5" />
-                  <span>Overview &amp; Purpose</span>
-                </div>
-                <p className="text-gray-300 text-base md:text-lg leading-[1.85] font-normal">
-                  {project.desc}
-                </p>
+          {/* Body */}
+          <div className="shell section grid gap-16 lg:grid-cols-12 lg:gap-10">
+            <div className="space-y-20 lg:col-span-7">
+              <section aria-labelledby="overview">
+                <h2 id="overview" className="text-3xl font-semibold tracking-tight text-fg">Overview</h2>
+                <p className="mt-5 text-lg leading-relaxed text-muted">{project.desc}</p>
               </section>
 
-              {/* Challenges Faced */}
-              <section className="bg-dark-100/70 border border-white/10 rounded-2xl p-6 md:p-8 space-y-6">
-                <div className="flex items-center gap-3 text-amber-400 font-mono text-sm font-bold uppercase tracking-wider">
-                  <AlertTriangle className="w-5 h-5" />
-                  <span>Challenges Faced During Development</span>
-                </div>
-
-                <div className="space-y-4">
-                  {project.challenges.map((challenge, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 hover:border-amber-400/30 transition-colors"
-                    >
-                      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-400/10 text-amber-400 font-mono text-xs font-bold shrink-0 mt-0.5">
-                        0{idx + 1}
-                      </span>
-                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                        {challenge}
-                      </p>
-                    </div>
+              <section aria-labelledby="challenges">
+                <h2 id="challenges" className="text-3xl font-semibold tracking-tight text-fg">The hard parts</h2>
+                <ol className="mt-6 divide-y divide-line border-y border-line">
+                  {project.challenges.map((c, i) => (
+                    <li key={i} className="grid grid-cols-[40px_1fr] gap-4 py-6">
+                      <span className="font-mono text-sm tabular-nums text-subtle">{String(i + 1).padStart(2, "0")}</span>
+                      <p className="leading-relaxed text-fg/85">{c}</p>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </section>
 
-              {/* Potential Improvements & Future Plans */}
-              <section className="bg-dark-100/70 border border-white/10 rounded-2xl p-6 md:p-8 space-y-6">
-                <div className="flex items-center gap-3 text-purple font-mono text-sm font-bold uppercase tracking-wider">
-                  <Rocket className="w-5 h-5" />
-                  <span>Potential Improvements &amp; Future Plans</span>
-                </div>
-
-                <div className="space-y-4">
-                  {project.improvements.map((improvement, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-4 p-4 rounded-xl bg-dark-200/80 border border-white/5 hover:border-purple/30 transition-colors"
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-purple shrink-0 mt-0.5" />
-                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                        {improvement}
-                      </p>
-                    </div>
+              <section aria-labelledby="next-steps">
+                <h2 id="next-steps" className="text-3xl font-semibold tracking-tight text-fg">What I&rsquo;d build next</h2>
+                <ul className="mt-6 space-y-4">
+                  {project.improvements.map((imp, i) => (
+                    <li key={i} className="flex gap-4 leading-relaxed text-muted">
+                      <span aria-hidden className="mt-3 h-px w-4 shrink-0 bg-line-strong" />
+                      {imp}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </section>
             </div>
 
-            {/* Right Column (Tech Stack & Links Card) */}
-            <div className="space-y-8">
-              {/* Technology Stack */}
-              <section className="bg-dark-100/70 border border-white/10 rounded-2xl p-6 md:p-8 space-y-6 sticky top-28">
-                <div className="flex items-center gap-3 text-accent font-mono text-sm font-bold uppercase tracking-wider">
-                  <Layers className="w-5 h-5" />
-                  <span>Main Technology Stack</span>
-                </div>
-
-                <div className="flex flex-wrap gap-2.5">
+            <aside className="lg:col-span-4 lg:col-start-9">
+              <div className="rounded-3xl border border-line bg-surface p-7 lg:sticky lg:top-28">
+                <h2 className="text-lg font-semibold tracking-tight text-fg">Built with</h2>
+                <ul className="mt-4 flex flex-wrap gap-2">
                   {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="px-3.5 py-1.5 rounded-xl border text-sm font-semibold transition-all duration-200 hover:scale-105"
-                      style={{
-                        color: project.color,
-                        borderColor: `${project.color}44`,
-                        background: `${project.color}12`,
-                      }}
-                    >
+                    <li key={t} className="rounded-full border border-line px-3 py-1 text-[13px] text-muted">
                       {t}
-                    </span>
+                    </li>
                   ))}
-                </div>
-
-                <div className="pt-6 border-t border-white/10 space-y-3">
-                  <h4 className="text-xs font-mono uppercase text-gray-500 tracking-wider">
-                    Quick Links
-                  </h4>
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white hover:border-accent/40 text-sm transition-all"
-                  >
-                    <span className="font-semibold">Live Web App</span>
-                    <ExternalLink className="w-4 h-4 text-gray-400" />
+                </ul>
+                <div className="mt-7 space-y-1 border-t border-line pt-5 text-[15px]">
+                  <a href={project.live} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-2 text-fg">
+                    <span className="link-draw">Live site</span>
+                    <ArrowUpRight className="h-4 w-4 text-subtle transition-colors group-hover:text-signal" />
                   </a>
-
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl bg-dark-200 border border-white/5 text-gray-300 hover:text-white hover:border-accent/40 text-sm transition-all"
-                  >
-                    <span className="font-semibold">GitHub Client Source</span>
-                    <FaGithub className="w-4 h-4 text-gray-400" />
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-2 text-fg">
+                    <span className="link-draw">Source code</span>
+                    <FaGithub className="h-4 w-4 text-subtle transition-colors group-hover:text-signal" />
                   </a>
                 </div>
-              </section>
-            </div>
+                <Link href="/#contact" className="btn btn-solid mt-6 w-full">
+                  Start a similar project
+                </Link>
+              </div>
+            </aside>
           </div>
-        </div>
+        </article>
+
+        {/* Next project */}
+        <nav aria-label="Next project" className="border-t border-line">
+          <Link href={`/projects/${next.id}`} className="group shell flex items-center justify-between gap-6 py-16 sm:py-24">
+            <span>
+              <span className="block text-sm text-muted">Next project</span>
+              <span
+                className="mt-2 block font-display text-[clamp(2.5rem,9vw,6.5rem)] font-semibold leading-none tracking-[-0.03em] text-fg transition-colors duration-500 group-hover:text-signal"
+                style={{ fontVariationSettings: '"wdth" 86, "opsz" 96' }}
+              >
+                {next.name}
+              </span>
+            </span>
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-line-strong transition-all duration-500 ease-out-expo group-hover:border-signal group-hover:bg-signal group-hover:text-signal-ink sm:h-20 sm:w-20">
+              <ArrowRight className="h-6 w-6 transition-transform duration-500 ease-out-expo group-hover:translate-x-1" />
+            </span>
+          </Link>
+        </nav>
       </main>
 
       <Footer />

@@ -1,21 +1,33 @@
 import "./globals.css";
-import { Outfit, Space_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
+import SmoothScroll from "@/components/SmoothScroll";
 import { SITE } from "@/lib/site";
 
-const outfit = Outfit({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  axes: ["opsz", "wdth"],
+  variable: "--ff-display",
+  display: "swap",
 });
 
-const spaceMono = Space_Mono({
+const sans = Geist({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-mono",
+  variable: "--ff-sans",
+  display: "swap",
+});
+
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--ff-mono",
+  display: "swap",
 });
 
 export const viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0c0d10" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f2" },
+  ],
 };
 
 export const metadata = {
@@ -83,13 +95,14 @@ const themeScript = `
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="bg-dark-400 text-gray-100 font-display antialiased">
+      <body className="font-sans antialiased">
+        <a href="#main" className="skip-link">Skip to content</a>
         <ThemeProvider>
-          {children}
+          <SmoothScroll>{children}</SmoothScroll>
         </ThemeProvider>
       </body>
     </html>

@@ -1,253 +1,198 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { 
-  Sparkles, 
-  ArrowUpRight, 
-  Menu, 
-  X, 
-  Code2, 
-  Terminal, 
-  User, 
-  Layers, 
-  Briefcase, 
-  Send 
-} from "lucide-react";
+import Logo from "./Logo";
+import { scrollToSection } from "./SmoothScroll";
 
 const NAV_ITEMS = [
-  { id: "Home", label: "Home", icon: Terminal },
-  { id: "About", label: "About", icon: User },
-  { id: "Skills", label: "Skills", icon: Code2 },
-  { id: "Projects", label: "Projects", icon: Layers },
-  { id: "Strategy", label: "Strategy", icon: Briefcase },
-  { id: "Contact", label: "Contact", icon: Send },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Work" },
+  { id: "process", label: "Process" },
+  { id: "contact", label: "Contact" },
 ];
+
+const ease = [0.16, 1, 0.3, 1];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
+  const onHome = pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-      // Section Scroll-Spy for active link highlight on home page
-      if (pathname === "/") {
-        const scrollPosition = window.scrollY + 220; // Navbar offset threshold
-        const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
-
-        if (isAtBottom) {
-          setActive("Contact");
-          return;
-        }
-
-        for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
-          const item = NAV_ITEMS[i];
-          const el = document.getElementById(item.id.toLowerCase());
-          if (el) {
-            const absoluteTop = el.getBoundingClientRect().top + window.scrollY;
-            if (scrollPosition >= absoluteTop - 50) {
-              setActive(item.id);
-              break;
-            }
-          }
-        }
-      }
+  // Scroll-spy: the section crossing the upper third of the viewport is "active"
+  useEffect(() => {
+    if (!onHome) return;
+    const els = NAV_ITEMS.map((n) => document.getElementById(n.id)).filter(Boolean);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-35% 0px -60% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    const top = () => window.scrollY < 200 && setActive(null);
+    window.addEventListener("scroll", top, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", top);
     };
+  }, [onHome]);
 
-    handleScroll(); // Initial check on mount
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
+  // Lock page scroll while the mobile menu is open
+  useEffect(() => {
+    if (menuOpen) window.__lenis?.stop();
+    else window.__lenis?.start();
+    document.documentElement.style.overflow = menuOpen ? "hidden" : "";
+  }, [menuOpen]);
 
-  const handleNav = (id) => {
-    const targetId = id.toLowerCase();
-    setActive(id);
+  const go = (id) => {
     setMenuOpen(false);
-
-    if (pathname === "/") {
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      router.push(`/#${targetId}`);
-    }
-  };
-
-  const handleLogoClick = () => {
-    setActive("Home");
-    setMenuOpen(false);
-    if (pathname === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      router.push("/");
-    }
+    if (onHome) scrollToSection(id);
+    else router.push(id === "home" ? "/" : `/#${id}`);
   };
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "pt-3 px-4 sm:px-8" : "pt-5 px-6 sm:px-12"
-        }`}
+      <motion.header
+        initial={{ y: -24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease, delay: 0.9 }}
+        className="fixed inset-x-0 top-0 z-50"
       >
         <div
-          className={`mx-auto flex items-center justify-between transition-all duration-500 ${
-            scrolled
-              ? "max-w-6xl bg-dark-100/80 backdrop-blur-2xl border border-white/15 rounded-full px-6 py-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.6)]"
-              : "max-w-7xl bg-dark-400/40 backdrop-blur-md border border-white/5 rounded-2xl px-6 py-3"
+          className={`transition-[background-color,border-color,backdrop-filter] duration-500 border-b ${
+            scrolled || menuOpen
+              ? "bg-canvas/75 backdrop-blur-xl border-line"
+              : "bg-transparent border-transparent"
           }`}
         >
-          {/* Brand Logo */}
-          <button
-            onClick={handleLogoClick}
-            className="flex items-center gap-3 text-left group "
-          >
-            <div className="relative w-10 h-10 rounded-xl bg-dark-200 border border-white/15 flex items-center justify-center group-hover:border-accent/60 transition-all duration-300 shadow-md overflow-hidden brand-logo-container">
-              <div className="absolute inset-0 bg-gradient-to-tr from-accent/10 via-transparent to-purple/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <Image
-                src="/logo-concept-2.svg"
-                alt="Shakib Logo"
-                width={22}
-                height={22}
-                className="w-5 h-5 object-contain group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-white text-base leading-tight tracking-tight group-hover:text-accent transition-colors">
-                  Shakib<span className="text-accent">.dev</span>
-                </span>
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                </span>
-              </div>
-              <span className="text-[10px] font-mono text-gray-400 tracking-wider">
-                FULL-STACK ENGINEER
-              </span>
-            </div>
-          </button>
-
-          {/* Desktop Navigation Links Pill Container */}
-          <nav className="hidden md:flex items-center gap-1 bg-dark-200/60 p-1.5 rounded-full border border-white/8">
-            {NAV_ITEMS.map((item) => {
-              const isActive = active === item.id && pathname === "/";
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`relative px-4 py-1.5 text-xs font-semibold rounded-full transition-colors duration-300  ${
-                    isActive ? "text-accent" : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activePill"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute inset-0 bg-accent/15 border border-accent/40 rounded-full"
-                    />
-                  )}
-                  <span className="relative z-10">{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right Action: Theme Switcher & Hire Me CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <ThemeToggle />
-            <motion.button
-              onClick={() => handleNav("Contact")}
-              whileHover={{ scale: 1.04, boxShadow: "0 0 20px var(--theme-accent)" }}
-              whileTap={{ scale: 0.96 }}
-              className="relative group px-5 py-2 rounded-full font-bold text-xs bg-dark-100/90 backdrop-blur-md border border-white/15 hover:border-accent/60 transition-all duration-300 shadow-lg flex items-center gap-2 overflow-hidden "
+          <div className="shell flex h-16 items-center justify-between gap-6">
+            <button
+              onClick={() => go("home")}
+              className="flex items-center gap-2.5 rounded-lg"
+              aria-label="Nazmus Shakib — back to top"
             >
-              {/* Subtle ambient gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/15 via-purple/15 to-accent/10 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Pulsing indicator dot */}
-              <span className="relative flex h-2 w-2 z-10">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+              <span className="grid h-8 w-8 place-items-center rounded-lg border border-line-strong bg-surface text-fg">
+                <Logo className="h-[18px] w-[18px]" />
               </span>
+              <span className="font-display text-[17px] font-semibold tracking-tight">Nazmus Shakib</span>
+            </button>
 
-              <span className="relative z-10 text-white tracking-wide">Hire Me</span>
-              <ArrowUpRight className="w-3.5 h-3.5 relative z-10 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </motion.button>
+            <nav aria-label="Primary" className="hidden md:block">
+              <ul className="flex items-center gap-1">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = onHome && active === item.id;
+                  return (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => go(item.id)}
+                        aria-current={isActive ? "true" : undefined}
+                        className={`relative rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300 ${
+                          isActive ? "text-fg" : "text-muted hover:text-fg"
+                        }`}
+                      >
+                        {isActive && (
+                          <motion.span
+                            layoutId="nav-active"
+                            transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                            className="absolute inset-0 rounded-full bg-raised"
+                          />
+                        )}
+                        <span className="relative">{item.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button onClick={() => go("contact")} className="btn btn-solid hidden h-9 px-4 text-sm md:inline-flex">
+                Hire me
+                <ArrowUpRight className="btn-icon h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                className="relative grid h-9 w-9 place-items-center rounded-full border border-line-strong md:hidden"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+              >
+                <span className="sr-only">Menu</span>
+                <span
+                  className={`absolute h-px w-4 bg-fg transition-transform duration-500 ease-out-expo ${
+                    menuOpen ? "rotate-45" : "-translate-y-[3px]"
+                  }`}
+                />
+                <span
+                  className={`absolute h-px w-4 bg-fg transition-transform duration-500 ease-out-expo ${
+                    menuOpen ? "-rotate-45" : "translate-y-[3px]"
+                  }`}
+                />
+              </button>
+            </div>
           </div>
-
-          {/* Mobile Menu Trigger Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 rounded-xl bg-dark-200 border border-white/10 text-white hover:text-accent transition-colors "
-            aria-label="Toggle Navigation Menu"
-          >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Mobile Drawer Sheet Navigation */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-x-4 top-20 z-40 md:hidden bg-dark-100/98 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-2xl "
+            key="mobile-menu"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.6, ease }}
+            className="fixed inset-0 z-40 flex flex-col bg-canvas pt-24 md:hidden"
           >
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-2">
-                <span className="text-xs font-mono font-bold uppercase text-gray-400">
-                  Select Theme
-                </span>
-                <ThemeToggle compact={false} />
-              </div>
-
-              {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive = active === item.id && pathname === "/";
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNav(item.id)}
-                    className={`flex items-center justify-between py-3 px-4 rounded-xl text-sm font-semibold transition-all  ${
-                      isActive
-                        ? "bg-accent/15 border border-accent/40 text-accent"
-                        : "text-gray-300 hover:bg-white/5 hover:text-white border border-transparent"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className={`w-4 h-4 ${isActive ? "text-accent" : "text-gray-500"}`} />
-                      <span>{item.label}</span>
-                    </div>
-                    {isActive && <Sparkles className="w-4 h-4 text-accent" />}
-                  </button>
-                );
-              })}
-
-              <button
-                onClick={() => handleNav("Contact")}
-                className="btn-primary mt-4 py-3 text-center text-xs font-bold w-full flex items-center justify-center gap-2 "
-              >
-                <span>Hire Me</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
-            </div>
+            <nav aria-label="Mobile" className="shell flex-1">
+              <ul className="space-y-1">
+                {NAV_ITEMS.map((item, i) => (
+                  <li key={item.id} className="overflow-hidden">
+                    <motion.button
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      transition={{ duration: 0.7, ease, delay: 0.15 + i * 0.05 }}
+                      onClick={() => go(item.id)}
+                      className="font-display block py-1 text-5xl font-semibold tracking-tight"
+                      style={{ fontVariationSettings: '"wdth" 90' }}
+                    >
+                      {item.label}
+                    </motion.button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45 }}
+              className="shell border-t border-line py-6 text-sm text-muted"
+            >
+              <a href="mailto:shakibn2004@gmail.com" className="text-fg">
+                shakibn2004@gmail.com
+              </a>
+              <p className="mt-1">Khulna, Bangladesh</p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
 }
-

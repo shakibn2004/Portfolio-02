@@ -1,327 +1,206 @@
 "use client";
-import { useRef } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Profitional from '../../public/Profissional-image.png';
-import { Download } from "lucide-react";
-import { FaNodeJs, FaReact } from "react-icons/fa";
-import { SiNextdotjs, SiTypescript, SiPostgresql } from "react-icons/si";
-import { BiLogoMongodb } from "react-icons/bi";
-import { motion, useMotionValue, useMotionTemplate, useSpring, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
+import { ArrowDown, Download } from "lucide-react";
+import portrait from "../../public/Profissional-image.png";
+import { scrollToSection } from "./SmoothScroll";
 
-import Scroll3DFly from "./Scroll3DFly";
+const ease = [0.16, 1, 0.3, 1];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.15,
-    },
-  },
-};
+const STATS = [
+  { value: "2+", label: "years building for the web" },
+  { value: "30+", label: "projects shipped" },
+  { value: "10+", label: "happy clients" },
+];
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.94 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 90,
-      damping: 16,
-    },
-  },
-};
+/** Live local time in Khulna — helps international clients plan calls */
+function LocalTime() {
+  const [time, setTime] = useState(null);
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Dhaka",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+    const tick = () => setTime(fmt.format(new Date()));
+    tick();
+    const id = setInterval(tick, 15000);
+    return () => clearInterval(id);
+  }, []);
+  return <span className="tabular-nums">{time ?? "—"}</span>;
+}
+
+/** A line of the name that rises out of a mask on load */
+function RevealLine({ children, delay }) {
+  return (
+    <span className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
+      <motion.span
+        className="block"
+        initial={{ y: "105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1.1, ease, delay }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
 
 export default function Hero() {
-  const sectionRef = useRef(null);
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const nameY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
-  // Scroll Progress linked transformations
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroScaleRaw = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-  const heroOpacityRaw = useTransform(scrollYProgress, [0, 0.85], [1, 0.2]);
-  const heroYRaw = useTransform(scrollYProgress, [0, 1], [0, 80]);
-
-  const heroScale = useSpring(heroScaleRaw, { stiffness: 100, damping: 20 });
-  const heroOpacity = useSpring(heroOpacityRaw, { stiffness: 100, damping: 20 });
-  const heroY = useSpring(heroYRaw, { stiffness: 100, damping: 20 });
-
-  // Motion values for spotlight tracking
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth springs for spotlight movement
-  const spotlightX = useSpring(mouseX, { stiffness: 120, damping: 25 });
-  const spotlightY = useSpring(mouseY, { stiffness: 120, damping: 25 });
-
-  function handleMouseMove({ clientX, clientY, currentTarget }) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  // Gentle pointer-follow tilt on the portrait panel (desktop pointers only)
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const rotateX = useSpring(rx, { stiffness: 120, damping: 18 });
+  const rotateY = useSpring(ry, { stiffness: 120, damping: 18 });
+  const onMove = (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 6);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 6);
+  };
+  const onLeave = () => {
+    rx.set(0);
+    ry.set(0);
   };
 
-  // Custom code snippet for the mockup terminal
-  const codeLines = [
-    { line: 1, content: "const developer = {", indent: 0 },
-    { line: 2, content: "name: 'Md. Nazmus Shakib',", indent: 2, isString: true },
-    { line: 3, content: "stack: ['MERN', 'TypeScript', 'Postgres'],", indent: 2 },
-    { line: 4, content: "codeQuality: 'SOLID & Clean',", indent: 2, isString: true },
-    { line: 5, content: "deliversOnTime: true,", indent: 2, isKeyword: true },
-    { line: 6, content: "passion: () => 'Turning ideas into code'", indent: 2 },
-    { line: 7, content: "};", indent: 0 }
-  ];
-
   return (
-    <section
-      ref={sectionRef}
-      id="home"
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex flex-col lg:flex-row items-center justify-between px-[6%] pt-32 pb-16 gap-12 overflow-hidden bg-dark-400"
-    >
-      <motion.div 
-        style={{ scale: heroScale, opacity: heroOpacity, y: heroY }}
-        className="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-12"
-      >
-      {/* Interactive Spotlight Background */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-0"
-        style={{
-          background: useMotionTemplate`radial-gradient(500px circle at ${spotlightX}px ${spotlightY}px, rgba(0, 245, 160, 0.08), transparent 75%)`
-        }}
+    <section ref={ref} id="home" className="relative overflow-hidden pt-28 sm:pt-32">
+      {/* soft light behind the portrait */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 top-0 h-[720px] w-[720px] rounded-full opacity-60 blur-3xl"
+        style={{ background: "radial-gradient(closest-side, color-mix(in srgb, var(--signal) 22%, transparent), transparent)" }}
       />
 
-      {/* Grid BG */}
-      <div className="absolute inset-0 bg-grid bg-grid-60 pointer-events-none z-0 opacity-80" />
+      <div className="shell relative">
+        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* Left: name + intro */}
+          <motion.div style={{ y: nameY }} className="lg:col-span-7 lg:pb-10">
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease, delay: 0.1 }}
+              className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-2.5 pr-3.5 text-sm text-muted backdrop-blur"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 [animation-duration:2.4s]" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              Available for freelance projects
+            </motion.p>
 
-      {/* Static Glows for Depth */}
-      <div className="absolute top-1/4 right-[5%] w-[450px] h-[450px] rounded-full bg-accent/5 blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/4 left-[5%] w-[350px] h-[350px] rounded-full bg-purple/5 blur-[100px] pointer-events-none z-0" />
+            <h1
+              className="font-display text-[clamp(4.25rem,21vw,8.5rem)] font-semibold leading-[0.86] tracking-[-0.03em] text-fg lg:text-[clamp(7rem,12.8vw,11.5rem)]"
+              style={{ fontVariationSettings: '"wdth" 84, "opsz" 96' }}
+            >
+              <span className="sr-only">Md Nazmus Shakib — Full-Stack Web Developer</span>
+              <span aria-hidden>
+                <RevealLine delay={0.2}>Nazmus</RevealLine>
+                <RevealLine delay={0.32}>Shakib</RevealLine>
+              </span>
+            </h1>
 
-      {/* Left Column — Core Details */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex-1 max-w-xl z-10 text-left space-y-6"
-      >
-        {/* Monospace Greetings Comment */}
-        <motion.div
-          variants={itemVariants}
-          className="font-mono text-xs text-accent/80 tracking-[0.25em] font-bold"
-        >
-          {"// INITIALIZING DEVELOPER SESSION"}
-        </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease, delay: 0.7 }}
+              className="mt-8 max-w-[34rem] text-lg leading-relaxed text-muted sm:text-xl"
+            >
+              Full-stack developer building fast, dependable web apps with{" "}
+              <span className="text-fg">React, Next.js, Node.js and MongoDB</span> — from first sketch to
+              production.
+            </motion.p>
 
-        {/* Heading */}
-        <motion.div variants={itemVariants} className="space-y-3">
-          <div className="text-gray-500 font-mono text-xs tracking-wider uppercase">
-            [ Md. Nazmus Shakib ]
-          </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-[76px] font-black leading-[0.95] tracking-tight text-white font-display">
-            Nazmus
-            <span className="block bg-clip-text text-transparent hero-gradient-text">
-              Shakib.
-            </span>
-          </h1>
-        </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease, delay: 0.82 }}
+              className="mt-9 flex flex-wrap items-center gap-3"
+            >
+              <button onClick={() => scrollToSection("projects")} className="btn btn-solid">
+                See my work
+                <ArrowDown className="btn-icon btn-icon-down h-4 w-4" />
+              </button>
+              <a href="/NAZMUS_SHAKIB_ FRONTEND_DEVELOPER_RESUME.pdf" download className="btn btn-ghost">
+                <Download className="h-4 w-4" />
+                Download résumé
+              </a>
+            </motion.div>
+          </motion.div>
 
-        {/* Role Subtitle Badge */}
-        <motion.div
-          variants={itemVariants}
-          className="inline-flex items-center gap-3 bg-dark-100 border border-white/10 rounded-xl px-4 py-2"
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="font-mono text-xs text-gray-300 font-semibold uppercase tracking-widest">
-            Full-Stack MERN Engineer
-          </span>
-        </motion.div>
-
-        {/* Description with Highlighted Typography */}
-        <motion.p
-          variants={itemVariants}
-          className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-lg font-normal"
-        >
-          I craft{" "}
-          <span className="text-white font-semibold">
-            high-performance backend APIs
-          </span>{" "}
-          and{" "}
-          <span className="text-white font-semibold">
-            pixel-perfect user interfaces
-          </span>
-          . Specialized in{" "}
-          <span className="text-zinc-200 font-medium font-mono">TypeScript</span>,{" "}
-          <span className="text-zinc-200 font-medium font-mono">Next.js</span>,{" "}
-          <span className="text-zinc-200 font-medium font-mono">Node.js</span>, and{" "}
-          <span className="text-zinc-200 font-medium font-mono">MongoDB/Postgres</span>
-          .
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap gap-4 pt-2"
-        >
-          <motion.button
-            whileHover={{ 
-              scale: 1.04, 
-              boxShadow: "0 0 25px rgba(255, 255, 255, 0.2)",
-            }}
-            whileTap={{ scale: 0.96 }}
-            className="btn-primary flex items-center justify-center gap-2"
-            onClick={() => scrollTo("projects")}
+          {/* Right: portrait panel */}
+          <motion.div
+            style={{ y: portraitY }}
+            className="relative mx-auto w-full max-w-[420px] lg:col-span-5 lg:mx-0 lg:ml-auto"
           >
-            Explore Projects →
-          </motion.button>
-          <motion.a
-            href="/NAZMUS_SHAKIB_ FRONTEND_DEVELOPER_RESUME.pdf"
-            download
-            whileHover={{ 
-              scale: 1.04, 
-              borderColor: "rgba(255, 255, 255, 0.4)", 
-              backgroundColor: "rgba(255, 255, 255, 0.08)",
-            }}
-            whileTap={{ scale: 0.96 }}
-            className=" border border-white/10 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl text-white font-bold text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 whitespace-nowrap"
-          >
-            <Download className="w-4 h-4 shrink-0" />
-            <span>RESUME</span>
-          </motion.a>
-        </motion.div>
+            <motion.div
+              onPointerMove={onMove}
+              onPointerLeave={onLeave}
+              style={{ rotateX, rotateY, transformPerspective: 1000 }}
+              initial={{ clipPath: "inset(100% 0% 0% 0% round 28px)" }}
+              animate={{ clipPath: "inset(0% 0% 0% 0% round 28px)" }}
+              transition={{ duration: 1.3, ease, delay: 0.35 }}
+              className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-line bg-surface"
+            >
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(120% 80% at 50% 100%, color-mix(in srgb, var(--signal) 26%, transparent), transparent 60%), linear-gradient(180deg, var(--raised), var(--surface))",
+                }}
+              />
+              <motion.div
+                initial={{ scale: 1.15 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.6, ease, delay: 0.35 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={portrait}
+                  alt="Portrait of Md Nazmus Shakib"
+                  fill
+                  priority
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 420px, 90vw"
+                  className="object-contain object-bottom"
+                />
+              </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap gap-8 sm:gap-12 pt-4"
-        >
-          {[["2+", "Years Exp."], ["30+", "Projects"], ["10+", "Happy Clients"]].map(([val, label]) => (
-            <div key={label} className="flex flex-col">
-              <span className="font-display text-3xl font-black text-white leading-none">{val}</span>
-              <span className="text-zinc-500 text-xs font-medium uppercase tracking-wider mt-1.5">{label}</span>
-            </div>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      {/* Right Column — Layered Terminal & Avatar Deck with 3D Scroll Fly */}
-      <Scroll3DFly
-        startScale={0.8}
-        startRotateX={18}
-        startTranslateY={80}
-        className="flex-1 w-full lg:max-w-[500px] flex items-center justify-center relative z-10 min-h-[400px]"
-      >
-        {/* Layer 1: Glassmorphic IDE Terminal (Background) */}
-        <motion.div
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-          className="w-full max-w-[420px] aspect-[4/3] rounded-2xl bg-dark-100/60 backdrop-blur-xl border border-white/5 shadow-2xl p-5 font-mono text-[11px] sm:text-xs text-left pointer-events-none select-none absolute -left-4 top-4 z-0 hidden sm:block"
-        >
-          {/* Terminal Window Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-3">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
-            </div>
-            <span className="text-[10px] text-gray-500">shakib.ts — Visual Studio Code</span>
-            <div className="w-10" />
-          </div>
-          {/* Code Editor body */}
-          <div className="space-y-1.5 opacity-80">
-            {codeLines.map((line) => (
-              <div key={line.line} className="flex gap-3">
-                <span className="text-gray-600 select-none">{line.line}</span>
-                <span 
-                  style={{ paddingLeft: `${line.indent * 8}px` }} 
-                  className={
-                    line.isString 
-                      ? "text-accent" 
-                      : line.isKeyword 
-                        ? "text-purple" 
-                        : "text-gray-300"
-                  }
-                >
-                  {line.content}
+              {/* caption bar */}
+              <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl border border-line bg-canvas/70 px-4 py-3 text-sm backdrop-blur-md">
+                <span className="text-fg">Khulna, Bangladesh</span>
+                <span className="text-muted">
+                  <LocalTime /> local
                 </span>
               </div>
-            ))}
-          </div>
-        </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
 
-        {/* Layer 2: Glowing Avatar Frame (Foreground) */}
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 5.5, ease: "easeInOut", repeat: Infinity, delay: 0.5 }}
-          className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 shrink-0 z-10 flex items-center justify-center sm:-right-12 sm:-top-8"
+        {/* Stats */}
+        <motion.dl
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.05 }}
+          className="mt-16 grid grid-cols-3 border-t border-line sm:mt-20"
         >
-          {/* Pulsing Back Glow */}
-          <div className="absolute inset-0 rounded-3xl bg-linear-to-tr from-accent/20 to-purple/20 blur-xl animate-pulse" />
-
-          {/* Outer Border Frame */}
-          <div className="absolute inset-0 rounded-3xl border border-white/10 bg-dark-200/80 backdrop-blur-md p-3 shadow-2xl flex items-center justify-center">
-            {/* Avatar Circle Wrapper */}
-            <div className="w-full h-full rounded-2xl bg-dark-300 border border-accent/25 overflow-hidden flex items-center justify-center glow-accent-sm">
-              <Image
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: '80%', height: '100%' }}
-                src={Profitional}
-                alt="Md. Nazmus Shakib Profile"
-                className="object-cover object-top"
-              />
+          {STATS.map((s, i) => (
+            <div key={s.label} className={`py-6 sm:py-8 ${i > 0 ? "border-l border-line pl-4 sm:pl-8" : ""}`}>
+              <dt className="sr-only">{s.label}</dt>
+              <dd className="font-display text-3xl font-semibold tracking-tight text-fg sm:text-5xl">{s.value}</dd>
+              <dd className="mt-1.5 text-xs leading-snug text-muted sm:text-sm">{s.label}</dd>
             </div>
-          </div>
-
-          {/* Outer Animated Spinning Ring */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-            className="absolute -inset-4 rounded-3xl border border-dashed border-accent/20 pointer-events-none"
-          />
-
-          {/* Layer 3: parralax Floating Badges */}
-          <motion.span
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 3.2, ease: "easeInOut", repeat: Infinity }}
-            className="flex items-center gap-1.5 absolute -top-3 -right-3 bg-black border border-accent/30 text-accent font-semibold text-[10px] sm:text-xs px-2.5 py-1.5 rounded-lg shadow-lg"
-          >
-            <FaReact />React
-          </motion.span>
-          <motion.span
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 3.8, ease: "easeInOut", repeat: Infinity, delay: 0.4 }}
-            className="flex items-center gap-1.5 absolute -bottom-4 -right-1 bg-black border border-white/10 text-sky-300 font-semibold text-[10px] sm:text-xs px-2.5 py-1.5 rounded-lg shadow-lg"
-          >
-            <SiTypescript />TypeScript
-          </motion.span>
-          <motion.span
-            animate={{ y: [0, -9, 0] }}
-            transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity, delay: 0.8 }}
-            className="flex items-center gap-1.5 absolute -bottom-4 -left-4 bg-black border border-blue-500/20 text-blue-400 font-semibold text-[10px] sm:text-xs px-2.5 py-1.5 rounded-lg shadow-lg"
-          >
-            <SiPostgresql />PostgreSQL
-          </motion.span>
-          <motion.span
-            animate={{ y: [0, -11, 0] }}
-            transition={{ duration: 3.3, ease: "easeInOut", repeat: Infinity, delay: 0.2 }}
-            className="flex items-center gap-1.5 absolute top-12 -left-6 bg-black border border-purple/30 text-purple font-semibold text-[10px] sm:text-xs px-2.5 py-1.5 rounded-lg shadow-lg"
-          >
-            <SiNextdotjs />Next.js
-          </motion.span>
-        </motion.div>
-      </Scroll3DFly>
-      </motion.div>
+          ))}
+        </motion.dl>
+      </div>
     </section>
   );
 }
