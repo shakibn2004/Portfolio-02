@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PROJECTS } from "@/data/projectsData";
+import { SITE } from "@/lib/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
@@ -27,9 +28,26 @@ export async function generateMetadata({ params }) {
   const { id } = await params;
   const project = PROJECTS.find((p) => p.id === id);
   if (!project) return { title: "Project Not Found" };
+  const title = `${project.title}`;
+  const url = `/projects/${project.id}`;
   return {
-    title: `${project.name} | Project Details`,
+    title,
     description: project.desc,
+    keywords: [project.name, ...project.tech, "Nazmus Shakib project"],
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description: project.desc,
+      images: [{ url: project.image, alt: project.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: project.desc,
+      images: [project.image],
+    },
   };
 }
 
@@ -41,8 +59,28 @@ export default async function ProjectDetailPage({ params }) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.name,
+    headline: project.title,
+    description: project.desc,
+    url: `${SITE.url}/projects/${project.id}`,
+    image: `${SITE.url}${project.image}`,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+    keywords: project.tech.join(", "),
+    sameAs: [project.live, project.github],
+    author: { "@type": "Person", name: SITE.name, url: SITE.url },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <CustomCursor />
       <Navbar />
 
