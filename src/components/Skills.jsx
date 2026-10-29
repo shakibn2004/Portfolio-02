@@ -3,11 +3,10 @@
 import { motion } from "motion/react";
 import {
   SiReact, SiJavascript, SiTypescript, SiNextdotjs, SiTailwindcss, SiFramer,
-  SiNodedotjs, SiExpress, SiFirebase, SiStripe,
-  SiMongodb, SiPostgresql, SiRedis,
-  SiGit, SiVercel, SiDocker, SiPostman, SiFigma, SiLinux, SiNginx,
+  SiNodedotjs, SiExpress, SiBetterauth, SiStripe,
+  SiMongodb, SiPostgresql,
+  SiGit, SiVercel, SiNetlify, SiPostman, SiFigma, SiLinux,
 } from "react-icons/si";
-import { FaAws } from "react-icons/fa6";
 import { Network } from "lucide-react";
 import { SectionHead } from "./Reveal";
 
@@ -31,7 +30,7 @@ const GROUPS = [
       ["Node.js", SiNodedotjs],
       ["Express", SiExpress],
       ["REST APIs", Network],
-      ["Firebase Auth", SiFirebase],
+      ["Better Auth", SiBetterauth],
       ["Stripe", SiStripe],
     ],
   },
@@ -41,7 +40,6 @@ const GROUPS = [
     items: [
       ["MongoDB", SiMongodb],
       ["PostgreSQL", SiPostgresql],
-      ["Redis", SiRedis],
     ],
   },
   {
@@ -50,9 +48,7 @@ const GROUPS = [
     items: [
       ["Git & GitHub", SiGit],
       ["Vercel", SiVercel],
-      ["AWS EC2", FaAws],
-      ["Docker", SiDocker],
-      ["Nginx", SiNginx],
+      ["Netlify", SiNetlify],
       ["Linux", SiLinux],
       ["Postman", SiPostman],
       ["Figma", SiFigma],

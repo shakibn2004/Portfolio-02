@@ -22,13 +22,13 @@ const STEPS = [
   },
   {
     title: "Performance & security",
-    desc: "Indexes and caching where they matter, HTTPS, rate limiting and OWASP-guided hardening built in — not bolted on.",
-    items: ["Query tuning", "Redis caching", "OWASP checks", "Load testing"],
+    desc: "Database indexes and efficient queries where they matter, secure authentication, HTTPS, input validation and rate limiting built in — not bolted on.",
+    items: ["Query tuning", "Database indexing", "Secure auth", "Input validation"],
   },
   {
     title: "Deploy",
-    desc: "Automated CI/CD to Vercel or AWS, containerised where it helps, with zero-downtime releases and health monitoring.",
-    items: ["CI/CD pipeline", "Vercel / AWS", "Uptime monitoring"],
+    desc: "Automatic deploys to Vercel or Netlify straight from Git, with a preview link for every change and smooth, zero-downtime releases.",
+    items: ["Git-based deploys", "Vercel / Netlify", "Preview links"],
   },
   {
     title: "Launch support",
