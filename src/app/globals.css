@@ -16,6 +16,7 @@
   --subtle: #6b6e77;
   --signal: #a5b8ff;
   --signal-ink: #0c0d10;
+  --code-str: #7ddcb4;
   --on-fg: #0c0d10;
   --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 60px -24px rgba(0, 0, 0, 0.7);
   color-scheme: dark;
@@ -43,6 +44,7 @@
   --subtle: #83868d;
   --signal: #3550d6;
   --signal-ink: #ffffff;
+  --code-str: #0f8a5f;
   --on-fg: #ffffff;
   --shadow: 0 1px 2px rgba(17, 18, 20, 0.04), 0 24px 50px -28px rgba(17, 18, 20, 0.25);
   color-scheme: light;
@@ -282,6 +284,24 @@
   .field:focus {
     border-color: var(--signal);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--signal) 18%, transparent);
+  }
+
+  /* Hero: slow float for tech badges */
+  .hero-float {
+    animation: hero-float 7s ease-in-out infinite;
+  }
+  @keyframes hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  /* Hero: dotted field that fades out away from the composition */
+  .hero-dots {
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(60% 70% at 78% 40%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(60% 70% at 78% 40%, #000 0%, transparent 72%);
+    opacity: 0.7;
   }
 
   /* Hairline film grain over the canvas for depth (very subtle) */

@@ -99,7 +99,7 @@ export const PROJECTS = [
     id: "pizzadash",
     name: "PizzaDash",
     title: "PizzaDash - Gourmet Wood-Fired Pizza Delivery",
-    image: "/pizzadash_landing.png",
+    image: "/pizzadash_hero.jpg",
     tagline: "Handcrafted artisanal sourdough pizza ordering with interactive 3D builder and AI assistant.",
     desc: "PizzaDash is a modern gourmet pizza delivery web application featuring an interactive 5-step custom pizza builder lab with live calorie and price estimation, an integrated 'Ask AI' assistant for meal recommendations, rotational 360° oven showcases, and end-to-end order tracking.",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "AI Assistant", "Lucide Icons", "Cart Engine", "Vercel"],
