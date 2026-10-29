@@ -1,5 +1,29 @@
 export const PROJECTS = [
   {
+    id: "pizzadash",
+    name: "PizzaDash",
+    title: "PizzaDash - Gourmet Wood-Fired Pizza Delivery",
+    image: "/pizzadash_hero.jpg",
+    tagline: "Handcrafted artisanal sourdough pizza ordering with interactive 3D builder and AI assistant.",
+    desc: "PizzaDash is a modern gourmet pizza delivery web application featuring an interactive 5-step custom pizza builder lab with live calorie and price estimation, an integrated 'Ask AI' assistant for meal recommendations, rotational 360° oven showcases, and end-to-end order tracking.",
+    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "AI Assistant", "Lucide Icons", "Cart Engine", "Vercel"],
+    live: "https://pizzadash-one.vercel.app",
+    github: "https://github.com/shakibn2004",
+    color: "#ff6b35",
+    accentGlow: "rgba(255, 107, 53, 0.18)",
+    status: "Live",
+    challenges: [
+      "Building a high-performance interactive 5-step Custom Pizza Builder with dynamic price, weight, and calorie calculations across multi-crust and topping combinations.",
+      "Crafting fluid micro-animations for rotational 360° oven showcases and ingredient physics without sacrificing 60 FPS mobile performance.",
+      "Integrating a conversational 'Ask AI' assistant seamlessly into search and checkout flows for contextual meal and allergy recommendations."
+    ],
+    improvements: [
+      "Real-time GPS delivery rider tracking on interactive vector maps with live ETA countdowns.",
+      "Augmented Reality (AR) 3D pizza preview directly on mobile browser before placing an order.",
+      "Group split-bill ordering system enabling multiple users to customize slices and checkout together."
+    ]
+  },
+  {
     id: "nomad-ai",
     name: "NomadAI",
     title: "NomadAI - Agentic AI Travel Planner",
@@ -93,30 +117,6 @@ export const PROJECTS = [
       "Live coding playground sandbox allowing students to compile and test code snippets directly in the browser.",
       "AI-powered personalized learning mentor to provide contextual feedback and hints on quiz mistakes.",
       "Real-time peer discussion channels with WebSockets and peer review submission workflows."
-    ]
-  },
-  {
-    id: "pizzadash",
-    name: "PizzaDash",
-    title: "PizzaDash - Gourmet Wood-Fired Pizza Delivery",
-    image: "/pizzadash_hero.jpg",
-    tagline: "Handcrafted artisanal sourdough pizza ordering with interactive 3D builder and AI assistant.",
-    desc: "PizzaDash is a modern gourmet pizza delivery web application featuring an interactive 5-step custom pizza builder lab with live calorie and price estimation, an integrated 'Ask AI' assistant for meal recommendations, rotational 360° oven showcases, and end-to-end order tracking.",
-    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "AI Assistant", "Lucide Icons", "Cart Engine", "Vercel"],
-    live: "https://pizzadash-one.vercel.app",
-    github: "https://github.com/shakibn2004",
-    color: "#ff6b35",
-    accentGlow: "rgba(255, 107, 53, 0.18)",
-    status: "Live",
-    challenges: [
-      "Building a high-performance interactive 5-step Custom Pizza Builder with dynamic price, weight, and calorie calculations across multi-crust and topping combinations.",
-      "Crafting fluid micro-animations for rotational 360° oven showcases and ingredient physics without sacrificing 60 FPS mobile performance.",
-      "Integrating a conversational 'Ask AI' assistant seamlessly into search and checkout flows for contextual meal and allergy recommendations."
-    ],
-    improvements: [
-      "Real-time GPS delivery rider tracking on interactive vector maps with live ETA countdowns.",
-      "Augmented Reality (AR) 3D pizza preview directly on mobile browser before placing an order.",
-      "Group split-bill ordering system enabling multiple users to customize slices and checkout together."
     ]
   }
 ];

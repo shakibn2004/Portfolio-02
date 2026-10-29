@@ -230,7 +230,7 @@ export default function Hero() {
               </button>
               <a href="/NAZMUS_SHAKIB_ FRONTEND_DEVELOPER_RESUME.pdf" download className="btn btn-ghost">
                 <Download className="h-4 w-4" />
-                Download résumé
+                Download resume
               </a>
             </motion.div>
           </motion.div>
