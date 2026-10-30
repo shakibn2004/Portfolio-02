@@ -78,11 +78,7 @@ export const metadata = {
   verification: process.env.GOOGLE_SITE_VERIFICATION
     ? { google: process.env.GOOGLE_SITE_VERIFICATION }
     : undefined,
-  icons: {
-    icon: "/icon.svg",
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
-  },
+  // favicon.ico, icon.svg and apple-icon.png in /app are picked up automatically
 };
 
 const themeScript = `

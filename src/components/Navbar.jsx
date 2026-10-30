@@ -89,7 +89,7 @@ export default function Navbar() {
               aria-label="Nazmus Shakib — back to top"
             >
               <span className="grid h-8 w-8 place-items-center rounded-lg border border-line-strong bg-surface text-fg">
-                <Logo className="h-[18px] w-[18px]" />
+                <Logo className="h-5 w-5" />
               </span>
               <span className="font-display text-[17px] font-semibold tracking-tight">Nazmus Shakib</span>
             </button>
