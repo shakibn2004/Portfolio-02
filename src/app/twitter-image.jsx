@@ -28,7 +28,7 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 92, fontWeight: 800, lineHeight: 1.05 }}>Md Nazmus Shakib</div>
           <div style={{ fontSize: 44, color: "#d4d4d8", marginTop: 18 }}>
-            Full-Stack Web Developer · MERN & Next.js
+            Software Engineer · Full-Stack (MERN & Next.js)
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -49,7 +49,7 @@ export default function OpengraphImage() {
               </div>
             ))}
           </div>
-          <div style={{ display: "flex", fontSize: 24, color: "#a1a1aa" }}>Khulna, Bangladesh</div>
+          <div style={{ display: "flex", fontSize: 24, color: "#a1a1aa" }}>KUET · Khulna, Bangladesh</div>
         </div>
       </div>
     ),

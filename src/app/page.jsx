@@ -16,7 +16,7 @@ const jsonLd = {
       "@type": "Person",
       "@id": `${SITE.url}/#person`,
       name: SITE.name,
-      alternateName: ["Nazmus Shakib", "Shakib"],
+      alternateName: ["Nazmus Shakib", "Md. Nazmus Shakib", "Shakib"],
       url: SITE.url,
       image: `${SITE.url}${SITE.image}`,
       email: `mailto:${SITE.email}`,
@@ -29,6 +29,18 @@ const jsonLd = {
         addressCountry: SITE.location.countryCode,
       },
       knowsAbout: SITE.skills,
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: SITE.university.name,
+        alternateName: SITE.university.short,
+        url: SITE.university.url,
+      },
+      hasOccupation: {
+        "@type": "Occupation",
+        name: "Software Engineer",
+        occupationLocation: { "@type": "City", name: "Khulna, Bangladesh" },
+        skills: SITE.skills.join(", "),
+      },
       sameAs: SITE.sameAs,
     },
     {

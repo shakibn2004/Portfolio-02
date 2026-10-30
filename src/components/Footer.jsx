@@ -48,8 +48,8 @@ export default function Footer() {
               <Logo className="h-5 w-5" />
             </span>
             <p className="max-w-xs text-sm leading-relaxed text-muted">
-              Md Nazmus Shakib — full-stack web developer based in Khulna, Bangladesh, working with clients
-              worldwide.
+              Md Nazmus Shakib — software engineer and full-stack web developer at KUET, Khulna, Bangladesh,
+              working with clients worldwide.
             </p>
           </div>
 

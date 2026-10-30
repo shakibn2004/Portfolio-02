@@ -4,7 +4,8 @@ import Reveal, { SectionHead } from "./Reveal";
 
 const FACTS = [
   { label: "Based in", value: "Khulna, Bangladesh (GMT+6)" },
-  { label: "Education", value: "B.Sc. in BECM" },
+  { label: "Studying at", value: "KUET, Khulna", href: "https://www.kuet.ac.bd" },
+  { label: "Program", value: "B.Sc. in BECM" },
   { label: "Experience", value: "2+ years, freelance & client work" },
   { label: "Email", value: "shakibn2004@gmail.com", href: "mailto:shakibn2004@gmail.com" },
   { label: "Phone", value: "+880 9678640848", href: "tel:+8809678640848" },
@@ -39,8 +40,9 @@ export default function About() {
                 className="font-display text-[1.65rem] font-medium leading-[1.25] tracking-[-0.02em] text-fg sm:text-[2.1rem]"
                 style={{ fontVariationSettings: '"opsz" 48' }}
               >
-                I&rsquo;m a full-stack developer who turns product ideas into clean, secure and maintainable
-                web applications — the kind that are pleasant to use and easy to keep improving.
+                I&rsquo;m a software engineer and full-stack developer who turns product ideas into clean,
+                secure and maintainable web applications — the kind that are pleasant to use and easy to keep
+                improving.
               </p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -48,6 +50,14 @@ export default function About() {
                 My day-to-day stack is Node.js, Express and MongoDB on the back end, with React and Next.js on the
                 front. I&rsquo;ve built SaaS platforms, e-commerce flows and real-time apps, and I care as much
                 about the hand-off — documentation, tests, a clear deploy — as the launch itself.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p className="mt-5 max-w-[36rem] text-lg leading-relaxed text-muted">
+                Alongside client work, I&rsquo;m studying Building Engineering &amp; Construction Management at{" "}
+                <span className="text-fg">KUET — Khulna University of Engineering &amp; Technology</span>. An
+                engineering degree taught me to plan before I build, and that discipline carries straight into
+                how I architect software.
               </p>
             </Reveal>
           </div>
